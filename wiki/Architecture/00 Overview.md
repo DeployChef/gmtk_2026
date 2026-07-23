@@ -24,7 +24,7 @@
 TheyWillDescend.Core     — интерфейсы, константы сцен, аудио-контракты, шина, каталоги
 TheyWillDescend.Main     — Startup, RootLifetimeScope, GameLifetimeScope, GameDirector
 TheyWillDescend.Gameplay — поселение, здания, NPC, карточки, пирамида, таймлайн
-TheyWillDescend.UI       — AudioManager, HUD, сайдбар, диалоги (позже)
+TheyWillDescend.UI       — AudioManager; Overlay (таймлайн, карты, стройка); World HUD зданий
 ```
 
 `Core` не ссылается на `Main` / `Gameplay`. `Gameplay` и `UI` получают сервисы через DI / события.

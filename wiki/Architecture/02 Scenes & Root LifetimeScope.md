@@ -12,12 +12,15 @@
 │  ├─ Startup                                  │
 │  ├─ RootLifetimeScope  ← родительский scope │
 │  ├─ AudioManager                             │
-│  ├─ EventSystem / корневой UI (позже)        │
+│  ├─ EventSystem / Global Overlay Canvas      │
+│  │    TOP: таймлайн + день                   │
+│  │    BOTTOM: карты + меню стройки           │
 │  └─ (опционально) loading screen             │
 ├──────────────────────────────────────────────┤
-│  Game.unity  (additive, позже)               │
-│  └─ поселение, слоты зданий, пирамида, HUD   │
-│     + child LifetimeScope (когда понадобится)│
+│  Game.unity  (additive)                      │
+│  └─ поселение, слоты, пирамида               │
+│     + World Space HUD зданий + drop-zones    │
+│     + child LifetimeScope                    │
 └──────────────────────────────────────────────┘
 ```
 
@@ -91,9 +94,11 @@ Child-scopes: [[#План: GameLifetimeScope на сцене|GameLifetimeScope]]
 | Root (вечно) | Game (контент сессии) |
 | --- | --- |
 | Startup, RootLifetimeScope | Слоты зданий, пирамида |
-| AudioManager, EventBus | NPC на улице, карточки на экране |
-| GameDirector | HUD конкретного поселения |
-| Глобальный UI / диалоги (можно) | Таймлайн-визуал (кандидат) |
+| AudioManager, EventBus | NPC на улице |
+| GameDirector | **World Space** HUD зданий + drop-zones |
+| **Overlay**: top таймлайн/день, bottom карты + стройка | Мир поселения (спрайты) |
 | Главный таймер Конца Света (кандидат) | |
+
+> Карточки и таймлайн — Screen Space Overlay на Root. HUD зданий — World Space на Game. См. [[../GDD/06 UI & Visual|GDD UI]].
 
 Точное разбиение сущностей GDD по сценам — отдельная заметка, когда дойдём до геймплея.
