@@ -29,7 +29,7 @@ MonoBehaviour:
     basePitch: 1
     pitchRandomRange: 0
     bpmStart: 110
-    bpmEnd: 150
+    bpmEnd: 180.9
     bpmDuration: 20
   - id: MusicDark
     channel: 0
