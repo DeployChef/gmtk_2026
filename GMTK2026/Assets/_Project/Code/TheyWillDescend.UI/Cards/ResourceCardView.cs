@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using UnityEngine;
@@ -18,14 +19,21 @@ namespace TheyWillDescend.UI.Cards
         [SerializeField] private string resourceId = ResourceIds.Id1;
         [SerializeField] private TMPro.TMP_Text titleLabel;
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private UnityEngine.UI.Image iconImage;
 
         private RectTransform _rect;
         private Transform _homeParent;
         private Vector3 _homePosition;
         private Canvas _canvas;
         private bool _consumed;
+        private CardKind _kind = CardKind.Resource;
+        private readonly List<RaycastResult> _raycastHits = new();
 
         public string ResourceId => resourceId;
+        public CardKind Kind => _kind;
+
+        private bool IsVillager =>
+            _kind == CardKind.Villager || resourceId == ResourceIds.Villager;
 
         private void Awake()
         {
@@ -40,8 +48,25 @@ namespace TheyWillDescend.UI.Cards
         public void Setup(string id)
         {
             resourceId = id;
+            _kind = id == ResourceIds.Villager ? CardKind.Villager : CardKind.Resource;
             _consumed = false;
             RefreshLabel();
+        }
+
+        public void Setup(CardDefinition definition)
+        {
+            if (definition == null)
+                return;
+
+            resourceId = definition.Id;
+            _kind = definition.Kind;
+            _consumed = false;
+
+            if (titleLabel != null)
+                titleLabel.text = definition.DisplayName;
+
+            if (iconImage != null && definition.Icon != null)
+                iconImage.sprite = definition.Icon;
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -90,7 +115,15 @@ namespace TheyWillDescend.UI.Cards
             var building = ResolveBuildingUnderPointer(eventData);
             canvasGroup.blocksRaycasts = true;
 
-            if (building != null && building.TryAcceptResource(resourceId))
+            var accepted = false;
+            if (building != null)
+            {
+                accepted = IsVillager
+                    ? building.TryAcceptVillagerCard()
+                    : building.TryAcceptResource(resourceId);
+            }
+
+            if (accepted)
             {
                 _consumed = true;
                 Destroy(gameObject);
@@ -108,20 +141,33 @@ namespace TheyWillDescend.UI.Cards
             transform.position = _homePosition;
         }
 
-        private static ProductionBuilding ResolveBuildingUnderPointer(PointerEventData eventData)
+        private ProductionBuilding ResolveBuildingUnderPointer(PointerEventData eventData)
         {
-            var go = eventData.pointerEnter;
-            if (go == null && eventData.pointerCurrentRaycast.gameObject != null)
-                go = eventData.pointerCurrentRaycast.gameObject;
+            _raycastHits.Clear();
+            if (EventSystem.current != null)
+                EventSystem.current.RaycastAll(eventData, _raycastHits);
 
-            if (go == null)
+            for (var i = 0; i < _raycastHits.Count; i++)
+            {
+                var go = _raycastHits[i].gameObject;
+                var building = go.GetComponentInParent<ProductionBuilding>();
+                if (building != null)
+                    return building;
+
+                var zone = go.GetComponentInParent<BuildingCardDropZone>();
+                if (zone != null && zone.Building != null)
+                    return zone.Building;
+            }
+
+            var fallback = eventData.pointerEnter;
+            if (fallback == null && eventData.pointerCurrentRaycast.gameObject != null)
+                fallback = eventData.pointerCurrentRaycast.gameObject;
+
+            if (fallback == null)
                 return null;
 
-            var building = go.GetComponentInParent<ProductionBuilding>();
-            if (building != null)
-                return building;
-
-            return go.GetComponentInParent<BuildingCardDropZone>()?.Building;
+            return fallback.GetComponentInParent<ProductionBuilding>()
+                   ?? fallback.GetComponentInParent<BuildingCardDropZone>()?.Building;
         }
 
         private void RefreshLabel()

@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.Gameplay::TheyWillDescend.Gameplay.DI.GameLifetimeScope
   parentReference:
-    TypeName: 
+    TypeName: TheyWillDescend.Main.DI.RootLifetimeScope
   autoRun: 0
   autoInjectGameObjects: []
 --- !u!1 &109823723
@@ -829,6 +829,7 @@ GameObject:
   - component: {fileID: 470977276}
   - component: {fileID: 470977275}
   - component: {fileID: 470977277}
+  - component: {fileID: 470977278}
   m_Layer: 5
   m_Name: CardsRail
   m_TagString: Untagged
@@ -919,6 +920,22 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &470977278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470977273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eea77cfe82db5ca4c835c9f3e5313071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Cards.CardsRailView
+  railRoot: {fileID: 470977274}
+  cardPrefab: {fileID: 6465427307158818710, guid: 858755fe209ee0a46ae589e1439f983b, type: 3}
+  startingVillagerCard: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+  startingVillagerCount: 3
 --- !u!1 &555750767
 GameObject:
   m_ObjectHideFlags: 0

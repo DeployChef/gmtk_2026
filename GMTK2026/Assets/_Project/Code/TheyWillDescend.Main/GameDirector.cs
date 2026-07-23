@@ -1,8 +1,10 @@
 using Cysharp.Threading.Tasks;
 using TheyWillDescend.Core;
+using TheyWillDescend.Core.Cards;
 using TheyWillDescend.Main.DI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VContainer;
 using VContainer.Unity;
 
 namespace TheyWillDescend.Main
@@ -21,6 +23,7 @@ namespace TheyWillDescend.Main
         {
             Debug.Log("[GameDirector] Cold start — loading Game scene…");
             await LoadGameSceneAsync();
+            BeginRun();
             Debug.Log("[GameDirector] Game scope ready.");
         }
 
@@ -34,6 +37,7 @@ namespace TheyWillDescend.Main
             Debug.Log("[GameDirector] Restart run — reload Game scene.");
             await UnloadGameSceneAsync();
             await LoadGameSceneAsync();
+            BeginRun();
         }
 
         public void NotifyRunWon() =>
@@ -41,6 +45,16 @@ namespace TheyWillDescend.Main
 
         public void NotifyRunLost() =>
             Debug.Log("[GameDirector] Run lost.");
+
+        private void BeginRun()
+        {
+            if (_gameScope?.Container == null)
+                return;
+
+            var cards = _gameScope.Container.Resolve<ICardSpawner>();
+            cards.ClearRail();
+            cards.SpawnStartingHand();
+        }
 
         private async UniTask LoadGameSceneAsync()
         {

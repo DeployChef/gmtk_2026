@@ -1,3 +1,4 @@
+using TheyWillDescend.Core.Cards;
 using TheyWillDescend.Gameplay.Buildings;
 using TheyWillDescend.UI.Buildings;
 using TheyWillDescend.UI.Cards;
@@ -15,6 +16,8 @@ namespace TheyWillDescend.Main.DI
     {
         protected override void Configure(IContainerBuilder builder)
         {
+            builder.RegisterComponentInHierarchy<CardsRailView>().As<ICardSpawner>();
+
             builder.RegisterBuildCallback(resolver =>
             {
                 foreach (var building in Object.FindObjectsByType<ProductionBuilding>(

@@ -1,5 +1,6 @@
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
+using TheyWillDescend.Core.Cards;
 using TheyWillDescend.Core.Economy;
 using UnityEngine;
 using VContainer;
@@ -21,6 +22,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         [SerializeField] private Transform cardParent;
 
         private IGameEventBus _bus;
+        private ICardSpawner _cardSpawner;
         private int _workers;
         private int _storedInput;
         private float _progress;
@@ -41,10 +43,19 @@ namespace TheyWillDescend.Gameplay.Buildings
             && _workers >= recipe.WorkersRequired
             && (!recipe.RequiresInput || _storedInput >= recipe.InputAmountRequired);
 
+        public bool CanHireWorker =>
+            _workers < maxWorkers
+            && _cardSpawner != null
+            && _cardSpawner.CountById(ResourceIds.Villager) > 0;
+
         public event System.Action StateChanged;
 
         [Inject]
-        public void Construct(IGameEventBus bus) => _bus = bus;
+        public void Construct(IGameEventBus bus, ICardSpawner cardSpawner)
+        {
+            _bus = bus;
+            _cardSpawner = cardSpawner;
+        }
 
         private void Awake()
         {
@@ -79,7 +90,23 @@ namespace TheyWillDescend.Gameplay.Buildings
             CompleteProduction();
         }
 
+        /// <summary>HUD [+] — consumes one Villager card from CardsRail.</summary>
         public bool TryAddWorker()
+        {
+            if (_workers >= maxWorkers)
+                return false;
+
+            if (_cardSpawner == null || !_cardSpawner.TryConsume(ResourceIds.Villager))
+                return false;
+
+            _workers++;
+            PublishWorkers();
+            StateChanged?.Invoke();
+            return true;
+        }
+
+        /// <summary>DnD Villager card onto building — card is destroyed by the view.</summary>
+        public bool TryAcceptVillagerCard()
         {
             if (_workers >= maxWorkers)
                 return false;
@@ -90,12 +117,14 @@ namespace TheyWillDescend.Gameplay.Buildings
             return true;
         }
 
+        /// <summary>HUD [-] — returns one Villager card to CardsRail.</summary>
         public bool TryRemoveWorker()
         {
             if (_workers <= minWorkers)
                 return false;
 
             _workers--;
+            _cardSpawner?.Spawn(ResourceIds.Villager);
             PublishWorkers();
             StateChanged?.Invoke();
             return true;
@@ -104,6 +133,9 @@ namespace TheyWillDescend.Gameplay.Buildings
         public bool TryAcceptResource(string resourceId)
         {
             if (recipe == null || !recipe.RequiresInput || string.IsNullOrEmpty(resourceId))
+                return false;
+
+            if (resourceId == ResourceIds.Villager)
                 return false;
 
             if (resourceId != recipe.InputResourceId)
@@ -135,6 +167,12 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private void SpawnOutputCard()
         {
+            if (_cardSpawner != null)
+            {
+                _cardSpawner.Spawn(recipe.OutputResourceId);
+                return;
+            }
+
             if (outputCardPrefab == null)
             {
                 Debug.LogWarning($"[ProductionBuilding:{buildingId}] Output card prefab is missing.");

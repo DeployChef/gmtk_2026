@@ -24,10 +24,18 @@ namespace TheyWillDescend.UI.Buildings
                 building = GetComponentInParent<ProductionBuilding>();
 
             if (addWorkerButton != null)
-                addWorkerButton.onClick.AddListener(() => building.TryAddWorker());
+                addWorkerButton.onClick.AddListener(() =>
+                {
+                    building.TryAddWorker();
+                    Refresh();
+                });
 
             if (removeWorkerButton != null)
-                removeWorkerButton.onClick.AddListener(() => building.TryRemoveWorker());
+                removeWorkerButton.onClick.AddListener(() =>
+                {
+                    building.TryRemoveWorker();
+                    Refresh();
+                });
         }
 
         private void OnEnable()
@@ -45,15 +53,21 @@ namespace TheyWillDescend.UI.Buildings
 
         private void LateUpdate()
         {
-            if (progressSlider == null || building == null)
+            if (building == null)
                 return;
 
-            var show = building.IsProducing;
-            if (progressSlider.gameObject.activeSelf != show)
-                progressSlider.gameObject.SetActive(show);
+            if (progressSlider != null)
+            {
+                var show = building.IsProducing;
+                if (progressSlider.gameObject.activeSelf != show)
+                    progressSlider.gameObject.SetActive(show);
 
-            if (show)
-                progressSlider.value = 1f - building.NormalizedProgress;
+                if (show)
+                    progressSlider.value = 1f - building.NormalizedProgress;
+            }
+
+            // Rail card count can change without building.StateChanged (other buildings).
+            RefreshWorkerButtons();
         }
 
         private void Refresh()
@@ -85,8 +99,13 @@ namespace TheyWillDescend.UI.Buildings
                     progressSlider.value = 1f - building.NormalizedProgress;
             }
 
+            RefreshWorkerButtons();
+        }
+
+        private void RefreshWorkerButtons()
+        {
             if (addWorkerButton != null)
-                addWorkerButton.interactable = building.Workers < building.MaxWorkers;
+                addWorkerButton.interactable = building.CanHireWorker;
 
             if (removeWorkerButton != null)
                 removeWorkerButton.interactable = building.Workers > building.MinWorkers;

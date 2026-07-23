@@ -52,9 +52,9 @@ builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
 
 | Событие | Когда | Кто слушает (примерно) |
 | --- | --- | --- |
-| `NpcAssignedEvent` / `NpcUnassignedEvent` | +/- в здании или DnD | HUD здания, счётчик idle |
-| `ResourceProducedEvent` | здание выдало карточку | спавн карточки, шанс активки |
-| `CardDroppedOnBuildingEvent` | DnD ресурса/активки | крафт / бафф |
+| `NpcAssignedEvent` / `NpcUnassignedEvent` | DnD карты жителя на здание / `[-]` вернул карту в rail | HUD здания, CardsRail |
+| `ResourceProducedEvent` | здание выдало карточку (ресурс / житель / актибка) | спавн в CardsRail |
+| `CardDroppedOnBuildingEvent` | DnD ресурса/активки/жителя | крафт / бафф / +worker |
 | `OfferingSubmittedEvent` | ресурс/NPC на Пирамиду | таймер пирамиды, аудио, Шаман |
 | `GodsDemandFailedEvent` | контрольная точка без подношения | ускорение таймера ×2 |
 | `TimelineEventTriggeredEvent` | эпидемия / пожар / засуха | NPC, карточки, дебаффы зданий |
