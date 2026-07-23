@@ -85,15 +85,16 @@ MonoBehaviour:
     pitchRandomRange: 0
   - id: MusicSettlement
     channel: 0
-    clips: []
-    mixerGroup: {fileID: 0}
+    clips:
+    - {fileID: 8300000, guid: b9db557ed15378846b85830ef841034b, type: 3}
+    mixerGroup: {fileID: 3716038134399535835, guid: 814ab2f8e8f73bf4a81a1fcc188159ec, type: 2}
     priority: 100
     allowOverlap: 0
-    cooldown: 0
+    cooldown: 100
     loop: 1
     enableFade: 1
     fadeDuration: 1
     fadeOutDuration: 1
-    stopOnPause: 0
+    stopOnPause: 1
     basePitch: 1
     pitchRandomRange: 0
