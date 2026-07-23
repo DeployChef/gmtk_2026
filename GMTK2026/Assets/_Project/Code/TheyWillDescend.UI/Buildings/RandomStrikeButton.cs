@@ -11,6 +11,7 @@ namespace TheyWillDescend.UI.Buildings
     public sealed class RandomStrikeButton : MonoBehaviour
     {
         private const string HouseTag = "House";
+        private const int VfxSortingOrder = 5;
 
         [SerializeField] private GameObject lightningPrefab;
         [SerializeField] private float lightningLifetime = 3f;
@@ -67,7 +68,11 @@ namespace TheyWillDescend.UI.Buildings
                 return;
 
             var vfx = Instantiate(prefab, pos, Quaternion.identity);
+
+            foreach (var renderer in vfx.GetComponentsInChildren<Renderer>())
+                renderer.sortingOrder = VfxSortingOrder;
+
             Destroy(vfx, Mathf.Max(0.01f, lifetime));
         }
-        }
     }
+}
