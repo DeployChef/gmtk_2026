@@ -19,6 +19,6 @@
 - [[Architecture/00 Overview|00 Overview]] — стек и слои
 - [[Architecture/01 Folder Structure|01 Folder Structure]] — `Assets/_Project`
 - [[Architecture/02 Scenes & Root LifetimeScope|02 Scenes & Root LifetimeScope]] — вечная Root + parent scope
-- [[Architecture/03 Audio Manager|03 Audio Manager]] — аудио и BPM
+- [[Architecture/03 Audio Manager|03 Audio Manager]] — аудио
 - [[Architecture/04 Game Director|04 Game Director]] — оркестратор сессии
 - [[Architecture/05 Event Bus|05 Event Bus]] — шина событий

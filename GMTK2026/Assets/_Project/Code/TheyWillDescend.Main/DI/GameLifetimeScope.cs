@@ -1,3 +1,8 @@
+using TheyWillDescend.Core.Cards;
+using TheyWillDescend.Gameplay.Buildings;
+using TheyWillDescend.UI.Buildings;
+using TheyWillDescend.UI.Cards;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -6,13 +11,27 @@ namespace TheyWillDescend.Main.DI
     /// <summary>
     /// Game DI scope on Game.unity. Disable Auto Run — <see cref="GameDirector"/> builds after additive load.
     /// Parent: RootLifetimeScope (set in code before Build).
-    /// Composition root for Gameplay + scene UI registrations.
     /// </summary>
     public sealed class GameLifetimeScope : LifetimeScope
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            // Register Gameplay and Game-scene UI here as systems appear.
+            builder.RegisterComponentInHierarchy<CardsRailView>().As<ICardSpawner>();
+
+            builder.RegisterBuildCallback(resolver =>
+            {
+                foreach (var building in Object.FindObjectsByType<ProductionBuilding>(
+                             FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    resolver.Inject(building);
+
+                foreach (var hud in Object.FindObjectsByType<BuildingWorldHud>(
+                             FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    resolver.Inject(hud);
+
+                foreach (var card in Object.FindObjectsByType<ResourceCardView>(
+                             FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    resolver.Inject(card);
+            });
         }
     }
 }

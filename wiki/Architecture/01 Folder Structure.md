@@ -57,7 +57,7 @@ Assets/
 | `TheyWillDescend.Core` | `IAudioManager`, `AudioCatalog`, `IGameEventBus`, имена сцен, общие типы без MonoBehaviour-логики игры |
 | `TheyWillDescend.Main` | `Startup`, `RootLifetimeScope`, `GameLifetimeScope`, `GameDirector` |
 | `TheyWillDescend.Gameplay` | здания, NPC, карточки, пирамида, таймлайн — см. GDD |
-| `TheyWillDescend.UI` | `AudioManager`, HUD зданий, сайдбар стройки, диалоги Шамана |
+| `TheyWillDescend.UI` | `AudioManager`; Overlay (таймлайн, карты, стройка); World Space HUD зданий |
 
 ## Сцены vs ассеты
 

@@ -1,8 +1,8 @@
 ﻿<Solution>
+  <Project Path="TheyWillDescend.Gameplay.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="TheyWillDescend.Core.csproj" />
   <Project Path="TheyWillDescend.UI.csproj" />
   <Project Path="TheyWillDescend.Main.csproj" />
-  <Project Path="TheyWillDescend.Gameplay.csproj" />
   <Project Path="TheyWillDescend.Editor.csproj" />
 </Solution>

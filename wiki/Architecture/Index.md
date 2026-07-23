@@ -9,7 +9,7 @@
 - [[00 Overview]] — обзор стека и слоёв
 - [[01 Folder Structure]] — `Assets/_Project`
 - [[02 Scenes & Root LifetimeScope]] — вечная Root-сцена и родительский scope
-- [[03 Audio Manager]] — аудио и BPM
+- [[03 Audio Manager]] — аудио
 - [[04 Game Director]] — оркестратор сессии
 - [[05 Event Bus]] — шина событий
 
