@@ -59,18 +59,13 @@ await director.InitializeGameAsync();
 ```csharp
 // RootLifetimeScope.Configure
 builder.Register<GameDirector>(Lifetime.Singleton).As<IGameDirector>();
-builder.RegisterRootScope(); // AudioManager, EventBus, …
+builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
+builder.RegisterComponentInHierarchy<AudioManager>().As<IAudioManager>();
 ```
 
-### Регистрация через extensions
+### Регистрация
 
-Не Installer-классы, а fluent extensions:
-
-```
-TheyWillDescend.Main/DI/
-├── RootLifetimeScope.cs
-└── RootScopeExtensions.cs   // RegisterRootScope()
-```
+Пока один Root-scope — вся регистрация прямо в `RootLifetimeScope.Configure`. Extensions имеет смысл, только когда появятся отдельные child-scopes и список разрастётся.
 
 Минимум на старте в Root:
 
@@ -78,9 +73,16 @@ TheyWillDescend.Main/DI/
 | --- | --- |
 | `GameDirector` as `IGameDirector` | `Register(...).As<IGameDirector>()` |
 | `AudioManager` as `IAudioManager` | `RegisterComponentInHierarchy<AudioManager>()` |
-| `IGameEventBus` | singleton в Root (или App-child, когда появится) |
+| `IGameEventBus` | singleton в Root |
 
-Child-scopes (`App` / `Game`) — **позже**. Родитель всегда Root: дети видят зарегистрированные сервисы автоматически.
+Child-scopes: [[#План: GameLifetimeScope на сцене|GameLifetimeScope]] грузится additive, parent = Root.
+
+### План: GameLifetimeScope на сцене
+
+1. На Game-сцене повесить `GameLifetimeScope` (Auto Run **off**)
+2. Parent проставляется **в коде** из `GameDirector` перед `Build()` (надёжнее cross-scene Inspector)
+3. Опционально в Inspector: Parent Type = `RootLifetimeScope`
+4. `GameDirector.InitializeGameAsync` → LoadScene Additive → Find scope → `Build()`
 
 См. также: [[04 Game Director]], [[05 Event Bus]].
 

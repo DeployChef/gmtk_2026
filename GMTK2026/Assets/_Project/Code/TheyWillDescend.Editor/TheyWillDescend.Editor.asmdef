@@ -1,0 +1,21 @@
+{
+    "name": "TheyWillDescend.Editor",
+    "rootNamespace": "TheyWillDescend.Editor",
+    "references": [
+        "TheyWillDescend.Core",
+        "TheyWillDescend.Main",
+        "TheyWillDescend.UI",
+        "TheyWillDescend.Gameplay"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

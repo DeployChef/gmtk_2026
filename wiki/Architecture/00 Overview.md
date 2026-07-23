@@ -22,9 +22,9 @@
 
 ```
 TheyWillDescend.Core     — интерфейсы, константы сцен, аудио-контракты, шина, каталоги
-TheyWillDescend.Main     — Startup, RootLifetimeScope, DI extensions, AudioManager, GameDirector
+TheyWillDescend.Main     — Startup, RootLifetimeScope, GameLifetimeScope, GameDirector
 TheyWillDescend.Gameplay — поселение, здания, NPC, карточки, пирамида, таймлайн
-TheyWillDescend.UI       — HUD, сайдбар, диалоги (позже)
+TheyWillDescend.UI       — AudioManager, HUD, сайдбар, диалоги (позже)
 ```
 
 `Core` не ссылается на `Main` / `Gameplay`. `Gameplay` и `UI` получают сервисы через DI / события.
@@ -46,7 +46,7 @@ TheyWillDescend.UI       — HUD, сайдбар, диалоги (позже)
 ## Принципы (коротко)
 
 - Сцена Root **не выгружается** — глобальные сервисы живут там
-- DI: регистрация через `Register*Scope` extension-методы, не через Installer-классы
+- DI: регистрация прямо в `RootLifetimeScope.Configure` (без Installer SO; extensions — только если scope'ов станет много)
 - Системы не дергают view напрямую — через [[05 Event Bus|шину]]
 - Сцены / Inspector / `.meta` — только руками в Unity; код и доки — здесь
 - Сначала согласовать подход в вики, потом писать код
