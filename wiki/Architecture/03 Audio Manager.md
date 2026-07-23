@@ -7,7 +7,7 @@
 | Часть | Роль | Где живёт |
 | --- | --- | --- |
 | `IAudioManager` | контракт Play/Stop/Volume | `TheyWillDescend.Core` |
-| `AudioManager` | MonoBehaviour: пулы, mixer, PlayerPrefs | `TheyWillDescend.Main`, объект на **Root** |
+| `AudioManager` | MonoBehaviour: пулы, mixer, PlayerPrefs | `TheyWillDescend.UI`, объект на **Root** |
 | `AudioCatalog` | ScriptableObject: `id → clip(s)` | `Core` + ассет в `_Project/Data/Audio/` |
 
 Опционально позже: сервис, который слушает [[05 Event Bus|event bus]] и вызывает `_audio.Play("Id")`. **На старте не обязателен** — системы могут звать `IAudioManager` напрямую.
@@ -83,5 +83,5 @@ _Project/
 
 1. `IAudioManager`, `AudioManager`, `AudioCatalog` (неймспейсы `TheyWillDescend.*`)
 2. UI-звуки кнопок — по мере появления UI
-3. Зарегистрировать в `RootScopeExtensions`
+3. Зарегистрировать в `RootLifetimeScope.Configure`
 4. Позже: BPM-слой

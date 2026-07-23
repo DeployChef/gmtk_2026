@@ -128,6 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 516097222}
+  - component: {fileID: 516097223}
   m_Layer: 0
   m_Name: AudioManager
   m_TagString: Untagged
@@ -150,6 +151,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &516097223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516097221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95f81174e32d66b45820bd5c69e190fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TheyWillDescend.Main::TheyWillDescend.Main.Audio.AudioManager
+  config: {fileID: 11400000, guid: a7c4e2f91b8d4e6a9f3c5d7e1a2b3c4d, type: 2}
+  mixer: {fileID: 0}
+  sfxPoolSize: 8
+  uiPoolSize: 3
+  enableFade: 1
 --- !u!1 &1668049190
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,7 +348,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1769782234}
-  - component: {fileID: 1769782233}
+  - component: {fileID: 1769782236}
+  - component: {fileID: 1769782235}
   m_Layer: 0
   m_Name: Startup
   m_TagString: Untagged
@@ -338,22 +357,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1769782233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1769782232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b2c62ac3bcd44fb9e09835581422057, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: VContainer::VContainer.Unity.LifetimeScope
-  parentReference:
-    TypeName: 
-  autoRun: 0
-  autoInjectGameObjects: []
 --- !u!4 &1769782234
 Transform:
   m_ObjectHideFlags: 0
@@ -369,6 +372,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1769782235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769782232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b2b06c869db9974d94b6be568df04e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TheyWillDescend.Main::TheyWillDescend.Main.RootLifetimeScope
+  parentReference:
+    TypeName: 
+  autoRun: 0
+  autoInjectGameObjects: []
+--- !u!114 &1769782236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1769782232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc9071ecaa6bfcd4cbbd25b8def2046e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TheyWillDescend.Main::TheyWillDescend.Main.Startup
+  rootScope: {fileID: 1769782235}
+  loadingScreen: {fileID: 0}
+  loadingFadeOutSeconds: 0.45
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

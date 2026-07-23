@@ -59,18 +59,13 @@ await director.InitializeGameAsync();
 ```csharp
 // RootLifetimeScope.Configure
 builder.Register<GameDirector>(Lifetime.Singleton).As<IGameDirector>();
-builder.RegisterRootScope(); // AudioManager, EventBus, …
+builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
+builder.RegisterComponentInHierarchy<AudioManager>().As<IAudioManager>();
 ```
 
-### Регистрация через extensions
+### Регистрация
 
-Не Installer-классы, а fluent extensions:
-
-```
-TheyWillDescend.Main/DI/
-├── RootLifetimeScope.cs
-└── RootScopeExtensions.cs   // RegisterRootScope()
-```
+Пока один Root-scope — вся регистрация прямо в `RootLifetimeScope.Configure`. Extensions имеет смысл, только когда появятся отдельные child-scopes и список разрастётся.
 
 Минимум на старте в Root:
 
@@ -78,9 +73,21 @@ TheyWillDescend.Main/DI/
 | --- | --- |
 | `GameDirector` as `IGameDirector` | `Register(...).As<IGameDirector>()` |
 | `AudioManager` as `IAudioManager` | `RegisterComponentInHierarchy<AudioManager>()` |
-| `IGameEventBus` | singleton в Root (или App-child, когда появится) |
+| `IGameEventBus` | singleton в Root |
 
 Child-scopes (`App` / `Game`) — **позже**. Родитель всегда Root: дети видят зарегистрированные сервисы автоматически.
+
+### План на потом: GameLifetimeScope на сцене
+
+Когда появится additive `Game.unity`:
+
+1. На Game-сцене явно повесить `GameLifetimeScope` (свой subclass с `Configure`)
+2. В Inspector указать **Parent = RootLifetimeScope** (с Root-сцены)
+3. **Auto Run выключить** — `Build()` вызывать из кода после additive load (например из `GameDirector`), по тому же принципу что Root + `Startup`
+
+Так регистрация геймплея остаётся на сцене Game, а Root-сервисы (`IAudioManager`, `IGameEventBus`, `IGameDirector`) видны через parent container.
+
+> **Нюанс:** ссылка Parent через сцены при additive иногда капризна — если Inspector-ссылка отвалится, parent можно проставить в коде перед `Build()` (`gameScope.Parent = rootScope` или API VContainer для parent).
 
 См. также: [[04 Game Director]], [[05 Event Bus]].
 

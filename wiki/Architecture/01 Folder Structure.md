@@ -55,9 +55,9 @@ Assets/
 | Папка | Ответственность |
 | --- | --- |
 | `TheyWillDescend.Core` | `IAudioManager`, `AudioCatalog`, `IGameEventBus`, имена сцен, общие типы без MonoBehaviour-логики игры |
-| `TheyWillDescend.Main` | `Startup`, `RootLifetimeScope`, `RootScopeExtensions`, `AudioManager`, `GameDirector` |
+| `TheyWillDescend.Main` | `Startup`, `RootLifetimeScope`, `GameDirector` |
 | `TheyWillDescend.Gameplay` | здания, NPC, карточки, пирамида, таймлайн — см. GDD |
-| `TheyWillDescend.UI` | HUD зданий, сайдбар стройки, диалоги Шамана |
+| `TheyWillDescend.UI` | `AudioManager`, HUD зданий, сайдбар стройки, диалоги Шамана |
 
 ## Сцены vs ассеты
 

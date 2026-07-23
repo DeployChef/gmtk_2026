@@ -60,7 +60,7 @@ Startup
 ## Регистрация
 
 ```csharp
-// RootLifetimeScope / RootScopeExtensions
+// RootLifetimeScope.Configure
 builder.Register<GameDirector>(Lifetime.Singleton).As<IGameDirector>();
 ```
 

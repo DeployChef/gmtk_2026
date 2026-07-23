@@ -1,0 +1,19 @@
+{
+    "name": "TheyWillDescend.Main",
+    "rootNamespace": "TheyWillDescend.Main",
+    "references": [
+        "TheyWillDescend.Core",
+        "TheyWillDescend.UI",
+        "UniTask",
+        "VContainer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
