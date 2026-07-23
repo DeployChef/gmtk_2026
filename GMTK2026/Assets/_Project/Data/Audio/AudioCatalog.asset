@@ -13,80 +13,11 @@ MonoBehaviour:
   m_Name: AudioCatalog
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Audio.AudioCatalog
   sounds:
-  - id: UiClick
-    channel: 2
-    clips: []
-    mixerGroup: {fileID: 0}
-    priority: 50
-    allowOverlap: 1
-    cooldown: 0
-    loop: 0
-    enableFade: 0
-    fadeDuration: 1
-    fadeOutDuration: 0
-    stopOnPause: 0
-    basePitch: 1
-    pitchRandomRange: 0
-  - id: CardDrop
-    channel: 2
-    clips: []
-    mixerGroup: {fileID: 0}
-    priority: 50
-    allowOverlap: 1
-    cooldown: 0
-    loop: 0
-    enableFade: 0
-    fadeDuration: 1
-    fadeOutDuration: 0
-    stopOnPause: 0
-    basePitch: 1
-    pitchRandomRange: 0
-  - id: OfferingAccept
-    channel: 1
-    clips: []
-    mixerGroup: {fileID: 0}
-    priority: 60
-    allowOverlap: 1
-    cooldown: 0
-    loop: 0
-    enableFade: 0
-    fadeDuration: 1
-    fadeOutDuration: 0
-    stopOnPause: 0
-    basePitch: 1
-    pitchRandomRange: 0
-  - id: PyramidTimerWarn
-    channel: 1
-    clips: []
-    mixerGroup: {fileID: 0}
-    priority: 70
-    allowOverlap: 0
-    cooldown: 0.2
-    loop: 0
-    enableFade: 0
-    fadeDuration: 1
-    fadeOutDuration: 0
-    stopOnPause: 0
-    basePitch: 1
-    pitchRandomRange: 0
-  - id: EventDisaster
-    channel: 1
-    clips: []
-    mixerGroup: {fileID: 0}
-    priority: 80
-    allowOverlap: 0
-    cooldown: 0
-    loop: 0
-    enableFade: 1
-    fadeDuration: 0.3
-    fadeOutDuration: 0
-    stopOnPause: 0
-    basePitch: 1
-    pitchRandomRange: 0
-  - id: MusicSettlement
+  - id: MusicMain
     channel: 0
-    clips: []
-    mixerGroup: {fileID: 0}
+    clips:
+    - {fileID: 8300000, guid: b9db557ed15378846b85830ef841034b, type: 3}
+    mixerGroup: {fileID: 3716038134399535835, guid: 814ab2f8e8f73bf4a81a1fcc188159ec, type: 2}
     priority: 100
     allowOverlap: 0
     cooldown: 0
@@ -94,6 +25,21 @@ MonoBehaviour:
     enableFade: 1
     fadeDuration: 1
     fadeOutDuration: 1
-    stopOnPause: 0
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0
+  - id: MusicDark
+    channel: 0
+    clips:
+    - {fileID: 8300000, guid: 51454a5336cc3a14096152034b87b259, type: 3}
+    mixerGroup: {fileID: 3716038134399535835, guid: 814ab2f8e8f73bf4a81a1fcc188159ec, type: 2}
+    priority: 100
+    allowOverlap: 0
+    cooldown: 0
+    loop: 1
+    enableFade: 1
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 1
     basePitch: 1
     pitchRandomRange: 0

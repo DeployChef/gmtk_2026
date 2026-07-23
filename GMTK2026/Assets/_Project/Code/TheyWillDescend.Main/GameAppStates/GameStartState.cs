@@ -1,3 +1,4 @@
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.UI.Cards;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 namespace TheyWillDescend.Main.GameAppStates
 {
     /// <summary>
-    /// Enter once after Game scope is ready: seed inventory. No FSM — just Enter().
+    /// Enter once after Game scope is ready: seed inventory + start BGM. No FSM — just Enter().
     /// </summary>
     public sealed class GameStartState
     {
@@ -13,11 +14,13 @@ namespace TheyWillDescend.Main.GameAppStates
 
         private readonly IInventory _inventory;
         private readonly InventoryTraysView _trays;
+        private readonly IAudioManager _audio;
 
-        public GameStartState(IInventory inventory, InventoryTraysView trays)
+        public GameStartState(IInventory inventory, InventoryTraysView trays, IAudioManager audio)
         {
             _inventory = inventory;
             _trays = trays;
+            _audio = audio;
         }
 
         public void Enter()
@@ -30,12 +33,14 @@ namespace TheyWillDescend.Main.GameAppStates
                 Debug.LogError(
                     "[GameStartState] No villager CardTrayView.Resource. " +
                     "Assign Resource_Villager on the villager tray.");
-                return;
+            }
+            else
+            {
+                for (var i = 0; i < StartingVillagerCount; i++)
+                    _inventory.TryAdd(villager);
             }
 
-            for (var i = 0; i < StartingVillagerCount; i++)
-                _inventory.TryAdd(villager);
-
+            _audio?.Play(AudioCatalog.Ids.MusicMain);
             Debug.Log("[GameStartState] Enter — starting inventory ready.");
         }
     }

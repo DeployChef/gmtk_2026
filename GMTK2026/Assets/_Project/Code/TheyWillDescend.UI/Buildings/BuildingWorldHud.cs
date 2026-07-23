@@ -3,6 +3,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
+using System.Collections.Generic;
+using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using TMPro;
 using UnityEngine;
@@ -20,8 +22,9 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Button addWorkerButton;
         [SerializeField] private Button removeWorkerButton;
         [SerializeField] private TMP_Text workersLabel;
-        [SerializeField] private TMP_Text inputLabel;
-        [SerializeField] private TMP_Text outputLabel;
+        [SerializeField] private Transform inputContainer;
+        [SerializeField] private Image outputIcon;
+        [SerializeField] private GameObject inputIconPrefab;
         [SerializeField] private Slider progressSlider;
         [Header("Produce feedback")]
         [SerializeField] private TMP_Text producedPopup;
@@ -186,16 +189,46 @@ namespace TheyWillDescend.UI.Buildings
             if (workersLabel != null)
                 workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
 
-            if (inputLabel != null)
+            if (inputContainer != null)
             {
-                if (recipe != null && recipe.RequiresInput)
-                    inputLabel.text = $"In: {recipe.InputResourceId}";
-                else
-                    inputLabel.text = "In: —";
-            }
+                // Очистить старые иконки
+                for (var i = inputContainer.childCount - 1; i >= 0; i--)
+                    Destroy(inputContainer.GetChild(i).gameObject);
 
-            if (outputLabel != null)
-                outputLabel.text = recipe != null ? $"Out: {recipe.OutputResourceId}" : "Out: —";
+                // Спавнить иконки для каждого входа
+                if (recipe != null && recipe.RequiresInput)
+                {
+                    var inputs = recipe.InputResources;
+                    for (var i = 0; i < inputs.Length; i++)
+                    {
+                        var resource = inputs[i];
+                        if (resource == null || resource.Icon == null)
+                            continue;
+
+                        var iconGo = inputIconPrefab != null
+                            ? Instantiate(inputIconPrefab, inputContainer)
+                            : CreateDefaultIcon(inputContainer);
+
+                        var img = iconGo.GetComponent<Image>();
+                        if (img != null)
+                            img.sprite = resource.Icon;
+                    }
+                }
+            }
+            
+            if (outputIcon != null)
+            {
+                var outputDef = recipe != null ? recipe.OutputResource : null;
+                if (outputDef != null && outputDef.Icon != null)
+                {
+                    outputIcon.sprite = outputDef.Icon;
+                    outputIcon.enabled = true;
+                }
+                else
+                {
+                    outputIcon.enabled = false;
+                }
+            }
 
             if (progressSlider != null)
             {
@@ -215,6 +248,17 @@ namespace TheyWillDescend.UI.Buildings
 
             if (removeWorkerButton != null)
                 removeWorkerButton.interactable = building.Workers > building.MinWorkers;
+        }
+
+        private static GameObject CreateDefaultIcon(Transform parent)
+        {
+            var go = new GameObject("InputIcon", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent, false);
+            var rect = (RectTransform)go.transform;
+            rect.sizeDelta = new Vector2(80, 80);
+            var img = go.GetComponent<Image>();
+            img.preserveAspect = true;
+            return go;
         }
     }
 }

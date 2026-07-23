@@ -4,26 +4,34 @@ namespace TheyWillDescend.Core.Economy
 {
     [CreateAssetMenu(fileName = "BuildingRecipe", menuName = "They Will Descend/Building Recipe")]
     public sealed class BuildingRecipe : ScriptableObject
-    {
+{
         [SerializeField] private string buildingName = "House";
-        [Tooltip("Null = no input (passive production with workers only).")]
-        [SerializeField] private ResourceDefinition inputResource;
+        [Tooltip("Resources required for production (empty = passive).")]
+        [SerializeField] private ResourceDefinition[] inputResources;
+        [Tooltip("Amounts required per input Resource (must match inputResources length).")]
+        [SerializeField] private int[] inputAmountsRequired;
         [SerializeField] private ResourceDefinition outputResource;
-        [Tooltip("0 = no input required.")]
-        [SerializeField] private int inputAmountRequired;
         [SerializeField] private float productionDurationSeconds = 3f;
         [SerializeField] private int workersRequired = 1;
 
         public string BuildingName => buildingName;
-        public ResourceDefinition InputResource => inputResource;
+        public ResourceDefinition[] InputResources => inputResources ?? System.Array.Empty<ResourceDefinition>();
         public ResourceDefinition OutputResource => outputResource;
-        public string InputResourceId => inputResource != null ? inputResource.Id : string.Empty;
-        public string OutputResourceId => outputResource != null ? outputResource.Id : string.Empty;
-        public int InputAmountRequired => Mathf.Max(0, inputAmountRequired);
+        public int[] InputAmounts => inputAmountsRequired ?? System.Array.Empty<int>();
+
+        /// <summary>First input resource id (for backward compat with events).</summary>
+        public string InputResourceId =>
+            InputResources.Length > 0 && InputResources[0] != null ? InputResources[0].Id : "";
+
+        public string OutputResourceId =>
+            outputResource != null ? outputResource.Id : "";
+
+        public int InputAmountRequired =>
+            InputAmounts.Length > 0 ? Mathf.Max(0, InputAmounts[0]) : 0;
+
         public float ProductionDurationSeconds => Mathf.Max(0.01f, productionDurationSeconds);
         public int WorkersRequired => Mathf.Max(0, workersRequired);
 
-        public bool RequiresInput =>
-            inputResource != null && InputAmountRequired > 0;
+        public bool RequiresInput => InputResources.Length > 0;
     }
 }
