@@ -171,9 +171,6 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (recipe == null || !recipe.RequiresInput || string.IsNullOrEmpty(resourceId))
                 return false;
 
-            if (resourceId == ResourceIds.Villager)
-                return false;
-
             // Найти индекс входа по resourceId
             var inputIndex = -1;
             var inputs = recipe.InputResources;

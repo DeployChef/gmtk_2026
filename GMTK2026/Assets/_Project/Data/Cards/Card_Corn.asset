@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a8c1e2f3b4d5e6f708192a3b4c5d6e7, type: 3}
-  m_Name: Card_Wheat
+  m_Name: Card_Corn
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.CardDefinition
-  id: Wheat
-  displayName: Wheat
+  id: Corn
+  displayName: Corn
   kind: 0
-  icon: {fileID: -3240237254232412080, guid: b283919e6ec97204dba247e91a7feb53, type: 3}
+  icon: {fileID: 7611109694528768324, guid: 476d381c71c901646940a7f043823728, type: 3}
   trayCapacity: 8
