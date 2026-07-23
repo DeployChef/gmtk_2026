@@ -164,6 +164,9 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryAcceptVillagerCard()
         {
+            if (recipe != null && recipe.WorkersRequired <= 0)
+                return false;
+
             if (_workers >= maxWorkers)
                 return false;
 
