@@ -382,7 +382,7 @@ MonoBehaviour:
   startingWorkers: 0
   outputSpawnPoint: {fileID: 936557222}
   outputCardPrefab: {fileID: 6465427307158818710, guid: 858755fe209ee0a46ae589e1439f983b, type: 3}
-  cardParent: {fileID: 0}
+  cardParent: {fileID: 470977274}
 --- !u!4 &138794186
 Transform:
   m_ObjectHideFlags: 0
