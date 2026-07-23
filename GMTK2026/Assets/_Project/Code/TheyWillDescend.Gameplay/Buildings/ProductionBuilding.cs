@@ -199,6 +199,9 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (stored >= required)
                 return false;
 
+            if (_inventory == null || !_inventory.TryRemove(resourceId))
+                return false;
+
             _storedInputs[resourceId] = stored + 1;
             PublishInput();
             StateChanged?.Invoke();
