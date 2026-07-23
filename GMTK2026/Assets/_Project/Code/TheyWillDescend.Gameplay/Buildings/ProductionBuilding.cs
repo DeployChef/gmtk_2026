@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Cards;
@@ -24,7 +25,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         private IGameEventBus _bus;
         private ICardSpawner _cardSpawner;
         private int _workers;
-        private int _storedInput;
+        private readonly Dictionary<string, int> _storedInputs = new();
         private float _progress;
         private bool _producing;
 
@@ -33,15 +34,37 @@ namespace TheyWillDescend.Gameplay.Buildings
         public int Workers => _workers;
         public int MinWorkers => minWorkers;
         public int MaxWorkers => maxWorkers;
-        public int StoredInput => _storedInput;
-        public int InputRequired => recipe != null ? recipe.InputAmountRequired : 0;
+        public int StoredInput => _storedInputs.TryGetValue(recipe.InputResourceId, out var stored) ? stored : 0;
+        public int InputRequired => recipe != null && recipe.InputCards.Length > 0 && recipe.InputAmounts.Length > 0
+            ? Mathf.Max(0, recipe.InputAmounts[0]) : 0;
         public float NormalizedProgress =>
             recipe == null ? 0f : Mathf.Clamp01(_progress / recipe.ProductionDurationSeconds);
         public bool IsProducing => _producing;
         public bool CanProduce =>
             recipe != null
             && _workers >= recipe.WorkersRequired
-            && (!recipe.RequiresInput || _storedInput >= recipe.InputAmountRequired);
+            && (!recipe.RequiresInput || AllInputsFulfilled());
+
+        private bool AllInputsFulfilled()
+        {
+            var inputs = recipe.InputCards;
+            var amounts = recipe.InputAmounts;
+            for (var i = 0; i < inputs.Length; i++)
+            {
+                var card = inputs[i];
+                if (card == null)
+                    continue;
+
+                var required = i < amounts.Length ? amounts[i] : 1;
+                if (required <= 0)
+                    continue;
+
+                if (!_storedInputs.TryGetValue(card.Id, out var stored) || stored < required)
+                    return false;
+            }
+
+            return true;
+        }
 
         public bool CanHireWorker =>
             _workers < maxWorkers
@@ -138,13 +161,32 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (resourceId == ResourceIds.Villager)
                 return false;
 
-            if (resourceId != recipe.InputResourceId)
+            // Найти индекс входа по resourceId
+            var inputIndex = -1;
+            var inputs = recipe.InputCards;
+            for (var i = 0; i < inputs.Length; i++)
+            {
+                if (inputs[i] != null && inputs[i].Id == resourceId)
+                {
+                    inputIndex = i;
+                    break;
+                }
+            }
+
+            if (inputIndex < 0)
                 return false;
 
-            if (_storedInput >= recipe.InputAmountRequired)
+            // Проверить, не превышен ли лимит для этого ресурса
+            var amounts = recipe.InputAmounts;
+            var required = inputIndex < amounts.Length ? amounts[inputIndex] : 1;
+            if (required <= 0)
                 return false;
 
-            _storedInput++;
+            _storedInputs.TryGetValue(resourceId, out var stored);
+            if (stored >= required)
+                return false;
+
+            _storedInputs[resourceId] = stored + 1;
             PublishInput();
             StateChanged?.Invoke();
             return true;
@@ -153,7 +195,23 @@ namespace TheyWillDescend.Gameplay.Buildings
         private void CompleteProduction()
         {
             if (recipe.RequiresInput)
-                _storedInput -= recipe.InputAmountRequired;
+            {
+                var inputs = recipe.InputCards;
+                var amounts = recipe.InputAmounts;
+                for (var i = 0; i < inputs.Length; i++)
+                {
+                    var card = inputs[i];
+                    if (card == null)
+                        continue;
+
+                    var required = i < amounts.Length ? amounts[i] : 1;
+                    if (required <= 0)
+                        continue;
+
+                    if (_storedInputs.TryGetValue(card.Id, out var stored))
+                        _storedInputs[card.Id] = stored - required;
+                }
+            }
 
             _progress = 0f;
             _producing = CanProduce;
@@ -196,10 +254,11 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (recipe == null)
                 return;
 
+            _storedInputs.TryGetValue(recipe.InputResourceId, out var stored);
             _bus?.Publish(new BuildingInputChangedEvent(
                 buildingId,
                 recipe.InputResourceId,
-                _storedInput,
+                stored,
                 recipe.InputAmountRequired));
         }
 

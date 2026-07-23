@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8c1e2f3b4d5e6f708192a3b4c5d6e7, type: 3}
   m_Name: Card_Wood 1
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.CardDefinition
-  id: Wood
-  displayName: Wood
+  id: Stone
+  displayName: Stone
   kind: 0
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   description: 

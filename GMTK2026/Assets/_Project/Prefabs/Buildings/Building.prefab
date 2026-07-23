@@ -287,7 +287,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -422,8 +422,9 @@ MonoBehaviour:
   addWorkerButton: {fileID: 1897491478915003328}
   removeWorkerButton: {fileID: 997583893687769835}
   workersLabel: {fileID: 7018020335264985405}
-  inputIcon: {fileID: 7131839375201929016}
+  inputContainer: {fileID: 0}
   outputIcon: {fileID: 8587720486727402403}
+  inputIconPrefab: {fileID: 0}
   progressSlider: {fileID: 0}
 --- !u!1 &3094175665901946136
 GameObject:

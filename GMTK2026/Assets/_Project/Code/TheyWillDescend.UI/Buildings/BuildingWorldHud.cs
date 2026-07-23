@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using TMPro;
 using UnityEngine;
@@ -14,8 +16,9 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Button addWorkerButton;
         [SerializeField] private Button removeWorkerButton;
         [SerializeField] private TMP_Text workersLabel;
-        [SerializeField] private Image inputIcon;
+        [SerializeField] private Transform inputContainer;
         [SerializeField] private Image outputIcon;
+        [SerializeField] private GameObject inputIconPrefab;
         [SerializeField] private Slider progressSlider;
 
         private void Awake()
@@ -80,20 +83,33 @@ namespace TheyWillDescend.UI.Buildings
             if (workersLabel != null)
                 workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
 
-            if (inputIcon != null)
+            if (inputContainer != null)
             {
-                var inputDef = recipe != null ? recipe.InputCard : null;
-                if (inputDef != null && recipe.RequiresInput)
+                // Очистить старые иконки
+                for (var i = inputContainer.childCount - 1; i >= 0; i--)
+                    Destroy(inputContainer.GetChild(i).gameObject);
+
+                // Спавнить иконки для каждого входа
+                if (recipe != null && recipe.RequiresInput)
                 {
-                    inputIcon.sprite = inputDef.Icon;
-                    inputIcon.enabled = inputDef.Icon != null;
-                }
-                else
-                {
-                    inputIcon.enabled = false;
+                    var inputs = recipe.InputCards;
+                    for (var i = 0; i < inputs.Length; i++)
+                    {
+                        var card = inputs[i];
+                        if (card == null || card.Icon == null)
+                            continue;
+
+                        var iconGo = inputIconPrefab != null
+                            ? Instantiate(inputIconPrefab, inputContainer)
+                            : CreateDefaultIcon(inputContainer);
+
+                        var img = iconGo.GetComponent<Image>();
+                        if (img != null)
+                            img.sprite = card.Icon;
+                    }
                 }
             }
-
+            
             if (outputIcon != null)
             {
                 var outputDef = recipe != null ? recipe.OutputCard : null;
@@ -126,6 +142,17 @@ namespace TheyWillDescend.UI.Buildings
 
             if (removeWorkerButton != null)
                 removeWorkerButton.interactable = building.Workers > building.MinWorkers;
+        }
+
+        private static GameObject CreateDefaultIcon(Transform parent)
+        {
+            var go = new GameObject("InputIcon", typeof(RectTransform), typeof(Image));
+            go.transform.SetParent(parent, false);
+            var rect = (RectTransform)go.transform;
+            rect.sizeDelta = new Vector2(80, 80);
+            var img = go.GetComponent<Image>();
+            img.preserveAspect = true;
+            return go;
         }
     }
 }
