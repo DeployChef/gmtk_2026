@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Recipe_House1_Passive
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.BuildingRecipe
   buildingName: House 1
-  inputCard: {fileID: 0}
-  outputCard: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+  inputResource: {fileID: 0}
+  outputResource: {fileID: 11400000, guid: c1d2e3f4a5b60718293a4b5c6d7e8f01, type: 2}
   inputAmountRequired: 0
   productionDurationSeconds: 3
   workersRequired: 1

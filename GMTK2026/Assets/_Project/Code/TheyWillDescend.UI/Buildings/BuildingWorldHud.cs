@@ -1,9 +1,15 @@
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using TheyWillDescend.Core.Bus;
+using TheyWillDescend.Core.Bus.Events;
 using System.Collections.Generic;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using VContainer;
 
 namespace TheyWillDescend.UI.Buildings
 {
@@ -20,6 +26,22 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Image outputIcon;
         [SerializeField] private GameObject inputIconPrefab;
         [SerializeField] private Slider progressSlider;
+        [Header("Produce feedback")]
+        [SerializeField] private TMP_Text producedPopup;
+        [SerializeField] private float popupDuration = 0.65f;
+        [SerializeField] private float popupRisePixels = 36f;
+
+        private IDisposable _producedSub;
+        private CancellationTokenSource _popupCts;
+        private Vector2 _popupRestAnchoredPos;
+        private bool _popupRestCaptured;
+
+        [Inject]
+        public void Construct(IGameEventBus bus)
+        {
+            _producedSub?.Dispose();
+            _producedSub = bus.Subscribe<ResourceProducedEvent>(OnResourceProduced);
+        }
 
         private void Awake()
         {
@@ -39,6 +61,12 @@ namespace TheyWillDescend.UI.Buildings
                     building.TryRemoveWorker();
                     Refresh();
                 });
+
+            if (producedPopup != null)
+            {
+                CapturePopupRest();
+                producedPopup.gameObject.SetActive(false);
+            }
         }
 
         private void OnEnable()
@@ -52,6 +80,12 @@ namespace TheyWillDescend.UI.Buildings
         {
             if (building != null)
                 building.StateChanged -= Refresh;
+        }
+
+        private void OnDestroy()
+        {
+            _producedSub?.Dispose();
+            CancelPopup();
         }
 
         private void LateUpdate()
@@ -69,8 +103,80 @@ namespace TheyWillDescend.UI.Buildings
                     progressSlider.value = 1f - building.NormalizedProgress;
             }
 
-            // Rail card count can change without building.StateChanged (other buildings).
             RefreshWorkerButtons();
+        }
+
+        private void OnResourceProduced(ResourceProducedEvent e)
+        {
+            if (building == null || e.BuildingId != building.BuildingId)
+                return;
+
+            PlayProducedPopup().Forget();
+        }
+
+        private async UniTaskVoid PlayProducedPopup()
+        {
+            if (producedPopup == null)
+                return;
+
+            CancelPopup();
+            _popupCts = new CancellationTokenSource();
+            var ct = _popupCts.Token;
+
+            CapturePopupRest();
+            producedPopup.text = "+1";
+            producedPopup.gameObject.SetActive(true);
+
+            var color = producedPopup.color;
+            color.a = 1f;
+            producedPopup.color = color;
+
+            var rect = producedPopup.rectTransform;
+            rect.anchoredPosition = _popupRestAnchoredPos;
+
+            var duration = Mathf.Max(0.05f, popupDuration);
+            var elapsed = 0f;
+            try
+            {
+                while (elapsed < duration)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    elapsed += Time.unscaledDeltaTime;
+                    var t = Mathf.Clamp01(elapsed / duration);
+                    rect.anchoredPosition = _popupRestAnchoredPos + Vector2.up * (popupRisePixels * t);
+                    color.a = 1f - t;
+                    producedPopup.color = color;
+                    await UniTask.Yield(PlayerLoopTiming.Update, ct);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
+
+            producedPopup.gameObject.SetActive(false);
+            rect.anchoredPosition = _popupRestAnchoredPos;
+            color.a = 1f;
+            producedPopup.color = color;
+        }
+
+        private void CapturePopupRest()
+        {
+            if (producedPopup == null || _popupRestCaptured)
+                return;
+
+            _popupRestAnchoredPos = producedPopup.rectTransform.anchoredPosition;
+            _popupRestCaptured = true;
+        }
+
+        private void CancelPopup()
+        {
+            if (_popupCts == null)
+                return;
+
+            _popupCts.Cancel();
+            _popupCts.Dispose();
+            _popupCts = null;
         }
 
         private void Refresh()
@@ -92,11 +198,11 @@ namespace TheyWillDescend.UI.Buildings
                 // Спавнить иконки для каждого входа
                 if (recipe != null && recipe.RequiresInput)
                 {
-                    var inputs = recipe.InputCards;
+                    var inputs = recipe.InputResources;
                     for (var i = 0; i < inputs.Length; i++)
                     {
-                        var card = inputs[i];
-                        if (card == null || card.Icon == null)
+                        var resource = inputs[i];
+                        if (resource == null || resource.Icon == null)
                             continue;
 
                         var iconGo = inputIconPrefab != null
@@ -105,14 +211,14 @@ namespace TheyWillDescend.UI.Buildings
 
                         var img = iconGo.GetComponent<Image>();
                         if (img != null)
-                            img.sprite = card.Icon;
+                            img.sprite = resource.Icon;
                     }
                 }
             }
             
             if (outputIcon != null)
             {
-                var outputDef = recipe != null ? recipe.OutputCard : null;
+                var outputDef = recipe != null ? recipe.OutputResource : null;
                 if (outputDef != null && outputDef.Icon != null)
                 {
                     outputIcon.sprite = outputDef.Icon;

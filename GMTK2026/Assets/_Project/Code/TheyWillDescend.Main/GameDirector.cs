@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using TheyWillDescend.Core;
-using TheyWillDescend.Core.Cards;
 using TheyWillDescend.Main.DI;
+using TheyWillDescend.Main.GameAppStates;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using VContainer;
@@ -9,6 +9,9 @@ using VContainer.Unity;
 
 namespace TheyWillDescend.Main
 {
+    /// <summary>
+    /// App-level only: load/unload Game, Enter GameStartState. No inventory / win-lose logic.
+    /// </summary>
     public sealed class GameDirector : IGameDirector
     {
         private readonly RootLifetimeScope _rootScope;
@@ -19,41 +22,27 @@ namespace TheyWillDescend.Main
             _rootScope = rootScope;
         }
 
-        public async UniTask InitializeGameAsync()
+        public async UniTask StartAsync()
         {
-            Debug.Log("[GameDirector] Cold start — loading Game scene…");
+            Debug.Log("[GameDirector] Start — loading Game scene…");
             await LoadGameSceneAsync();
-            BeginRun();
-            Debug.Log("[GameDirector] Game scope ready.");
+            EnterStartState();
         }
 
-        public async UniTask StartNewRunAsync()
+        public async UniTask RestartAsync()
         {
-            await RestartRunAsync();
-        }
-
-        public async UniTask RestartRunAsync()
-        {
-            Debug.Log("[GameDirector] Restart run — reload Game scene.");
+            Debug.Log("[GameDirector] Restart — reload Game scene.");
             await UnloadGameSceneAsync();
             await LoadGameSceneAsync();
-            BeginRun();
+            EnterStartState();
         }
 
-        public void NotifyRunWon() =>
-            Debug.Log("[GameDirector] Run won.");
-
-        public void NotifyRunLost() =>
-            Debug.Log("[GameDirector] Run lost.");
-
-        private void BeginRun()
+        private void EnterStartState()
         {
             if (_gameScope?.Container == null)
                 return;
 
-            var cards = _gameScope.Container.Resolve<ICardSpawner>();
-            cards.ClearRail();
-            cards.SpawnStartingHand();
+            _gameScope.Container.Resolve<GameStartState>().Enter();
         }
 
         private async UniTask LoadGameSceneAsync()

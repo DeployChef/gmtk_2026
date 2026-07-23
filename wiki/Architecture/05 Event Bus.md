@@ -59,7 +59,8 @@ builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
 | `GodsDemandFailedEvent` | контрольная точка без подношения | ускорение таймера ×2 |
 | `TimelineEventTriggeredEvent` | эпидемия / пожар / засуха | NPC, карточки, дебаффы зданий |
 | `PyramidTimerChangedEvent` | тик / порог тревоги | HUD, аудио, камера |
-| `RunWonEvent` / `RunLostEvent` | финал | [[04 Game Director\|GameDirector]], UI |
+| `InventoryChangedEvent` | изменился available count типа | `InventoryTraysView` |
+| `InventoryClearedEvent` | старт / clear | UI clear trays |
 
 Имена и поля уточним при коде; принцип — данные для реакции, не «сделай сам UI».
 
@@ -90,6 +91,6 @@ public readonly struct ResourceProducedEvent
 
 ## Связь
 
-- Оркестрация финалов: [[04 Game Director]]
+- Оркестрация сцен / старт: [[04 Game Director]]
 - Таймлайн и катаклизмы: [[../GDD/04 Timeline & Events]]
 - Звук: [[03 Audio Manager]]

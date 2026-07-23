@@ -1,6 +1,6 @@
 namespace TheyWillDescend.Core.Economy
 {
-    public enum CardKind
+    public enum ResourceKind
     {
         Resource = 0,
         Villager = 1,

@@ -47,7 +47,7 @@ namespace TheyWillDescend.Main
 
             rootScope.Build();
             var director = rootScope.Container.Resolve<IGameDirector>();
-            await director.InitializeGameAsync();
+            await director.StartAsync();
             await FadeOutLoadingAsync();
         }
 

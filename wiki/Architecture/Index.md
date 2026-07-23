@@ -12,14 +12,15 @@
 - [[03 Audio Manager]] — аудио
 - [[04 Game Director]] — оркестратор сессии
 - [[05 Event Bus]] — шина событий
+- [[06 Inventory]] — лотки, стеки, ResourceDefinition, burn
 
 ## Связь с GDD
 
 | GDD | Архитектура |
 | --- | --- |
 | [[../GDD/01 Gameplay Loop\|Gameplay Loop]] | [[04 Game Director]], геймплей-системы |
-| [[../GDD/02 Entities\|Entities]] | NPC, карточки |
-| [[../GDD/03 Economy\|Economy]] | здания, слоты, крафт |
+| [[../GDD/02 Entities\|Entities]] | NPC, карточки · [[06 Inventory]] |
+| [[../GDD/03 Economy\|Economy]] | здания, слоты, крафт, ResourceDefinition |
 | [[../GDD/04 Timeline & Events\|Timeline]] | таймлайн + [[05 Event Bus]] |
-| [[../GDD/06 UI & Visual\|UI]] | HUD, сайдбар, камера |
+| [[../GDD/06 UI & Visual\|UI]] | HUD, лотки, камера |
 | [[../GDD/07 Narrative & Onboarding\|Onboarding]] | диалоги Шамана |
