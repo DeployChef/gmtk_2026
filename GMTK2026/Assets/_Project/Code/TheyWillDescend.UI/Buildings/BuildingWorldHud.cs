@@ -14,8 +14,8 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Button addWorkerButton;
         [SerializeField] private Button removeWorkerButton;
         [SerializeField] private TMP_Text workersLabel;
-        [SerializeField] private TMP_Text inputLabel;
-        [SerializeField] private TMP_Text outputLabel;
+        [SerializeField] private Image inputIcon;
+        [SerializeField] private Image outputIcon;
         [SerializeField] private Slider progressSlider;
 
         private void Awake()
@@ -80,16 +80,33 @@ namespace TheyWillDescend.UI.Buildings
             if (workersLabel != null)
                 workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
 
-            if (inputLabel != null)
+            if (inputIcon != null)
             {
-                if (recipe != null && recipe.RequiresInput)
-                    inputLabel.text = $"In: {recipe.InputResourceId}";
+                var inputDef = recipe != null ? recipe.InputCard : null;
+                if (inputDef != null && recipe.RequiresInput)
+                {
+                    inputIcon.sprite = inputDef.Icon;
+                    inputIcon.enabled = inputDef.Icon != null;
+                }
                 else
-                    inputLabel.text = "In: —";
+                {
+                    inputIcon.enabled = false;
+                }
             }
 
-            if (outputLabel != null)
-                outputLabel.text = recipe != null ? $"Out: {recipe.OutputResourceId}" : "Out: —";
+            if (outputIcon != null)
+            {
+                var outputDef = recipe != null ? recipe.OutputCard : null;
+                if (outputDef != null && outputDef.Icon != null)
+                {
+                    outputIcon.sprite = outputDef.Icon;
+                    outputIcon.enabled = true;
+                }
+                else
+                {
+                    outputIcon.enabled = false;
+                }
+            }
 
             if (progressSlider != null)
             {
