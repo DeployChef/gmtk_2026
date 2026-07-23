@@ -3903,7 +3903,7 @@ MonoBehaviour:
   secondaryVfxLifetime: 1
   secondaryVfxOffset: {x: 0, y: 0, z: 0}
   tertiaryVfxPrefab: {fileID: 8764043878647920493, guid: c4ed38c72957f2241ad144a1614956d9, type: 3}
-  tertiaryVfxLifetime: 5
+  tertiaryVfxLifetime: 10
   tertiaryVfxOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &2035107631
 GameObject:

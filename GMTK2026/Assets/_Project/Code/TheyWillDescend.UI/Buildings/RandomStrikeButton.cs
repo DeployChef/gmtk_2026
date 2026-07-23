@@ -13,6 +13,8 @@ namespace TheyWillDescend.UI.Buildings
         private const string HouseTag = "House";
         private const int VfxSortingOrder = 5;
 
+        [SerializeField] private float disableDuration = 10f;
+
         [SerializeField] private GameObject lightningPrefab;
         [SerializeField] private float lightningLifetime = 3f;
         [SerializeField] private Vector3 lightningOffset = Vector3.zero;
@@ -60,6 +62,10 @@ namespace TheyWillDescend.UI.Buildings
             SpawnVfx(lightningPrefab, basePos + lightningOffset, lightningLifetime);
             SpawnVfx(secondaryVfxPrefab, basePos + secondaryVfxOffset, secondaryVfxLifetime);
             SpawnVfx(tertiaryVfxPrefab, basePos + tertiaryVfxOffset, tertiaryVfxLifetime);
+
+            var building = target.GetComponentInChildren<ProductionBuilding>();
+            if (building != null)
+                building.DisableTemporarily(disableDuration);
         }
 
         private static void SpawnVfx(GameObject prefab, Vector3 pos, float lifetime)
