@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a8c1e2f3b4d5e6f708192a3b4c5d6e7, type: 3}
-  m_Name: Card_Wood 1
+  m_Name: Card_Stone
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.CardDefinition
   id: Stone
   displayName: Stone
