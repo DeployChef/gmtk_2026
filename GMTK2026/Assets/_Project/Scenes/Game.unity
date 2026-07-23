@@ -1447,9 +1447,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: Obsidian
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2990188721942426380, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: resource
@@ -1548,9 +1560,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: Stone
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2990188721942426380, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: resource
@@ -2254,9 +2278,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2990188721942426380, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: resource
@@ -2371,9 +2407,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: Wood
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2990188721942426380, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: resource
@@ -2504,9 +2552,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: Blood
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2990188721942426380, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: resource
@@ -2762,9 +2822,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: Wheat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2990188721942426380, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: resource
@@ -3029,6 +3101,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 470977274}
     m_Modifications:
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 572766469938285896, guid: 2221c631915c58b419a697439fae2117, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2245592228735877008, guid: 2221c631915c58b419a697439fae2117, type: 3}
       propertyPath: m_Name
       value: CardTray_Villager
