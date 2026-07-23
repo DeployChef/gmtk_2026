@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Wood
   displayName: Wood
   kind: 0
-  icon: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
-  description: 
+  icon: {fileID: 545211059745954975, guid: 71b7543169812314da1748e2f556ee9b, type: 3}
+  trayCapacity: 8

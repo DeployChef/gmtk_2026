@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Obsidian
   displayName: Obsidian
   kind: 0
-  icon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  description: 
+  icon: {fileID: -3875108700871916649, guid: d5db3864a119d3340846319306df37da, type: 3}
+  trayCapacity: 8

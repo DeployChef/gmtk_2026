@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Blood
   displayName: Blood
   kind: 0
-  icon: {fileID: 6286595657586805340, guid: 2d472c5352db8bc4b92153cfcbdd25d0, type: 3}
-  description: 
+  icon: {fileID: 1401797105272899859, guid: bde234735f2672d4899ae6fdf8306c65, type: 3}
+  trayCapacity: 8

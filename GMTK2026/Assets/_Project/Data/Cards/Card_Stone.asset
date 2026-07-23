@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Stone
   displayName: Stone
   kind: 0
-  icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  description: 
+  icon: {fileID: -4543726726073390661, guid: bea46d889c2d18c40bb1f665f0b687e8, type: 3}
+  trayCapacity: 8

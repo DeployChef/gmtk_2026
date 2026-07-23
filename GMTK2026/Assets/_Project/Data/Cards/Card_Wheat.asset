@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Wheat
   displayName: Wheat
   kind: 0
-  icon: {fileID: 1980899163493354025, guid: 22bbab1d48f914f4a8036bc730cdcbe7, type: 3}
-  description: 
+  icon: {fileID: -3240237254232412080, guid: b283919e6ec97204dba247e91a7feb53, type: 3}
+  trayCapacity: 8
