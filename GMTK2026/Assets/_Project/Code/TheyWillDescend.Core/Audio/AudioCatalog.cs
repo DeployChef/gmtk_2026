@@ -8,12 +8,8 @@ namespace TheyWillDescend.Core.Audio
     {
         public static class Ids
         {
-            public const string UiClick = "UiClick";
-            public const string CardDrop = "CardDrop";
-            public const string OfferingAccept = "OfferingAccept";
-            public const string PyramidTimerWarn = "PyramidTimerWarn";
-            public const string EventDisaster = "EventDisaster";
-            public const string MusicSettlement = "MusicSettlement";
+            public const string MusicMain = "MusicMain";
+            public const string MusicDark = "MusicDark";
         }
 
         [SerializeField] private List<SoundDefinition> sounds = new();
