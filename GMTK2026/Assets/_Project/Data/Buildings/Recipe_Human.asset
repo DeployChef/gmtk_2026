@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f9655a1ea6ae7d4da91d22ef2e9d799, type: 3}
   m_Name: Recipe_Human
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.BuildingRecipe
-  buildingName: Well
+  buildingName: Home
   inputResources: []
   inputAmountsRequired: 
   outputResource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
