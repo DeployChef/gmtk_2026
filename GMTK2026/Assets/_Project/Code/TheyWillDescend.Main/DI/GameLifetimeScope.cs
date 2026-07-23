@@ -1,5 +1,7 @@
-using TheyWillDescend.Core.Cards;
+using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.Gameplay.Buildings;
+using TheyWillDescend.Gameplay.Inventory;
+using TheyWillDescend.Main.GameAppStates;
 using TheyWillDescend.UI.Buildings;
 using TheyWillDescend.UI.Cards;
 using UnityEngine;
@@ -16,7 +18,9 @@ namespace TheyWillDescend.Main.DI
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            builder.RegisterComponentInHierarchy<CardsRailView>().As<ICardSpawner>();
+            builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
+            builder.Register<GameStartState>(Lifetime.Singleton);
+            builder.RegisterComponentInHierarchy<InventoryTraysView>();
 
             builder.RegisterBuildCallback(resolver =>
             {

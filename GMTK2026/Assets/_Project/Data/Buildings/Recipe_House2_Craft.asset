@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Recipe_House2_Craft
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.BuildingRecipe
   buildingName: House 2
-  inputResourceId: 1
-  outputResourceId: 2
+  inputResource: {fileID: 11400000, guid: c1d2e3f4a5b60718293a4b5c6d7e8f01, type: 2}
+  outputResource: {fileID: 11400000, guid: c1d2e3f4a5b60718293a4b5c6d7e8f02, type: 2}
   inputAmountRequired: 1
   productionDurationSeconds: 3
   workersRequired: 1

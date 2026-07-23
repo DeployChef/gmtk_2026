@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a8c1e2f3b4d5e6f708192a3b4c5d6e7, type: 3}
-  m_Name: Card_Villager
-  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.CardDefinition
-  id: Villager
-  displayName: Villager
-  kind: 1
-  icon: {fileID: 6286595657586805340, guid: 2d472c5352db8bc4b92153cfcbdd25d0, type: 3}
+  m_Name: Resource_2
+  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.ResourceDefinition
+  id: 2
+  displayName: Resource 2
+  kind: 0
+  icon: {fileID: 0}
+  trayCapacity: 8

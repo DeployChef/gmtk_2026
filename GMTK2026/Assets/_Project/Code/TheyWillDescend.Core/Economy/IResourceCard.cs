@@ -3,8 +3,8 @@ namespace TheyWillDescend.Core.Economy
     public interface IResourceCard
     {
         string ResourceId { get; }
-        CardKind Kind { get; }
+        ResourceKind Kind { get; }
         void Setup(string resourceId);
-        void Setup(CardDefinition definition);
+        void Setup(ResourceDefinition definition);
     }
 }

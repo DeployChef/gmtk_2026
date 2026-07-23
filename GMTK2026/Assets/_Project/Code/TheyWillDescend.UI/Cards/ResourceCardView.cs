@@ -26,14 +26,14 @@ namespace TheyWillDescend.UI.Cards
         private Vector3 _homePosition;
         private Canvas _canvas;
         private bool _consumed;
-        private CardKind _kind = CardKind.Resource;
+        private ResourceKind _kind = ResourceKind.Resource;
         private readonly List<RaycastResult> _raycastHits = new();
 
         public string ResourceId => resourceId;
-        public CardKind Kind => _kind;
+        public ResourceKind Kind => _kind;
 
         private bool IsVillager =>
-            _kind == CardKind.Villager || resourceId == ResourceIds.Villager;
+            _kind == ResourceKind.Villager || resourceId == ResourceIds.Villager;
 
         private void Awake()
         {
@@ -48,12 +48,12 @@ namespace TheyWillDescend.UI.Cards
         public void Setup(string id)
         {
             resourceId = id;
-            _kind = id == ResourceIds.Villager ? CardKind.Villager : CardKind.Resource;
+            _kind = id == ResourceIds.Villager ? ResourceKind.Villager : ResourceKind.Resource;
             _consumed = false;
             RefreshLabel();
         }
 
-        public void Setup(CardDefinition definition)
+        public void Setup(ResourceDefinition definition)
         {
             if (definition == null)
                 return;
