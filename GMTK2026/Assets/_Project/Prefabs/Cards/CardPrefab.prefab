@@ -322,7 +322,7 @@ MonoBehaviour:
   resourceId: 1
   titleLabel: {fileID: 3888055212929064427}
   canvasGroup: {fileID: 7212072353480294420}
-  iconImage: {fileID: 0}
+  iconImage: {fileID: 4461094673574217151}
 --- !u!1 &6830006918936796920
 GameObject:
   m_ObjectHideFlags: 0
