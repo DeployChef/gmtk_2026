@@ -47,7 +47,7 @@
 Startup.Awake
   → guard (_started)
   → rootScope.Build()
-  → Resolve IGameDirector → Initialize…
+  → Resolve IGameDirector → StartAsync…
 ```
 
 Псевдокод:
@@ -56,7 +56,7 @@ Startup.Awake
 // Startup
 rootScope.Build();
 var director = rootScope.Container.Resolve<IGameDirector>();
-await director.InitializeGameAsync();
+await director.StartAsync();
 ```
 
 ```csharp
@@ -85,7 +85,7 @@ Child-scopes: [[#План: GameLifetimeScope на сцене|GameLifetimeScope]]
 1. На Game-сцене повесить `GameLifetimeScope` (Auto Run **off**)
 2. Parent проставляется **в коде** из `GameDirector` перед `Build()` (надёжнее cross-scene Inspector)
 3. Опционально в Inspector: Parent Type = `RootLifetimeScope`
-4. `GameDirector.InitializeGameAsync` → LoadScene Additive → Find scope → `Build()`
+4. `GameDirector.StartAsync` → LoadScene Additive → Find scope → `Build()` → `GameStartState.Enter()`
 
 См. также: [[04 Game Director]], [[05 Event Bus]].
 
