@@ -4,7 +4,8 @@
     "references": [
         "TheyWillDescend.Core",
         "TheyWillDescend.Main",
-        "TheyWillDescend.UI"
+        "TheyWillDescend.UI",
+        "TheyWillDescend.Gameplay"
     ],
     "includePlatforms": [
         "Editor"

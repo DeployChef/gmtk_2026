@@ -7,7 +7,7 @@ using VContainer;
 namespace TheyWillDescend.Main
 {
     /// <summary>
-    /// Entry point on Root.unity (only scene in Build Settings for now).
+    /// Entry point on Root.unity.
     /// </summary>
     public sealed class Startup : MonoBehaviour
     {

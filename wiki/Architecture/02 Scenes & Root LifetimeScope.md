@@ -75,19 +75,14 @@ builder.RegisterComponentInHierarchy<AudioManager>().As<IAudioManager>();
 | `AudioManager` as `IAudioManager` | `RegisterComponentInHierarchy<AudioManager>()` |
 | `IGameEventBus` | singleton в Root |
 
-Child-scopes (`App` / `Game`) — **позже**. Родитель всегда Root: дети видят зарегистрированные сервисы автоматически.
+Child-scopes: [[#План: GameLifetimeScope на сцене|GameLifetimeScope]] грузится additive, parent = Root.
 
-### План на потом: GameLifetimeScope на сцене
+### План: GameLifetimeScope на сцене
 
-Когда появится additive `Game.unity`:
-
-1. На Game-сцене явно повесить `GameLifetimeScope` (свой subclass с `Configure`)
-2. В Inspector указать **Parent = RootLifetimeScope** (с Root-сцены)
-3. **Auto Run выключить** — `Build()` вызывать из кода после additive load (например из `GameDirector`), по тому же принципу что Root + `Startup`
-
-Так регистрация геймплея остаётся на сцене Game, а Root-сервисы (`IAudioManager`, `IGameEventBus`, `IGameDirector`) видны через parent container.
-
-> **Нюанс:** ссылка Parent через сцены при additive иногда капризна — если Inspector-ссылка отвалится, parent можно проставить в коде перед `Build()` (`gameScope.Parent = rootScope` или API VContainer для parent).
+1. На Game-сцене повесить `GameLifetimeScope` (Auto Run **off**)
+2. Parent проставляется **в коде** из `GameDirector` перед `Build()` (надёжнее cross-scene Inspector)
+3. Опционально в Inspector: Parent Type = `RootLifetimeScope`
+4. `GameDirector.InitializeGameAsync` → LoadScene Additive → Find scope → `Build()`
 
 См. также: [[04 Game Director]], [[05 Event Bus]].
 

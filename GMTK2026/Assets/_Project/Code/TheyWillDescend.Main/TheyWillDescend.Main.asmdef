@@ -3,6 +3,7 @@
     "rootNamespace": "TheyWillDescend.Main",
     "references": [
         "TheyWillDescend.Core",
+        "TheyWillDescend.Gameplay",
         "TheyWillDescend.UI",
         "UniTask",
         "VContainer"
