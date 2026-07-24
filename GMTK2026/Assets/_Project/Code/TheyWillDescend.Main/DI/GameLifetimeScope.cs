@@ -1,11 +1,14 @@
 using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Core.Inventory;
+using TheyWillDescend.Core.Timeline;
 using TheyWillDescend.Gameplay.Buildings;
 using TheyWillDescend.Gameplay.Hazards;
 using TheyWillDescend.Gameplay.Inventory;
+using TheyWillDescend.Gameplay.Session;
 using TheyWillDescend.Main.GameAppStates;
 using TheyWillDescend.UI.Buildings;
 using TheyWillDescend.UI.Cards;
+using TheyWillDescend.UI.Timeline;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -18,13 +21,36 @@ namespace TheyWillDescend.Main.DI
     /// </summary>
     public sealed class GameLifetimeScope : LifetimeScope
     {
+        [SerializeField] private GameTimelineConfig timelineConfig;
+
         protected override void Configure(IContainerBuilder builder)
         {
+            var config = timelineConfig;
+            if (config == null)
+            {
+                Debug.LogError(
+                    "[GameLifetimeScope] Assign GameTimelineConfig on GameLifetimeScope (Inspector). " +
+                    "Using empty runtime stub until then.");
+                config = ScriptableObject.CreateInstance<GameTimelineConfig>();
+            }
+
+            builder.RegisterInstance(config);
+            builder.Register<PhaseLoadoutApplier>(Lifetime.Singleton).As<IPhaseLoadoutApplier>();
+            builder.Register<PyramidTimerService>(Lifetime.Singleton).As<IPyramidTimerService>();
+            builder.Register<TimelineService>(Lifetime.Singleton).As<ITimelineService>();
+            builder.RegisterEntryPoint<TimelineSessionDriver>();
+
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
             builder.Register<GameStartState>(Lifetime.Singleton);
-            builder.RegisterComponentInHierarchy<InventoryTraysView>();
             builder.Register<ThunderService>(Lifetime.Singleton).As<IThunderService>();
+
+            builder.RegisterComponentInHierarchy<InventoryTraysView>();
             builder.RegisterComponentInHierarchy<DisasterManager>().As<IDisasterManager>();
+            builder.RegisterComponentInHierarchy<PyramidOfferingPoint>();
+            builder.RegisterComponentInHierarchy<PyramidTimerWorldHud>();
+            builder.RegisterComponentInHierarchy<PyramidOfferWorldHud>();
+            builder.RegisterComponentInHierarchy<RandomStrikeButton>();
+            builder.RegisterComponentInHierarchy<TimelineHudView>();
 
             builder.RegisterBuildCallback(resolver =>
             {
@@ -39,10 +65,6 @@ namespace TheyWillDescend.Main.DI
                 foreach (var card in Object.FindObjectsByType<ResourceCardView>(
                              FindObjectsInactive.Include, FindObjectsSortMode.None))
                     resolver.Inject(card);
-
-                foreach (var button in Object.FindObjectsByType<RandomStrikeButton>(
-                             FindObjectsInactive.Include, FindObjectsSortMode.None))
-                    resolver.Inject(button);
             });
         }
     }

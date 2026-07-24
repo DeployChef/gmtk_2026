@@ -25,12 +25,12 @@ public interface IGameDirector
 
 Обычный класс с `Enter()` (без FSM):
 
-- `IInventory.Clear()`
-- `TryAdd` ×1 villager (SO с villager `CardTrayView`)
+- `ITimelineService.StartRun()` — фаза 0 + loadout из SO
+- BGM
 
 Регистрируется в `GameLifetimeScope`. Директор только резолвит и вызывает `Enter()`.
 
-См. [[06 Inventory]].
+Стартовые карты/здания — в `GameTimelineConfig` phase 0, не в коде. См. [[07 Timeline & Pyramid]], [[06 Inventory]].
 
 ## Cold start
 

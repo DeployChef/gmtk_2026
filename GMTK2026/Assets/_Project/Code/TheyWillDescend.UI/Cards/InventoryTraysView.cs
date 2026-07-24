@@ -164,10 +164,19 @@ namespace TheyWillDescend.UI.Cards
             if (trays == null)
                 return;
 
-            for (var i = 0; i < trays.Length; i++)
-                trays[i]?.ClearCards();
+            // Buildings may still have workers until phase loadout applies; refresh from scene.
+            CaptureInitialWorkers();
 
-            RefreshVillagerCounterOnly();
+            for (var i = 0; i < trays.Length; i++)
+            {
+                var tray = trays[i];
+                if (tray == null || tray.Resource == null)
+                    continue;
+
+                tray.ClearCards();
+                var capacity = tray.Resource.HasTrayCapacityLimit ? tray.Resource.TrayCapacity : -1;
+                RefreshCounter(tray, count: 0, capacity);
+            }
         }
 
         private void RefreshCounter(CardTrayView tray, int count, int capacity)

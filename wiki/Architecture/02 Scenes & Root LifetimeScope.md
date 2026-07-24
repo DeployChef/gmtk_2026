@@ -96,8 +96,8 @@ Child-scopes: [[#План: GameLifetimeScope на сцене|GameLifetimeScope]]
 | Startup, RootLifetimeScope | Слоты зданий, пирамида |
 | AudioManager, EventBus | NPC на улице |
 | GameDirector | **World Space** HUD зданий + drop-zones |
-| **Overlay**: top таймлайн/день, bottom карты + стройка | Мир поселения (спрайты) |
-| Главный таймер Конца Света (кандидат) | |
+| **Overlay**: top таймлайн (сегменты фаз) + годы, bottom карты + стройка | Мир поселения (спрайты) |
+| | Пирамида (placeholder) + World-таймер над ней |
 
 > Карточки и таймлайн — Screen Space Overlay на Root. HUD зданий — World Space на Game. См. [[../GDD/06 UI & Visual|GDD UI]].
 
