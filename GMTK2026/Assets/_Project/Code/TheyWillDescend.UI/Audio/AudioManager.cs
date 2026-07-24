@@ -22,14 +22,18 @@ namespace TheyWillDescend.UI.Audio
         [SerializeField] private bool enableFade = true;
 
         private AudioSource _musicSource;
+        private AudioSource _ambientSource;
         private readonly List<SfxVoice> _sfxVoices = new();
         private readonly List<SfxVoice> _uiVoices = new();
         private readonly Dictionary<string, float> _lastPlayTimes = new();
         private string _musicSoundId;
+        private string _ambientSoundId;
         private float _musicFadeDuration = 1f;
+        private float _ambientFadeDuration = 1f;
         private float _musicVolumeBeforePause = 1f;
         private bool _musicPaused;
         private CancellationTokenSource _musicFadeCts;
+        private CancellationTokenSource _ambientFadeCts;
 
         // BPM control — only for AudioChannel.Music
         private float _bpmStart;
@@ -40,12 +44,17 @@ namespace TheyWillDescend.UI.Audio
 
         public bool IsMusicPaused => _musicPaused;
         public bool HasMusicClip => _musicSource != null && _musicSource.clip != null;
+        public bool HasAmbientClip => _ambientSource != null && _ambientSource.clip != null;
 
         private void Awake()
         {
             _musicSource = CreateSource("Music", transform);
             _musicSource.loop = true;
             _musicSource.volume = 0f;
+
+            _ambientSource = CreateSource("Ambient", transform);
+            _ambientSource.loop = true;
+            _ambientSource.volume = 0f;
 
             for (var i = 0; i < sfxPoolSize; i++)
                 _sfxVoices.Add(new SfxVoice(CreateSource($"Sfx_{i}", transform)));
@@ -74,6 +83,7 @@ namespace TheyWillDescend.UI.Audio
         private void OnDestroy()
         {
             CancelMusicFade();
+            CancelAmbientFade();
             foreach (var voice in _sfxVoices)
                 voice.CancelFade();
             foreach (var voice in _uiVoices)
@@ -169,10 +179,64 @@ namespace TheyWillDescend.UI.Audio
         public void StopAll()
         {
             StopMusic();
+            StopAmbient();
             foreach (var voice in _sfxVoices)
                 StopVoiceImmediate(voice);
             foreach (var voice in _uiVoices)
                 StopVoiceImmediate(voice);
+        }
+
+        public void PlayAmbient(string soundId, float? pitch = null, float? pitchRandomRange = null)
+        {
+            if (config == null || !config.TryGet(soundId, out var definition))
+                return;
+
+            if (definition.Clips == null || definition.Clips.Length == 0)
+                return;
+
+            CancelAmbientFade();
+
+            _ambientSource.outputAudioMixerGroup = definition.MixerGroup;
+            _ambientSource.loop = definition.Loop;
+            _ambientSource.clip = definition.Clips[Random.Range(0, definition.Clips.Length)];
+            _ambientSource.pitch = ResolvePitch(definition, pitch, pitchRandomRange);
+            _ambientSoundId = soundId;
+            _ambientFadeDuration = definition.EnableFade ? definition.FadeDuration : 0f;
+            _ambientFadeCts = new CancellationTokenSource();
+
+            if (enableFade && definition.EnableFade)
+            {
+                _ambientSource.volume = 0f;
+                _ambientSource.Play();
+                FadeToAsync(_ambientSource, 1f, definition.FadeDuration, _ambientFadeCts.Token).Forget();
+            }
+            else
+            {
+                _ambientSource.volume = 1f;
+                _ambientSource.Play();
+            }
+        }
+
+        public void StopAmbient()
+        {
+            if (_ambientSource == null || !HasAmbientClip)
+                return;
+
+            CancelAmbientFade();
+            _ambientSource.Stop();
+            _ambientSource.clip = null;
+            _ambientSource.volume = 0f;
+            _ambientSoundId = null;
+        }
+
+        private void CancelAmbientFade()
+        {
+            if (_ambientFadeCts == null)
+                return;
+
+            _ambientFadeCts.Cancel();
+            _ambientFadeCts.Dispose();
+            _ambientFadeCts = null;
         }
 
         public bool IsPlaying(string soundId)

@@ -15,9 +15,29 @@
 Таймер к концу фазы **плавает** — стресс настраивается вручную:
 
 - у каждой позиции оффера свой `secondsReward`;
-- глобально (или per-phase) `wrongOfferingTimerDelta` (± число при неверном дропе).
+- глобально (или per-phase) `wrongOfferingTimerDelta` (± число при неверном дропе);
+- **`productionModifiers[]`** на фазе — % скорости производства (эра).
 
 `baselineSeconds` — только старт рана / debug reset.
+
+### Era production modifiers
+
+На `PhaseDefinition`:
+
+| Поле | Смысл |
+| --- | --- |
+| `target` | `AllOutputs` / `Resource` / `BuildingId` |
+| `resource` | при `Resource` — какой output замедлить/ускорить |
+| `buildingId` | при `BuildingId` |
+| `speedPercent` | −20 = на 20% медленнее; +10 = быстрее |
+| `displayTitle` / `description` / `icon` | UI чип + тултип |
+
+Формула: `EffectiveProdSec = Base / (1 + speedPercent/100)`  
+В тике: `_progress += dt * SpeedMultiplier` (множители стакаются, если несколько матчей).
+
+UI: `EraModifierBadgeView` как дом/пирамида — `iconsContainer` + `iconPrefab`, tint самой иконки зелёный/красный, tooltip на hover. `TimelinePhaseSegmentView` только Setup/Reveal.
+
+См. [[../Balance/Balance|Balance]].
 
 ## Данные (ScriptableObject)
 
@@ -29,6 +49,7 @@ GameTimelineConfig (SO)
     durationSeconds / color / title / tooltip
     requirements[]: PhaseOfferItem
     unlockBuildingIds[]                   // Locked → Buildable на PhaseStarted
+    productionModifiers[]                 // era speed % (All / Resource / BuildingId)
 
 CheatPanelConfig (SO) — They Will Descend → Cheat Panel
   grantAllCardsOnJump / allCardsCatalog / counts
@@ -70,6 +91,7 @@ DnD ресурс → Pyramid
 | Элемент | Слой |
 | --- | --- |
 | Сегменты фаз + годы | Root TopBar |
+| Чипы era modifiers (иконка + тултип) | На сегменте таймлайна, над fill |
 | Таймер над пирамидой | World Space |
 | Placeholder пирамиды | Game |
 
@@ -77,18 +99,19 @@ DnD ресурс → Pyramid
 
 | MVP (код) | Вторым заходом |
 | --- | --- |
-| Фазы + офферы с `secondsReward` | Модификаторы производства эры |
-| Reject + `wrongOfferingTimerDelta` | Прочие катаклизмы / lose VFX |
-| Гнев-молния, TopBar сегменты, World-таймер | Спрайт пирамиды |
-| Cheat Panel Jump + phase loadout | Win state rewind |
+| Фазы + офферы с `secondsReward` | Прочие катаклизмы / lose VFX |
+| Reject + `wrongOfferingTimerDelta` | Спрайт пирамиды |
+| Гнев-молния, TopBar сегменты, World-таймер | Win state rewind |
+| Cheat Panel Jump + phase loadout | |
+| Era `productionModifiers` + TopBar chips | |
 
 ## Реализованные типы
 
 | Слой | Типы |
 | --- | --- |
-| Core | `GameTimelineConfig`, `PhaseDefinition`, `PhaseOfferItem`, `ITimelineService`, `IPyramidTimerService`, timeline/pyramid events |
-| Gameplay | `TimelineService`, `PyramidTimerService`, `TimelineSessionDriver`, `PyramidOfferingPoint`, `PhaseLoadoutApplier` |
-| UI | `TimelineHudView`, `TimelinePhaseSegmentView`, `PyramidTimerWorldHud`, `PyramidCardDropZone`, `PyramidOfferWorldHud` |
+| Core | `GameTimelineConfig`, `PhaseDefinition`, `PhaseOfferItem`, `PhaseProductionModifier`, `ITimelineService`, `IPyramidTimerService`, timeline/pyramid events |
+| Gameplay | `TimelineService`, `PyramidTimerService`, `TimelineSessionDriver`, `PyramidOfferingPoint`, `PhaseLoadoutApplier`; `ProductionBuilding` applies era speed mul |
+| UI | `TimelineHudView`, `TimelinePhaseSegmentView`, `EraModifierBadgeView` (HLG strip), `PyramidTimerWorldHud`, `PyramidCardDropZone`, `PyramidOfferWorldHud` |
 | Editor | `CheatPanelWindow` — Jump / Grant All; `CheatPanelConfig` |
 | Main | регистрация в `GameLifetimeScope`; `GameStartState` → `StartRun()` |
 

@@ -5,6 +5,7 @@ using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Core.Inventory;
+using TheyWillDescend.Core.Timeline;
 using UnityEngine;
 using UnityEngine.Serialization;
 using VContainer;
@@ -29,6 +30,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         private IGameEventBus _bus;
         private IInventory _inventory;
         private IAudioManager _audio;
+        private ITimelineService _timeline;
         private BuildingSlotState _slotState;
         private int _workers;
         private readonly Dictionary<string, int> _storedInputs = new();
@@ -98,11 +100,16 @@ namespace TheyWillDescend.Gameplay.Buildings
         public event System.Action StateChanged;
 
         [Inject]
-        public void Construct(IGameEventBus bus, IInventory inventory, IAudioManager audio)
+        public void Construct(
+            IGameEventBus bus,
+            IInventory inventory,
+            IAudioManager audio,
+            ITimelineService timeline)
         {
             _bus = bus;
             _inventory = inventory;
             _audio = audio;
+            _timeline = timeline;
         }
 
         private void Awake()
@@ -164,13 +171,22 @@ namespace TheyWillDescend.Gameplay.Buildings
             }
 
             _producing = true;
-            _progress += Time.deltaTime;
+            _progress += Time.deltaTime * GetEraProductionSpeedMultiplier();
             PublishProgress();
 
             if (_progress < definition.ProductionDurationSeconds)
                 return;
 
             CompleteProduction();
+        }
+
+        private float GetEraProductionSpeedMultiplier()
+        {
+            var phase = _timeline?.CurrentPhase;
+            if (phase == null || definition == null)
+                return 1f;
+
+            return phase.GetProductionSpeedMultiplier(buildingId, definition.OutputResourceId);
         }
 
         public void DisableTemporarily(float seconds)
@@ -452,6 +468,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         {
             _buildProgress = 0f;
             SetSlotState(BuildingSlotState.Constructing);
+            _audio?.Play(AudioCatalog.Ids.BuildStart);
             _bus?.Publish(new BuildingConstructionStartedEvent(buildingId));
             PublishProgress();
         }
@@ -504,13 +521,22 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (definition.OutputResource != null)
             {
                 _inventory?.TryAdd(definition.OutputResource);
-                if (!string.IsNullOrEmpty(produceSoundId))
-                    _audio?.Play(produceSoundId);
+                PlayProduceSound();
             }
             else
                 Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
 
             StateChanged?.Invoke();
+        }
+
+        private void PlayProduceSound()
+        {
+            var soundId = !string.IsNullOrEmpty(produceSoundId)
+                ? produceSoundId
+                : AudioCatalog.ResolveProduceSound(definition.OutputResourceId);
+
+            if (!string.IsNullOrEmpty(soundId))
+                _audio?.Play(soundId);
         }
 
         private void PublishWorkers() =>

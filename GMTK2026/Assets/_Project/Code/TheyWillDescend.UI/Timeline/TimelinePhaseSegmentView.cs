@@ -7,6 +7,7 @@ namespace TheyWillDescend.UI.Timeline
 {
     /// <summary>
     /// One phase strip in the TopBar row. Stretch layout so N segments look like one slider.
+    /// Optional era modifiers: delegates to <see cref="EraModifierBadgeView"/> on the HLG strip.
     /// </summary>
     public sealed class TimelinePhaseSegmentView : MonoBehaviour
     {
@@ -14,12 +15,18 @@ namespace TheyWillDescend.UI.Timeline
         [SerializeField] private Image fill;
         [SerializeField] private TMP_Text label;
 
+        [Header("Era modifiers (optional)")]
+        [Tooltip("Badge on HorizontalLayoutGroup strip above progress. Empty = no modifiers UI.")]
+        [SerializeField] private EraModifierBadgeView modifierBadge;
+
         public void Setup(PhaseDefinition phase, int index)
         {
             if (phase == null)
             {
                 if (label != null)
                     label.text = (index + 1).ToString();
+                modifierBadge?.Setup(null);
+                SetModifiersRevealed(false);
                 return;
             }
 
@@ -41,6 +48,9 @@ namespace TheyWillDescend.UI.Timeline
 
             if (label != null)
                 label.text = string.IsNullOrEmpty(phase.Title) ? (index + 1).ToString() : phase.Title;
+
+            modifierBadge?.Setup(phase);
+            SetModifiersRevealed(false);
         }
 
         public void SetFill(float normalized)
@@ -50,5 +60,11 @@ namespace TheyWillDescend.UI.Timeline
 
             fill.fillAmount = Mathf.Clamp01(normalized);
         }
+
+        /// <summary>
+        /// Show badge only when this era has started AND it has modifiers.
+        /// </summary>
+        public void SetModifiersRevealed(bool eraStarted) =>
+            modifierBadge?.SetEraStarted(eraStarted);
     }
 }
