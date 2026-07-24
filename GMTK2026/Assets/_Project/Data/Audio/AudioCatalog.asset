@@ -65,37 +65,37 @@ MonoBehaviour:
     - {fileID: 8300000, guid: de2f1fac0a3e31447b76f93b5012e7ef, type: 3}
     mixerGroup: {fileID: 5028489102024711136, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 15
-    allowOverlap: 1
-    cooldown: 0.54
+    allowOverlap: 0
+    cooldown: 0
     loop: 0
     enableFade: 0
     fadeDuration: 1
     fadeOutDuration: 1
     stopOnPause: 1
     basePitch: 1
-    pitchRandomRange: 0.19
+    pitchRandomRange: 0.34
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
   - id: CardDropOk
     channel: 1
     clips:
-    - {fileID: 8300000, guid: a1f3ec74ccd046a4c8be517461b75020, type: 3}
-    - {fileID: 8300000, guid: 809ffe183db841e4494c2258c7b6265e, type: 3}
-    - {fileID: 8300000, guid: 5a7ae0895b5be6e4284c9a6798074217, type: 3}
-    - {fileID: 8300000, guid: 98440bd0419ea8648bc400ba3fb152fc, type: 3}
-    - {fileID: 8300000, guid: e6345f4d10aba934cbdc073208a831c2, type: 3}
+    - {fileID: 8300000, guid: 706b5fe1e8275d7439e43454204d4620, type: 3}
+    - {fileID: 8300000, guid: f085c5ce4a81d0843ba4caf22b7b52e1, type: 3}
+    - {fileID: 8300000, guid: da531e31739b639449dc891dbc58a18b, type: 3}
+    - {fileID: 8300000, guid: 774b1f5347602ab42b9987b84bdfe0dd, type: 3}
+    - {fileID: 8300000, guid: de2f1fac0a3e31447b76f93b5012e7ef, type: 3}
     mixerGroup: {fileID: -523627575399985237, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
-    priority: 50
+    priority: 9
     allowOverlap: 0
-    cooldown: 0.54
+    cooldown: 0
     loop: 0
     enableFade: 0
     fadeDuration: 1
     fadeOutDuration: 1
     stopOnPause: 1
     basePitch: 1
-    pitchRandomRange: 0.15
+    pitchRandomRange: 0.48
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0

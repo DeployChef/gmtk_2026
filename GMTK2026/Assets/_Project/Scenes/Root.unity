@@ -907,7 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: TheyWillDescend.Main::TheyWillDescend.Main.Audio.AudioManager
   config: {fileID: 11400000, guid: a7c4e2f91b8d4e6a9f3c5d7e1a2b3c4d, type: 2}
   mixer: {fileID: 24100000, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
-  sfxPoolSize: 8
+  sfxPoolSize: 20
   uiPoolSize: 3
   enableFade: 1
 --- !u!1 &629127327
