@@ -35,7 +35,7 @@
 Формула: `EffectiveProdSec = Base / (1 + speedPercent/100)`  
 В тике: `_progress += dt * SpeedMultiplier` (множители стакаются, если несколько матчей).
 
-UI: иконки на сегменте таймлайна (`TimelinePhaseSegmentView`), над прогресс-баром. Видны только после наступления эры; без модификаторов — пусто. Tint зелёный/красный, hover → тултип.
+UI: `EraModifierBadgeView` как дом/пирамида — `iconsContainer` + `iconPrefab`, tint самой иконки зелёный/красный, tooltip на hover. `TimelinePhaseSegmentView` только Setup/Reveal.
 
 См. [[../Balance/Balance|Balance]].
 
@@ -111,7 +111,7 @@ DnD ресурс → Pyramid
 | --- | --- |
 | Core | `GameTimelineConfig`, `PhaseDefinition`, `PhaseOfferItem`, `PhaseProductionModifier`, `ITimelineService`, `IPyramidTimerService`, timeline/pyramid events |
 | Gameplay | `TimelineService`, `PyramidTimerService`, `TimelineSessionDriver`, `PyramidOfferingPoint`, `PhaseLoadoutApplier`; `ProductionBuilding` applies era speed mul |
-| UI | `TimelineHudView`, `TimelinePhaseSegmentView`, `EraModifierBadgeView`, `PyramidTimerWorldHud`, `PyramidCardDropZone`, `PyramidOfferWorldHud` |
+| UI | `TimelineHudView`, `TimelinePhaseSegmentView`, `EraModifierBadgeView` (HLG strip), `PyramidTimerWorldHud`, `PyramidCardDropZone`, `PyramidOfferWorldHud` |
 | Editor | `CheatPanelWindow` — Jump / Grant All; `CheatPanelConfig` |
 | Main | регистрация в `GameLifetimeScope`; `GameStartState` → `StartRun()` |
 

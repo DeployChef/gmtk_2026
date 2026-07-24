@@ -110,7 +110,7 @@ MonoBehaviour:
     unlockBuildingIds: 
     productionModifiers:
     - target: 0
-      resource: {fileID: 0}
+      resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       buildingId: 0
       speedPercent: -10
       displayTitle: Exhausted Land
@@ -127,7 +127,7 @@ MonoBehaviour:
     unlockBuildingIds: 
     productionModifiers:
     - target: 0
-      resource: {fileID: 0}
+      resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       buildingId: 0
       speedPercent: 5
       displayTitle: Breathing Room
@@ -184,7 +184,7 @@ MonoBehaviour:
     unlockBuildingIds: 
     productionModifiers:
     - target: 0
-      resource: {fileID: 0}
+      resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       buildingId: 0
       speedPercent: -15
       displayTitle: End of Days

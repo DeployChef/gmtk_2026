@@ -24,7 +24,7 @@ namespace TheyWillDescend.Core.Timeline
         [SerializeField] private float speedPercent;
         [SerializeField] private string displayTitle;
         [SerializeField] [TextArea] private string description;
-        [Tooltip("Optional override icon. Resource target falls back to resource.Icon.")]
+        [Tooltip("Optional override icon. If empty, uses Resource.Icon (also for AllOutputs display).")]
         [SerializeField] private Sprite icon;
 
         public PhaseModifierTarget Target => target;
@@ -40,7 +40,8 @@ namespace TheyWillDescend.Core.Timeline
         {
             if (icon != null)
                 return icon;
-            if (target == PhaseModifierTarget.Resource && resource != null)
+            // Resource ref is also used as display icon for AllOutputs / BuildingId.
+            if (resource != null)
                 return resource.Icon;
             return null;
         }
