@@ -468,6 +468,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         {
             _buildProgress = 0f;
             SetSlotState(BuildingSlotState.Constructing);
+            _audio?.Play(AudioCatalog.Ids.BuildStart);
             _bus?.Publish(new BuildingConstructionStartedEvent(buildingId));
             PublishProgress();
         }
@@ -520,13 +521,22 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (definition.OutputResource != null)
             {
                 _inventory?.TryAdd(definition.OutputResource);
-                if (!string.IsNullOrEmpty(produceSoundId))
-                    _audio?.Play(produceSoundId);
+                PlayProduceSound();
             }
             else
                 Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
 
             StateChanged?.Invoke();
+        }
+
+        private void PlayProduceSound()
+        {
+            var soundId = !string.IsNullOrEmpty(produceSoundId)
+                ? produceSoundId
+                : AudioCatalog.ResolveProduceSound(definition.OutputResourceId);
+
+            if (!string.IsNullOrEmpty(soundId))
+                _audio?.Play(soundId);
         }
 
         private void PublishWorkers() =>

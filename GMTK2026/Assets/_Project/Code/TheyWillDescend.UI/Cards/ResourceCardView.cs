@@ -216,13 +216,19 @@ if (accepted)
                 return;
             }
 
+            _audio?.Play(AudioCatalog.Ids.CardDropReject);
             ReturnHome();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (!_consumed)
-                ShowOutline(true);
+            if (_consumed)
+                return;
+
+            if (!_dragging)
+                _audio?.Play(AudioCatalog.Ids.CardHover);
+
+            ShowOutline(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -343,6 +349,8 @@ private void ShowOutline(bool show, bool isDragging = false)
 
         private void PlayDissolveAndDestroy()
         {
+            _audio?.Play(AudioCatalog.Ids.CardRemove);
+
             var images = GetComponentsInChildren<Image>();
             var hasDissolve = false;
 

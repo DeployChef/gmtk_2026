@@ -1,4 +1,5 @@
 using System;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Session;
@@ -16,6 +17,7 @@ namespace TheyWillDescend.Gameplay.Session
     {
         private readonly IGameEventBus _bus;
         private readonly ITimelineService _timeline;
+        private readonly IAudioManager _audio;
 
         private IDisposable _runStartedSub;
         private IDisposable _phaseCompletedSub;
@@ -24,10 +26,11 @@ namespace TheyWillDescend.Gameplay.Session
         private bool _hasResult;
         private bool _isVictory;
 
-        public GameResultService(IGameEventBus bus, ITimelineService timeline)
+        public GameResultService(IGameEventBus bus, ITimelineService timeline, IAudioManager audio)
         {
             _bus = bus;
             _timeline = timeline;
+            _audio = audio;
         }
 
         public bool HasResult => _hasResult;
@@ -49,6 +52,7 @@ namespace TheyWillDescend.Gameplay.Session
             _hasResult = true;
             _isVictory = true;
             _timeline.StopRun();
+            PlayResultSting(AudioCatalog.Ids.Victory);
             Debug.Log($"[GameResultService] WIN ({cause}) — stub.");
             _bus.Publish(new GameWonEvent(cause));
         }
@@ -61,8 +65,19 @@ namespace TheyWillDescend.Gameplay.Session
             _hasResult = true;
             _isVictory = false;
             _timeline.StopRun();
+            PlayResultSting(AudioCatalog.Ids.Defeat);
             Debug.Log($"[GameResultService] LOSE ({cause}) — stub.");
             _bus.Publish(new GameLostEvent(cause));
+        }
+
+        private void PlayResultSting(string soundId)
+        {
+            if (_audio == null)
+                return;
+
+            _audio.StopMusic();
+            _audio.StopAmbient();
+            _audio.Play(soundId);
         }
 
         public void Clear()
