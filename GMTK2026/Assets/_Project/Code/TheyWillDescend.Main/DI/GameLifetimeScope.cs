@@ -18,10 +18,6 @@ namespace TheyWillDescend.Main.DI
     /// <summary>
     /// Game DI scope on Game.unity. Disable Auto Run — <see cref="GameDirector"/> builds after additive load.
     /// Parent: RootLifetimeScope (set in code before Build).
-    /// <para>
-    /// Singles: <c>RegisterComponentInHierarchy</c> (must live under this scope's GameObject).
-    /// Mass: Find + Inject in build callback.
-    /// </para>
     /// </summary>
     public sealed class GameLifetimeScope : LifetimeScope
     {
@@ -48,7 +44,6 @@ namespace TheyWillDescend.Main.DI
             builder.Register<GameStartState>(Lifetime.Singleton);
             builder.Register<ThunderService>(Lifetime.Singleton).As<IThunderService>();
 
-            // Singles (under GameLifetimeScope hierarchy)
             builder.RegisterComponentInHierarchy<InventoryTraysView>();
             builder.RegisterComponentInHierarchy<DisasterManager>().As<IDisasterManager>();
             builder.RegisterComponentInHierarchy<PyramidOfferingPoint>();
@@ -57,7 +52,6 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<RandomStrikeButton>();
             builder.RegisterComponentInHierarchy<TimelineHudView>();
 
-            // Mass only
             builder.RegisterBuildCallback(resolver =>
             {
                 foreach (var building in Object.FindObjectsByType<ProductionBuilding>(

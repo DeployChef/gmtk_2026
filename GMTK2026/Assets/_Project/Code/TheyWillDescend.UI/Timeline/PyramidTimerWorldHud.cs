@@ -8,12 +8,11 @@ using VContainer;
 namespace TheyWillDescend.UI.Timeline
 {
     /// <summary>
-    /// World-space countdown above the pyramid.
+    /// World-space countdown above the pyramid (integer seconds, e.g. 99).
     /// </summary>
     public sealed class PyramidTimerWorldHud : MonoBehaviour
     {
         [SerializeField] private TMP_Text timerLabel;
-        [SerializeField] private string format = "{0:00}:{1:00}";
 
         private IDisposable _sub;
         private IDisposable _expiredSub;
@@ -27,7 +26,7 @@ namespace TheyWillDescend.UI.Timeline
             _expiredSub = bus.Subscribe<PyramidTimerExpiredEvent>(_ =>
             {
                 if (timerLabel != null)
-                    timerLabel.text = "00:00";
+                    timerLabel.text = "0";
             });
         }
 
@@ -43,9 +42,8 @@ namespace TheyWillDescend.UI.Timeline
                 return;
 
             var total = Mathf.Max(0f, evt.RemainingSeconds);
-            var minutes = Mathf.FloorToInt(total / 60f);
-            var seconds = Mathf.FloorToInt(total % 60f);
-            timerLabel.text = string.Format(format, minutes, seconds);
+            var display = total <= 0f ? 0 : Mathf.CeilToInt(total);
+            timerLabel.text = display.ToString();
         }
     }
 }
