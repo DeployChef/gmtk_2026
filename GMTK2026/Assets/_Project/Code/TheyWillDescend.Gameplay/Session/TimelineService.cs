@@ -118,8 +118,17 @@ namespace TheyWillDescend.Gameplay.Session
             _lastPublishedYears = -1f;
             _pyramidTimer.ResetToBaseline();
             _loadoutApplier?.ApplyRunStart(_config.RunStartCards, _config.RunStartBuildings);
+            _bus.Publish(new RunStartedEvent());
             EnterPhase(0, applyUnlocks: true);
             PublishYears(force: true);
+        }
+
+        public void StopRun()
+        {
+            if (!_running)
+                return;
+
+            _runFinished = true;
         }
 
         public void Tick(float deltaTime)
@@ -200,6 +209,7 @@ namespace TheyWillDescend.Gameplay.Session
             _running = true;
             _runFinished = false;
             _pyramidTimer.ResetToBaseline();
+            _bus.Publish(new RunStartedEvent());
             EnterPhase(phaseIndex, applyUnlocks: false);
             Debug.Log($"[TimelineService] Debug jump → phase {phaseIndex} ({CurrentPhase?.Title}).");
         }
@@ -225,7 +235,10 @@ namespace TheyWillDescend.Gameplay.Session
             if (next >= PhaseCount)
             {
                 _runFinished = true;
-                Debug.Log("[TimelineService] All phases finished.");
+                if (complete)
+                    Debug.Log("[TimelineService] All phases finished with final offer complete.");
+                else
+                    Debug.Log("[TimelineService] All phases finished without final offer — no victory.");
                 return;
             }
 

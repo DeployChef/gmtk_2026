@@ -19,6 +19,10 @@ namespace TheyWillDescend.Core.Timeline
         int GetOfferRequired(int requirementIndex);
 
         void StartRun();
+
+        /// <summary>Stop phase/year progression (win/lose). Does not reset state.</summary>
+        void StopRun();
+
         void Tick(float deltaTime);
 
         /// <summary>
