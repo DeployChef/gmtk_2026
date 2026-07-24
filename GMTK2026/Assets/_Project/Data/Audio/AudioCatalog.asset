@@ -23,32 +23,37 @@ MonoBehaviour:
     cooldown: 0
     loop: 1
     enableFade: 1
-    fadeDuration: 1
-    fadeOutDuration: 1
+    fadeDuration: 1.61
+    fadeOutDuration: 1.65
     stopOnPause: 1
     basePitch: 1
     pitchRandomRange: 0
-    bpmStart: 80
-    bpmEnd: 180.9
-    bpmDuration: 100
-  - id: MusicDark
-    channel: 0
-    clips:
-    - {fileID: 8300000, guid: 61db851f6ccef0b4c8208cbab8523615, type: 3}
-    mixerGroup: {fileID: -1965649948263867061, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
-    priority: 0
-    allowOverlap: 0
-    cooldown: 0
-    loop: 1
-    enableFade: 1
-    fadeDuration: 1
-    fadeOutDuration: 1
-    stopOnPause: 1
-    basePitch: 1
-    pitchRandomRange: 0
-    bpmStart: 110
+    bpmStart: 70
     bpmEnd: 140
-    bpmDuration: 60
+    bpmDuration: 120
+  - id: MusicMain
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: 43586d229b4712d42967126c923c150f, type: 3}
+    - {fileID: 8300000, guid: 2cd0258dbf3cac843b091ba11263c9f1, type: 3}
+    - {fileID: 8300000, guid: 4818a7d08f9807840991fa0920f9607b, type: 3}
+    - {fileID: 8300000, guid: aca963799bdc2c048958a33f4d0b2cfb, type: 3}
+    - {fileID: 8300000, guid: 084e5a3d5d90c66498150591458651dd, type: 3}
+    - {fileID: 8300000, guid: d06fade924c65154fabad965e4c28783, type: 3}
+    mixerGroup: {fileID: 3716038134399535835, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 30
+    allowOverlap: 1
+    cooldown: 0
+    loop: 0
+    enableFade: 1
+    fadeDuration: 1.73
+    fadeOutDuration: 1.31
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0.19
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
   - id: CardPickup
     channel: 1
     clips:
@@ -68,7 +73,7 @@ MonoBehaviour:
     fadeOutDuration: 1
     stopOnPause: 1
     basePitch: 1
-    pitchRandomRange: 0.33
+    pitchRandomRange: 0.19
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
@@ -90,7 +95,7 @@ MonoBehaviour:
     fadeOutDuration: 1
     stopOnPause: 1
     basePitch: 1
-    pitchRandomRange: 0.27
+    pitchRandomRange: 0.15
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
@@ -114,7 +119,7 @@ MonoBehaviour:
     fadeOutDuration: 1
     stopOnPause: 1
     basePitch: 1
-    pitchRandomRange: 0
+    pitchRandomRange: 0.25
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
@@ -135,7 +140,7 @@ MonoBehaviour:
     fadeOutDuration: 1
     stopOnPause: 1
     basePitch: 1
-    pitchRandomRange: 0
+    pitchRandomRange: 0.25
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
@@ -146,16 +151,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 260d2341f8b772145965b8e5158cc26a, type: 3}
     - {fileID: 8300000, guid: 1a5f097f905488849b5185659063093d, type: 3}
     mixerGroup: {fileID: 1560283801655840903, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
-    priority: 80
+    priority: 20
     allowOverlap: 1
-    cooldown: 0.2
+    cooldown: 0.13
     loop: 0
     enableFade: 0
     fadeDuration: 1
     fadeOutDuration: 1
     stopOnPause: 0
     basePitch: 1
-    pitchRandomRange: 0
+    pitchRandomRange: 0.26
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
