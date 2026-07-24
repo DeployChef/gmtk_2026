@@ -127,11 +127,16 @@ namespace TheyWillDescend.UI.Cards
             if (_consumed)
                 return;
 
-            var building = ResolveBuildingUnderPointer(eventData);
+            var pyramid = ResolvePyramidUnderPointer(eventData);
+            var building = pyramid == null ? ResolveBuildingUnderPointer(eventData) : null;
             canvasGroup.blocksRaycasts = true;
 
             var accepted = false;
-            if (building != null)
+            if (pyramid != null)
+            {
+                accepted = pyramid.TryOffer(resourceId);
+            }
+            else if (building != null)
             {
                 if (IsVillager)
                 {
@@ -167,6 +172,35 @@ namespace TheyWillDescend.UI.Cards
                 transform.SetParent(_homeParent, true);
 
             transform.position = _homePosition;
+        }
+
+        private PyramidOfferingPoint ResolvePyramidUnderPointer(PointerEventData eventData)
+        {
+            _raycastHits.Clear();
+            if (EventSystem.current != null)
+                EventSystem.current.RaycastAll(eventData, _raycastHits);
+
+            for (var i = 0; i < _raycastHits.Count; i++)
+            {
+                var go = _raycastHits[i].gameObject;
+                var pyramid = go.GetComponentInParent<PyramidOfferingPoint>();
+                if (pyramid != null)
+                    return pyramid;
+
+                var zone = go.GetComponentInParent<PyramidCardDropZone>();
+                if (zone != null && zone.Pyramid != null)
+                    return zone.Pyramid;
+            }
+
+            var fallback = eventData.pointerEnter;
+            if (fallback == null && eventData.pointerCurrentRaycast.gameObject != null)
+                fallback = eventData.pointerCurrentRaycast.gameObject;
+
+            if (fallback == null)
+                return null;
+
+            return fallback.GetComponentInParent<PyramidOfferingPoint>()
+                   ?? fallback.GetComponentInParent<PyramidCardDropZone>()?.Pyramid;
         }
 
         private ProductionBuilding ResolveBuildingUnderPointer(PointerEventData eventData)

@@ -5,7 +5,8 @@
         "TheyWillDescend.Core",
         "TheyWillDescend.Main",
         "TheyWillDescend.UI",
-        "TheyWillDescend.Gameplay"
+        "TheyWillDescend.Gameplay",
+        "VContainer"
     ],
     "includePlatforms": [
         "Editor"

@@ -30,4 +30,8 @@
 
 ## Старт
 
-`GameStartState`: hardcode count = 1; `ResourceDefinition` берёт с villager-лотка (`CardTrayView.Resource`).
+Стартовые карты / здания задаются в **`GameTimelineConfig` → Phase 0 → Starting Cards / Starting Buildings**.  
+`GameStartState` только вызывает `ITimelineService.StartRun()` (+ BGM). Hardcode «1 villager» снят.
+
+Debug jump на фазу N (кнопки в Inspector у SO, только Play Mode) тоже применяет loadout этой фазы.  
+Обычный переход фазы mid-run loadout **не** трогает.

@@ -153,6 +153,25 @@ namespace TheyWillDescend.Gameplay.Buildings
             StateChanged?.Invoke();
         }
 
+        /// <summary>
+        /// Debug / phase-start loadout: set active flag and workers without touching inventory.
+        /// </summary>
+        public void ApplyPhaseLoadout(bool active, int workers)
+        {
+            gameObject.SetActive(active);
+            if (!active)
+                return;
+
+            _workers = Mathf.Clamp(workers, minWorkers, maxWorkers);
+            _progress = 0f;
+            _producing = false;
+            _disabledTimer = 0f;
+            _storedInputs.Clear();
+            PublishProgress();
+            PublishWorkers();
+            StateChanged?.Invoke();
+        }
+
         public bool TryAddWorker()
         {
             if (_workers >= maxWorkers)

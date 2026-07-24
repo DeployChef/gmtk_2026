@@ -25,19 +25,21 @@
 ```
 GameHud (Screen Space Overlay)
 ├── TopBar
-│   ├── Timeline          ← события на шкале времени
-│   └── DayLabel          ← текущий день / эпоха
+│   ├── Timeline          ← N сегментов-слайдеров фаз в ряд (+ тултипы)
+│   └── YearsLabel        ← сколько «лет» прошло
 └── BottomBar
     ├── CardTrays (×8)    ← лотки по типу ResourceDefinition (стек)
     └── BuildMenu         ← меню строительства (позже)
 ```
+
+**Таймер Конца Света** — не в Overlay, а **World Space над Пирамидой** (см. [[04 Timeline & Events]]).
 
 - **8 лотков** — по одному на тип; карты **стакаются** со смещением, тянуть можно одну.
 - Обычные лотки ограничены `TrayCapacity`; переполнение → burn.
 - Лоток **Villager**: Available / Assigned / Total, без hard-cap.
 - Старт рана: **1×** `Resource_Villager` в лоток жителей.
 - Позже: fly-in от здания в лоток (spawn point дома = точка вылета).
-- DnD: из лотка на drop-zone здания (ресурс → input / житель → +1 worker) или на Пирамиду.
+- DnD: из лотка на drop-zone здания (ресурс → input / житель → +1 worker) или на Пирамиду (**только ресурсы**, в т.ч. Кровь; житель на Пирамиду — нет).
 
 Подробности логики: [[../Architecture/06 Inventory|Architecture: Inventory]].
 

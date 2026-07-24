@@ -55,10 +55,12 @@ builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
 | `NpcAssignedEvent` / `NpcUnassignedEvent` | DnD карты жителя на здание / `[-]` вернул карту в rail | HUD здания, CardsRail |
 | `ResourceProducedEvent` | здание выдало карточку (ресурс / житель / актибка) | спавн в CardsRail |
 | `CardDroppedOnBuildingEvent` | DnD ресурса/активки/жителя | крафт / бафф / +worker |
-| `OfferingSubmittedEvent` | ресурс/NPC на Пирамиду | таймер пирамиды, аудио, Шаман |
-| `GodsDemandFailedEvent` | контрольная точка без подношения | ускорение таймера ×2 |
-| `TimelineEventTriggeredEvent` | эпидемия / пожар / засуха | NPC, карточки, дебаффы зданий |
-| `PyramidTimerChangedEvent` | тик / порог тревоги | HUD, аудио, камера |
+| `OfferingSubmittedEvent` | ресурс на Пирамиду (в т.ч. Кровь) | прогресс оффера фазы, +N сек таймера, аудио, Шаман |
+| `PhaseStartedEvent` / `PhaseCompletedEvent` | смена / закрытие эры | UI таймлайна, модификаторы производства, Шаман |
+| `PhaseFailedEvent` / `GodsDemandFailedEvent` | оффер фазы не закрыт к дедлайну | `IDisasterManager` (молния), UI, аудио |
+| `TimelineYearsChangedEvent` | тик «лет прошло» | TopBar label |
+| `PyramidTimerChangedEvent` | тик / порог тревоги | World HUD пирамиды, аудио |
+| `PyramidTimerExpiredEvent` | remaining ≤ 0 | win/lose flow, VFX |
 | `InventoryChangedEvent` | изменился available count типа | `InventoryTraysView` |
 | `InventoryClearedEvent` | старт / clear | UI clear trays |
 
