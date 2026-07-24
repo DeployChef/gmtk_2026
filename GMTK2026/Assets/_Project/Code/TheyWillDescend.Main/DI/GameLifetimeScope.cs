@@ -50,7 +50,6 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<PyramidOfferingPoint>();
             builder.RegisterComponentInHierarchy<PyramidTimerWorldHud>();
             builder.RegisterComponentInHierarchy<PyramidOfferWorldHud>();
-            builder.RegisterComponentInHierarchy<RandomStrikeButton>();
             builder.RegisterComponentInHierarchy<TimelineHudView>();
 
             builder.RegisterBuildCallback(resolver =>
