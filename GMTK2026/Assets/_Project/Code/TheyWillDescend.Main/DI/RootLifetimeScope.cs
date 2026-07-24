@@ -1,6 +1,7 @@
 using TheyWillDescend.Core;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
+using TheyWillDescend.UI;
 using TheyWillDescend.UI.Audio;
 using VContainer;
 using VContainer.Unity;
@@ -17,6 +18,7 @@ namespace TheyWillDescend.Main.DI
             builder.Register<GameDirector>(Lifetime.Singleton).As<IGameDirector>();
             builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
             builder.RegisterComponentInHierarchy<AudioManager>().As<IAudioManager>();
+            builder.RegisterComponentInHierarchy<PauseMenuController>();
         }
     }
 }
