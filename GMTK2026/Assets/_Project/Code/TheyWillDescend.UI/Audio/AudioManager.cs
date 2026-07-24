@@ -17,15 +17,12 @@ namespace TheyWillDescend.UI.Audio
 
         [SerializeField] private AudioCatalog config;
         [SerializeField] private AudioMixer mixer;
-        [SerializeField] private int sfxPoolSize = 8;
-        [SerializeField] private int uiPoolSize = 3;
         [SerializeField] private bool enableFade = true;
 
         private AudioSource _musicSource;
         private AudioSource _ambientSource;
-        private readonly List<SfxVoice> _sfxVoices = new();
-        private readonly List<SfxVoice> _uiVoices = new();
         private readonly Dictionary<string, float> _lastPlayTimes = new();
+        private readonly Dictionary<string, List<SfxVoice>> _soundVoicePools = new();
         private string _musicSoundId;
         private string _ambientSoundId;
         private float _musicFadeDuration = 1f;
@@ -56,12 +53,6 @@ namespace TheyWillDescend.UI.Audio
             _ambientSource.loop = true;
             _ambientSource.volume = 0f;
 
-            for (var i = 0; i < sfxPoolSize; i++)
-                _sfxVoices.Add(new SfxVoice(CreateSource($"Sfx_{i}", transform)));
-
-            for (var i = 0; i < uiPoolSize; i++)
-                _uiVoices.Add(new SfxVoice(CreateSource($"Ui_{i}", transform)));
-
             ApplyVolumeFromPrefs();
         }
 
@@ -84,10 +75,13 @@ namespace TheyWillDescend.UI.Audio
         {
             CancelMusicFade();
             CancelAmbientFade();
-            foreach (var voice in _sfxVoices)
-                voice.CancelFade();
-            foreach (var voice in _uiVoices)
-                voice.CancelFade();
+            
+            // Очищаем динамические пулы
+            foreach (var pool in _soundVoicePools.Values)
+            {
+                foreach (var voice in pool)
+                    voice.CancelFade();
+            }
         }
 
         public void Play(string soundId, float? pitch = null, float? pitchRandomRange = null)
@@ -99,7 +93,10 @@ namespace TheyWillDescend.UI.Audio
                 return;
 
             var playClock = GetPlayClock(definition.Channel);
+
+            // Кулдаун блокирует только если AllowOverlap = false
             if (definition.Cooldown > 0f
+                && !definition.AllowOverlap
                 && _lastPlayTimes.TryGetValue(soundId, out var lastTime)
                 && playClock - lastTime < definition.Cooldown)
                 return;
@@ -107,8 +104,10 @@ namespace TheyWillDescend.UI.Audio
             if (!definition.AllowOverlap && IsPlaying(soundId))
                 return;
 
-            PlayDefinition(definition, pitch, pitchRandomRange);
-            _lastPlayTimes[soundId] = playClock;
+            bool played = PlayDefinition(definition, pitch, pitchRandomRange);
+            // Записываем время только если звук реально проигрался
+            if (played)
+                _lastPlayTimes[soundId] = playClock;
         }
 
         public void Stop(string soundId)
@@ -119,8 +118,12 @@ namespace TheyWillDescend.UI.Audio
                 return;
             }
 
-            StopInPool(_sfxVoices, soundId);
-            StopInPool(_uiVoices, soundId);
+            // Останавливаем все голоса этого звука
+            if (_soundVoicePools.TryGetValue(soundId, out var voicePool))
+            {
+                foreach (var voice in voicePool)
+                    StopVoiceImmediate(voice);
+            }
         }
 
         public void StopMusic()
@@ -155,7 +158,15 @@ namespace TheyWillDescend.UI.Audio
             if (!_musicSource.isPlaying && _musicSource.time <= 0f)
                 return;
 
-            StopSfxWithStopOnPause();
+            // Останавливаем все голоса со stopOnPause
+            foreach (var pool in _soundVoicePools.Values)
+            {
+                foreach (var voice in pool)
+                {
+                    if (voice.Source.isPlaying && voice.StopOnPause)
+                        StopVoiceImmediate(voice);
+                }
+            }
             _musicVolumeBeforePause = _musicSource.volume > 0f ? _musicSource.volume : 1f;
             _bpmActive = false;
             _bpmElapsed = 0f;
@@ -180,10 +191,14 @@ namespace TheyWillDescend.UI.Audio
         {
             StopMusic();
             StopAmbient();
-            foreach (var voice in _sfxVoices)
-                StopVoiceImmediate(voice);
-            foreach (var voice in _uiVoices)
-                StopVoiceImmediate(voice);
+            
+            // Останавливаем все динамические пулы
+            foreach (var pool in _soundVoicePools.Values)
+            {
+                foreach (var voice in pool)
+                    StopVoiceImmediate(voice);
+            }
+            _soundVoicePools.Clear();
         }
 
         public void PlayAmbient(string soundId, float? pitch = null, float? pitchRandomRange = null)
@@ -244,7 +259,17 @@ namespace TheyWillDescend.UI.Audio
             if (_musicSoundId == soundId && _musicSource != null && (_musicSource.isPlaying || _musicPaused))
                 return true;
 
-            return IsPlayingInPool(_sfxVoices, soundId) || IsPlayingInPool(_uiVoices, soundId);
+            // Проверяем динамические пулы
+            if (_soundVoicePools.TryGetValue(soundId, out var pool))
+            {
+                foreach (var voice in pool)
+                {
+                    if (voice.Source.isPlaying && voice.SoundId == soundId)
+                        return true;
+                }
+            }
+
+            return false;
         }
 
         public IEnumerable<AudioClip> EnumerateClips() =>
@@ -313,20 +338,19 @@ namespace TheyWillDescend.UI.Audio
         private static float GetPlayClock(AudioChannel channel) =>
             channel == AudioChannel.UiSfx ? Time.unscaledTime : Time.time;
 
-        private void PlayDefinition(SoundDefinition sound, float? pitch, float? pitchRandomRange)
+        private bool PlayDefinition(SoundDefinition sound, float? pitch, float? pitchRandomRange)
         {
             if (sound.Channel == AudioChannel.Music)
             {
                 PlayMusic(sound, pitch, pitchRandomRange);
-                return;
+                return true;
             }
 
-            var pool = sound.Channel == AudioChannel.UiSfx ? _uiVoices : _sfxVoices;
-            var voice = AcquireVoice(pool, sound);
+            var voice = AcquireVoiceForSound(sound);
             if (voice == null)
-                return;
-
+                return false;
             PlayOnVoice(voice, sound, pitch, pitchRandomRange);
+            return true;
         }
 
         private void PlayMusic(SoundDefinition sound, float? pitch, float? pitchRandomRange)
@@ -361,54 +385,39 @@ namespace TheyWillDescend.UI.Audio
                 SetMusicBpmRange(sound.BpmStart, sound.BpmEnd, sound.BpmDuration);
         }
 
-        private SfxVoice AcquireVoice(List<SfxVoice> pool, SoundDefinition sound)
+        private SfxVoice AcquireVoiceForSound(SoundDefinition sound)
         {
-            var voice = FindFreeVoice(pool, sound);
-            if (voice != null)
-                return voice;
-
-            if (TryStopLowestPrioritySfx(sound.Priority))
-                return FindFreeVoice(pool, sound);
-
-            return null;
-        }
-
-        private bool TryStopLowestPrioritySfx(int incomingPriority)
-        {
-            SfxVoice lowest = null;
-            var lowestPriority = int.MinValue;
-
-            foreach (var voice in _sfxVoices)
+            // Проверяем/создаём пул для этого soundId
+            if (!_soundVoicePools.TryGetValue(sound.Id, out var pool))
             {
-                if (!voice.Source.isPlaying)
-                    continue;
+                pool = new List<SfxVoice>(sound.MaxVoices);
+                _soundVoicePools[sound.Id] = pool;
 
-                if (voice.Priority > lowestPriority)
+                // Создаём голоса для этого звука
+                for (int i = 0; i < sound.MaxVoices; i++)
                 {
-                    lowestPriority = voice.Priority;
-                    lowest = voice;
+                    var source = CreateSource($"{sound.Id}_{i}", transform);
+                    source.playOnAwake = false;
+                    source.spatialBlend = 0f;
+                    pool.Add(new SfxVoice(source));
                 }
             }
 
-            if (lowest == null || incomingPriority >= lowestPriority)
-                return false;
-
-            StopVoiceImmediate(lowest);
-            return true;
-        }
-
-        private static SfxVoice FindFreeVoice(List<SfxVoice> pool, SoundDefinition sound)
-        {
+            // Ищем свободный голос в пуле этого звука
             foreach (var voice in pool)
             {
                 if (!voice.Source.isPlaying)
                     return voice;
-
-                if (voice.SoundId == sound.Id && !sound.AllowOverlap)
-                    return null;
             }
 
-            return sound.AllowOverlap ? pool[0] : null;
+            // Все голоса заняты — не воспроизводим (лимит maxVoices достигнут)
+            int activeCount = 0;
+            foreach (var v in pool)
+            {
+                if (v.Source.isPlaying) activeCount++;
+            }
+            Debug.LogWarning($"[AudioManager] Sound '{sound.Id}' max voices ({sound.MaxVoices}) reached ({activeCount} active). Ignoring play request.");
+            return null;
         }
 
         private void PlayOnVoice(SfxVoice voice, SoundDefinition sound, float? pitch, float? pitchRandomRange)
@@ -445,26 +454,6 @@ namespace TheyWillDescend.UI.Audio
             return range <= 0f ? basePitch : basePitch + Random.Range(-range, range);
         }
 
-        private void StopInPool(List<SfxVoice> pool, string soundId)
-        {
-            foreach (var voice in pool)
-            {
-                if (voice.Source.isPlaying && voice.SoundId == soundId)
-                    StopVoiceImmediate(voice);
-            }
-        }
-
-        private static bool IsPlayingInPool(List<SfxVoice> pool, string soundId)
-        {
-            foreach (var voice in pool)
-            {
-                if (voice.Source.isPlaying && voice.SoundId == soundId)
-                    return true;
-            }
-
-            return false;
-        }
-
         private void StopVoiceImmediate(SfxVoice voice)
         {
             voice.CancelFade();
@@ -474,21 +463,6 @@ namespace TheyWillDescend.UI.Audio
             voice.Source.clip = null;
             voice.SoundId = null;
             voice.Priority = 0;
-        }
-
-        private void StopSfxWithStopOnPause()
-        {
-            foreach (var voice in _sfxVoices)
-            {
-                if (voice.Source.isPlaying && voice.StopOnPause)
-                    StopVoiceImmediate(voice);
-            }
-
-            foreach (var voice in _uiVoices)
-            {
-                if (voice.Source.isPlaying && voice.StopOnPause)
-                    StopVoiceImmediate(voice);
-            }
         }
 
         private void CancelMusicFade()
