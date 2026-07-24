@@ -1,3 +1,4 @@
+using TheyWillDescend.Core.Cheats;
 using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.Core.Timeline;
@@ -61,6 +62,10 @@ namespace TheyWillDescend.Main.DI
                 foreach (var hud in Object.FindObjectsByType<BuildingWorldHud>(
                              FindObjectsInactive.Include, FindObjectsSortMode.None))
                     resolver.Inject(hud);
+
+                foreach (var constructionHud in Object.FindObjectsByType<BuildingConstructionHud>(
+                             FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    resolver.Inject(constructionHud);
 
                 foreach (var card in Object.FindObjectsByType<ResourceCardView>(
                              FindObjectsInactive.Include, FindObjectsSortMode.None))

@@ -140,14 +140,21 @@ namespace TheyWillDescend.UI.Cards
             {
                 if (IsVillager)
                 {
-                    var workersSatisfied = building.Recipe != null
-                        && building.Workers >= building.Recipe.WorkersRequired;
+                    if (!building.IsBuilt)
+                    {
+                        accepted = false;
+                    }
+                    else
+                    {
+                        var workersSatisfied = building.Definition != null
+                            && building.Workers >= building.Definition.WorkersRequired;
 
-                    accepted = workersSatisfied
-                        ? building.TryAcceptResource(ResourceIds.Villager)
-                          || building.TryAcceptVillagerCard()
-                        : building.TryAcceptVillagerCard()
-                          || building.TryAcceptResource(ResourceIds.Villager);
+                        accepted = workersSatisfied
+                            ? building.TryAcceptResource(ResourceIds.Villager)
+                              || building.TryAcceptVillagerCard()
+                            : building.TryAcceptVillagerCard()
+                              || building.TryAcceptResource(ResourceIds.Villager);
+                    }
                 }
                 else
                 {

@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5a1b2c3d4f6478890abcdef12345678, type: 3}
+  m_Name: CheatPanelConfig
+  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Cheats.CheatPanelConfig
+  grantAllCardsOnJump: 0
+  allCardsCatalog:
+  - {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+  - {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+  - {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+  - {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
+  - {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+  - {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
+  - {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
+  - {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
+  grantAllCardsCount: 0
+  unlimitedGrantCount: 20
+  phaseLoadouts:
+  - label: Dawn Offering
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 1
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: Stone & Timber
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 2
+    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+      count: 4
+    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      count: 4
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: Harvest Pressure
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 3
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: Obsidian Idols
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 3
+    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      count: 6
+    - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
+      count: 6
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: Mixed Tribute
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 4
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: First Blood
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 5
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: Twin Demands
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 6
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0
+  - label: Final Propitiation
+    startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 8
+    builtBuildings:
+    - buildingId: 0
+      workers: 0
+    - buildingId: 1
+      workers: 0
+    - buildingId: 2
+      workers: 0

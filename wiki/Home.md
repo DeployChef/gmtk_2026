@@ -22,3 +22,6 @@
 - [[Architecture/03 Audio Manager|03 Audio Manager]] — аудио
 - [[Architecture/04 Game Director|04 Game Director]] — оркестратор сессии
 - [[Architecture/05 Event Bus|05 Event Bus]] — шина событий
+- [[Architecture/06 Inventory|06 Inventory]] — лотки и ResourceDefinition
+- [[Architecture/07 Timeline & Pyramid|07 Timeline & Pyramid]] — фазы и пирамида
+- [[Architecture/08 Buildings|08 Buildings]] — слоты, стройка-оффер, production

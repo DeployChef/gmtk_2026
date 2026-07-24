@@ -17,7 +17,8 @@
 
 | Слой | Где | Что |
 | --- | --- | --- |
-| **HUD здания** | World Space на слоте/здании | `[-]/` NPC, иконки input/output, прогресс крафта, drop-zone |
+| **HUD здания** | World Space на слоте/здании | зависит от состояния слота (см. ниже) |
+| **Оффер Пирамиды** | World Space у Пирамиды | позиции оффера фазы |
 | **GameHud Overlay** | Screen Space Overlay на Root | верхняя и нижняя рамка поверх всего геймплея |
 
 ### GameHud Overlay (рамка)
@@ -28,9 +29,10 @@ GameHud (Screen Space Overlay)
 │   ├── Timeline          ← N сегментов-слайдеров фаз в ряд (+ тултипы)
 │   └── YearsLabel        ← сколько «лет» прошло
 └── BottomBar
-    ├── CardTrays (×8)    ← лотки по типу ResourceDefinition (стек)
-    └── BuildMenu         ← меню строительства (позже)
+    └── CardTrays (×8)    ← лотки по типу ResourceDefinition (стек)
 ```
+
+Отдельного **BuildMenu / сайдбара строительства нет** — стройка только через World HUD на слоте (см. [[03 Economy#5.2. Строительство (оффер на слоте)|03 Economy]]).
 
 **Таймер Конца Света** — не в Overlay, а **World Space над Пирамидой** (см. [[04 Timeline & Events]]).
 
@@ -39,22 +41,32 @@ GameHud (Screen Space Overlay)
 - Лоток **Villager**: Available / Assigned / Total, без hard-cap.
 - Старт рана: **1×** `Resource_Villager` в лоток жителей.
 - Позже: fly-in от здания в лоток (spawn point дома = точка вылета).
-- DnD: из лотка на drop-zone здания (ресурс → input / житель → +1 worker) или на Пирамиду (**только ресурсы**, в т.ч. Кровь; житель на Пирамиду — нет).
+- DnD: из лотка на drop-zone здания (ресурс → build-cost / production input; житель → +1 worker на **Built**) или на Пирамиду (**только ресурсы**, в т.ч. Кровь; житель на Пирамиду — нет).
 
 Подробности логики: [[../Architecture/06 Inventory|Architecture: Inventory]].
 
-### HUD здания (World Space, на самом здании)
+### HUD здания (World Space, на самом слоте)
 
-- Иконка требуемого ресурса (из `ResourceDefinition` рецепта)
-- Загружено: `1/3`
+Зависит от состояния ([[03 Economy#5.2. Строительство (оффер на слоте)|Economy]]):
+
+| Состояние | HUD |
+| --- | --- |
+| **Locked** | нет (только руины) |
+| **Buildable** | `BuildingConstructionHud`: иконки cost + `stored/required` |
+| **Constructing** | тот же HUD: прогресс-бар таймера стройки |
+| **Built** | `BuildingWorldHud` — production (ниже) |
+
+Два разных World HUD на слоте (не один общий). Construction — без workers и без output.
+
+#### Built — production HUD
+
+- Иконки требуемых ресурсов (из рецепта) + `stored/required`
 - Прогресс-бар создания
 - Счётчик рабочих: `[-] 2 [+]`
   - **`[+]`** — только если в лотке есть свободный житель (иначе disabled)
   - **`[-]`** — возвращает карточку жителя в лоток
   - DnD карты жителя на drop-zone = тот же `+1`
 - Drop-zone: принимает ресурсные карты и карты жителей
-
-См. сайдбар строительства: [[03 Economy#5.2. Строительство и улучшения (механика UI)|03 Economy]].
 
 ---
 
