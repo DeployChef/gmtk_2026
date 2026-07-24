@@ -223,3 +223,26 @@ MonoBehaviour:
     bpmStart: 0
     bpmEnd: 0
     bpmDuration: 0
+  - id: corn
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: 43586d229b4712d42967126c923c150f, type: 3}
+    - {fileID: 8300000, guid: 2cd0258dbf3cac843b091ba11263c9f1, type: 3}
+    - {fileID: 8300000, guid: 4818a7d08f9807840991fa0920f9607b, type: 3}
+    - {fileID: 8300000, guid: aca963799bdc2c048958a33f4d0b2cfb, type: 3}
+    - {fileID: 8300000, guid: 084e5a3d5d90c66498150591458651dd, type: 3}
+    - {fileID: 8300000, guid: d06fade924c65154fabad965e4c28783, type: 3}
+    mixerGroup: {fileID: -7072571798251741360, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 15
+    allowOverlap: 1
+    cooldown: 0
+    loop: 0
+    enableFade: 1
+    fadeDuration: 1.57
+    fadeOutDuration: 1.94
+    stopOnPause: 0
+    basePitch: 1
+    pitchRandomRange: 0.27
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
