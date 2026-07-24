@@ -13,6 +13,11 @@
 - [[GDD/06 UI & Visual|06 UI & Visual]] — камера, стиль, HUD
 - [[GDD/07 Narrative & Onboarding|07 Narrative & Onboarding]] — нарратив и обучение
 
+## Balance
+
+- [[Balance/Balance|Balance]] — кривая сложности, рычаги, финальная посадка 5–15с
+- [`Balance/TheyWillDescend_Balance.xlsx`](Balance/TheyWillDescend_Balance.xlsx) — рабочие таблицы (Phase Lab / Carryover / Modifiers)
+
 ## Architecture
 
 - [[Architecture/Index|Index]] — индекс техдоков
