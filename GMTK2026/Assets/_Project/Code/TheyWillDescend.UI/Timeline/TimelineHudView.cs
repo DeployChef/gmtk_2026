@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Timeline;
@@ -10,20 +9,21 @@ using VContainer;
 namespace TheyWillDescend.UI.Timeline
 {
     /// <summary>
-    /// TopBar timeline: adjacent phase segments that read as one long slider + years label.
+    /// TopBar timeline: hand-placed phase segments (no runtime spawn) + years label.
+    /// Assign segments in order: index 0 = phase 0, etc.
     /// </summary>
     public sealed class TimelineHudView : MonoBehaviour
     {
-        [SerializeField] private RectTransform segmentsRoot;
-        [SerializeField] private TimelinePhaseSegmentView segmentPrefab;
+        [SerializeField] private TimelinePhaseSegmentView[] segments;
         [SerializeField] private TMP_Text yearsLabel;
         [SerializeField] private string yearsFormat = "{0:0} yr";
+        [Tooltip("If true, applies phase colors/titles from GameTimelineConfig onto hand-placed segments.")]
+        [SerializeField] private bool applyPhaseVisualsFromConfig = true;
 
         private ITimelineService _timeline;
         private IDisposable _yearsSub;
         private IDisposable _phaseStartedSub;
-        private readonly List<TimelinePhaseSegmentView> _segments = new();
-        private int _builtForPhaseCount = -1;
+        private bool _visualsApplied;
 
         [Inject]
         public void Construct(ITimelineService timeline, IGameEventBus bus)
@@ -33,9 +33,10 @@ namespace TheyWillDescend.UI.Timeline
             _yearsSub?.Dispose();
             _phaseStartedSub?.Dispose();
             _yearsSub = bus.Subscribe<TimelineYearsChangedEvent>(OnYears);
-            _phaseStartedSub = bus.Subscribe<PhaseStartedEvent>(_ => RebuildIfNeeded());
+            _phaseStartedSub = bus.Subscribe<PhaseStartedEvent>(_ => ApplyVisualsOnce());
 
-            RebuildIfNeeded();
+            _visualsApplied = false;
+            ApplyVisualsOnce();
             RefreshProgress();
         }
 
@@ -54,38 +55,32 @@ namespace TheyWillDescend.UI.Timeline
             yearsLabel.text = string.Format(yearsFormat, evt.YearsElapsed);
         }
 
-        private void RebuildIfNeeded()
+        private void ApplyVisualsOnce()
         {
-            if (_timeline == null || segmentsRoot == null || segmentPrefab == null)
+            if (!applyPhaseVisualsFromConfig || _visualsApplied || _timeline == null || segments == null)
                 return;
 
-            var count = _timeline.PhaseCount;
-            if (_builtForPhaseCount == count && _segments.Count == count)
-                return;
-
-            for (var i = segmentsRoot.childCount - 1; i >= 0; i--)
-                Destroy(segmentsRoot.GetChild(i).gameObject);
-            _segments.Clear();
-
-            for (var i = 0; i < count; i++)
+            for (var i = 0; i < segments.Length; i++)
             {
-                var segment = Instantiate(segmentPrefab, segmentsRoot);
-                segment.gameObject.SetActive(true);
-                segment.Setup(_timeline.GetPhase(i), i);
-                _segments.Add(segment);
+                if (segments[i] == null)
+                    continue;
+                segments[i].Setup(_timeline.GetPhase(i), i);
             }
 
-            _builtForPhaseCount = count;
+            _visualsApplied = true;
         }
 
         private void RefreshProgress()
         {
-            if (_timeline == null || _segments.Count == 0)
+            if (_timeline == null || segments == null || segments.Length == 0)
                 return;
 
             var current = _timeline.CurrentPhaseIndex;
-            for (var i = 0; i < _segments.Count; i++)
+            for (var i = 0; i < segments.Length; i++)
             {
+                if (segments[i] == null)
+                    continue;
+
                 float fill;
                 if (i < current)
                     fill = 1f;
@@ -94,7 +89,7 @@ namespace TheyWillDescend.UI.Timeline
                 else
                     fill = _timeline.CurrentPhaseNormalizedProgress;
 
-                _segments[i].SetFill(fill);
+                segments[i].SetFill(fill);
             }
         }
     }
