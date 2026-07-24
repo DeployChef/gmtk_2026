@@ -30,8 +30,6 @@
 
 ## Старт
 
-Стартовые карты / здания задаются в **`GameTimelineConfig` → Phase 0 → Starting Cards / Starting Buildings**.  
-`GameStartState` только вызывает `ITimelineService.StartRun()` (+ BGM). Hardcode «1 villager» снят.
-
-Debug jump на фазу N (кнопки в Inspector у SO, только Play Mode) тоже применяет loadout этой фазы.  
-Обычный переход фазы mid-run loadout **не** трогает.
+Стартовые карты / здания рана: **`GameTimelineConfig` → Run Start Cards / Buildings** (только `StartRun`).  
+Cheat jump loadout (Built vs Locked + карты): **`CheatPanelConfig` → Phase Loadouts**.  
+Окно: **They Will Descend → Cheat Panel**.

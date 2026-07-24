@@ -11,8 +11,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f9655a1ea6ae7d4da91d22ef2e9d799, type: 3}
   m_Name: Recipe_Human
-  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.BuildingRecipe
+  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.BuildingDefinition
   buildingName: Home
+  buildCost:
+  - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+    count: 3
+  - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+    count: 2
+  buildDurationSeconds: 4
   inputResources: []
   inputAmountsRequired: 
   outputResource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}

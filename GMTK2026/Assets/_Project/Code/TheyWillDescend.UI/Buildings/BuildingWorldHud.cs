@@ -1,11 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using TheyWillDescend.Core.Buildings;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
-using System.Collections.Generic;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
+using TheyWillDescend.UI.Timeline;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,11 +16,13 @@ using VContainer;
 namespace TheyWillDescend.UI.Buildings
 {
     /// <summary>
-    /// World-space HUD bound to a <see cref="ProductionBuilding"/>.
+    /// World-space production HUD. Visible only when the slot is <see cref="BuildingSlotState.Built"/>.
+    /// Construction uses <see cref="BuildingConstructionHud"/>.
     /// </summary>
     public sealed class BuildingWorldHud : MonoBehaviour
     {
         [SerializeField] private ProductionBuilding building;
+        [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Button addWorkerButton;
         [SerializeField] private Button removeWorkerButton;
         [SerializeField] private TMP_Text workersLabel;
@@ -36,6 +40,8 @@ namespace TheyWillDescend.UI.Buildings
         private CancellationTokenSource _popupCts;
         private Vector2 _popupRestAnchoredPos;
         private bool _popupRestCaptured;
+        private readonly List<PyramidOfferIconView> _inputSlots = new();
+        private bool _iconsBuilt;
 
         [Inject]
         public void Construct(IGameEventBus bus)
@@ -48,6 +54,11 @@ namespace TheyWillDescend.UI.Buildings
         {
             if (building == null)
                 building = GetComponentInParent<ProductionBuilding>();
+
+            if (canvasGroup == null)
+                canvasGroup = GetComponent<CanvasGroup>();
+            if (canvasGroup == null)
+                canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
             if (addWorkerButton != null)
                 addWorkerButton.onClick.AddListener(() =>
@@ -91,35 +102,35 @@ namespace TheyWillDescend.UI.Buildings
 
         private void LateUpdate()
         {
-            if (building == null)
+            if (building == null || !building.IsBuilt)
                 return;
 
+            var showProgress = building.IsProducing;
             if (progressSlider != null)
             {
-                var show = building.IsProducing;
-                if (progressSlider.gameObject.activeSelf != show)
-                    progressSlider.gameObject.SetActive(show);
+                if (progressSlider.gameObject.activeSelf != showProgress)
+                    progressSlider.gameObject.SetActive(showProgress);
 
-                if (show)
+                if (showProgress)
                     progressSlider.value = 1f - building.NormalizedProgress;
             }
 
             if (progressFill != null)
             {
-                var show = building.IsProducing;
-                if (progressFill.gameObject.activeSelf != show)
-                    progressFill.gameObject.SetActive(show);
+                if (progressFill.gameObject.activeSelf != showProgress)
+                    progressFill.gameObject.SetActive(showProgress);
 
-                if (show)
+                if (showProgress)
                     progressFill.fillAmount = building.NormalizedProgress;
             }
 
+            RefreshInputCounts();
             RefreshWorkerButtons();
         }
 
         private void OnResourceProduced(ResourceProducedEvent e)
         {
-            if (building == null || e.BuildingId != building.BuildingId)
+            if (building == null || !building.IsBuilt || e.BuildingId != building.BuildingId)
                 return;
 
             PlayProducedPopup().Forget();
@@ -195,51 +206,34 @@ namespace TheyWillDescend.UI.Buildings
             if (building == null)
                 return;
 
-            var recipe = building.Recipe;
+            var visible = building.IsBuilt;
+            SetHudVisible(visible);
+            if (!visible)
+                return;
 
             if (workersLabel != null)
                 workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
 
-            if (inputContainer != null)
-            {
-                // Очистить старые иконки
-                for (var i = inputContainer.childCount - 1; i >= 0; i--)
-                    Destroy(inputContainer.GetChild(i).gameObject);
+            var definition = building.Definition;
 
-                // Спавнить иконки для каждого входа
-                if (recipe != null && recipe.RequiresInput)
-                {
-                    var inputs = recipe.InputResources;
-                    for (var i = 0; i < inputs.Length; i++)
-                    {
-                        var resource = inputs[i];
-                        if (resource == null || resource.Icon == null)
-                            continue;
-
-                        var iconGo = inputIconPrefab != null
-                            ? Instantiate(inputIconPrefab, inputContainer)
-                            : CreateDefaultIcon(inputContainer);
-
-                        var img = iconGo.GetComponent<Image>();
-                        if (img != null)
-                            img.sprite = resource.Icon;
-                    }
-                }
-            }
-            
             if (outputIcon != null)
             {
-                var outputDef = recipe != null ? recipe.OutputResource : null;
+                var outputDef = definition != null ? definition.OutputResource : null;
                 if (outputDef != null && outputDef.Icon != null)
                 {
                     outputIcon.sprite = outputDef.Icon;
                     outputIcon.enabled = true;
+                    outputIcon.gameObject.SetActive(true);
                 }
                 else
                 {
                     outputIcon.enabled = false;
+                    outputIcon.gameObject.SetActive(false);
                 }
             }
+
+            if (!_iconsBuilt)
+                RebuildInputIcons();
 
             if (progressSlider != null)
             {
@@ -249,16 +243,103 @@ namespace TheyWillDescend.UI.Buildings
                     progressSlider.value = 1f - building.NormalizedProgress;
             }
 
+            RefreshInputCounts();
             RefreshWorkerButtons();
+        }
+
+        private void SetHudVisible(bool visible)
+        {
+            if (canvasGroup == null)
+                return;
+
+            canvasGroup.alpha = visible ? 1f : 0f;
+            canvasGroup.interactable = visible;
+            canvasGroup.blocksRaycasts = visible;
+        }
+
+        private void RebuildInputIcons()
+        {
+            if (inputContainer == null)
+                return;
+
+            for (var i = inputContainer.childCount - 1; i >= 0; i--)
+                Destroy(inputContainer.GetChild(i).gameObject);
+            _inputSlots.Clear();
+
+            var definition = building.Definition;
+            if (definition != null && definition.RequiresInput)
+            {
+                var inputs = definition.InputResources;
+                var amounts = definition.InputAmounts;
+                for (var i = 0; i < inputs.Length; i++)
+                {
+                    var resource = inputs[i];
+                    if (resource == null)
+                        continue;
+                    var required = i < amounts.Length ? amounts[i] : 1;
+                    if (required <= 0)
+                        continue;
+                    SpawnInputSlot(resource, building.GetStoredAmount(resource.Id), required);
+                }
+            }
+
+            _iconsBuilt = true;
+        }
+
+        private void SpawnInputSlot(ResourceDefinition resource, int stored, int required)
+        {
+            var iconGo = inputIconPrefab != null
+                ? Instantiate(inputIconPrefab, inputContainer)
+                : CreateDefaultIcon(inputContainer);
+
+            iconGo.SetActive(true);
+
+            var view = iconGo.GetComponent<PyramidOfferIconView>();
+            if (view == null)
+            {
+                view = iconGo.AddComponent<PyramidOfferIconView>();
+                view.Bind(
+                    iconGo.GetComponentInChildren<Image>(),
+                    iconGo.GetComponentInChildren<TMP_Text>());
+            }
+
+            view.Setup(resource, stored, required);
+            _inputSlots.Add(view);
+        }
+
+        private void RefreshInputCounts()
+        {
+            if (building == null || !building.IsBuilt || _inputSlots.Count == 0)
+                return;
+
+            var definition = building.Definition;
+            if (definition == null || !definition.RequiresInput)
+                return;
+
+            var inputs = definition.InputResources;
+            var amounts = definition.InputAmounts;
+            var idx = 0;
+            for (var i = 0; i < inputs.Length && idx < _inputSlots.Count; i++)
+            {
+                var resource = inputs[i];
+                if (resource == null)
+                    continue;
+                var required = i < amounts.Length ? amounts[i] : 1;
+                if (required <= 0)
+                    continue;
+                _inputSlots[idx].SetCount(building.GetStoredAmount(resource.Id), required);
+                idx++;
+            }
         }
 
         private void RefreshWorkerButtons()
         {
             if (addWorkerButton != null)
-                addWorkerButton.interactable = building.CanHireWorker;
+                addWorkerButton.interactable = building != null && building.CanHireWorker;
 
             if (removeWorkerButton != null)
-                removeWorkerButton.interactable = building.Workers > building.MinWorkers;
+                removeWorkerButton.interactable =
+                    building != null && building.Workers > building.MinWorkers;
         }
 
         private static GameObject CreateDefaultIcon(Transform parent)
@@ -269,6 +350,22 @@ namespace TheyWillDescend.UI.Buildings
             rect.sizeDelta = new Vector2(80, 80);
             var img = go.GetComponent<Image>();
             img.preserveAspect = true;
+
+            var labelGo = new GameObject("Count", typeof(RectTransform));
+            labelGo.transform.SetParent(go.transform, false);
+            var labelRect = (RectTransform)labelGo.transform;
+            labelRect.anchorMin = new Vector2(0f, 0f);
+            labelRect.anchorMax = new Vector2(1f, 0.35f);
+            labelRect.offsetMin = Vector2.zero;
+            labelRect.offsetMax = Vector2.zero;
+
+            var tmp = labelGo.AddComponent<TextMeshProUGUI>();
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.fontSize = 22f;
+            tmp.text = "0/0";
+
+            var view = go.AddComponent<PyramidOfferIconView>();
+            view.Bind(img, tmp);
             return go;
         }
     }

@@ -1,8 +1,9 @@
-﻿<Solution>
+<Solution>
   <Project Path="TheyWillDescend.Gameplay.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="TheyWillDescend.Core.csproj" />
+  <Project Path="Assembly-CSharp-firstpass.csproj" />
   <Project Path="CFXREditor.csproj" />
   <Project Path="CFXRRuntime.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
