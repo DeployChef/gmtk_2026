@@ -1,5 +1,7 @@
+using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.Gameplay.Buildings;
+using TheyWillDescend.Gameplay.Hazards;
 using TheyWillDescend.Gameplay.Inventory;
 using TheyWillDescend.Main.GameAppStates;
 using TheyWillDescend.UI.Buildings;
@@ -21,6 +23,8 @@ namespace TheyWillDescend.Main.DI
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
             builder.Register<GameStartState>(Lifetime.Singleton);
             builder.RegisterComponentInHierarchy<InventoryTraysView>();
+            builder.Register<ThunderService>(Lifetime.Singleton).As<IThunderService>();
+            builder.RegisterComponentInHierarchy<DisasterManager>().As<IDisasterManager>();
 
             builder.RegisterBuildCallback(resolver =>
             {
@@ -35,6 +39,10 @@ namespace TheyWillDescend.Main.DI
                 foreach (var card in Object.FindObjectsByType<ResourceCardView>(
                              FindObjectsInactive.Include, FindObjectsSortMode.None))
                     resolver.Inject(card);
+
+                foreach (var button in Object.FindObjectsByType<RandomStrikeButton>(
+                             FindObjectsInactive.Include, FindObjectsSortMode.None))
+                    resolver.Inject(button);
             });
         }
     }

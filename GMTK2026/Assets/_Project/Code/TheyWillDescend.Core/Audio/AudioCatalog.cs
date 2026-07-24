@@ -10,6 +10,12 @@ namespace TheyWillDescend.Core.Audio
         {
             public const string MusicMain = "MusicMain";
             public const string MusicDark = "MusicDark";
+            public const string CardPickup = "CardPickup";
+            public const string CardDropOk = "CardDropOk";
+            public const string ResourceGold = "ResoursGold";
+            public const string BuildStart = "BuildStart";
+            public const string Thunder = "Thunder";
+            public const string Defeat = "Defeat";
         }
 
         [SerializeField] private List<SoundDefinition> sounds = new();

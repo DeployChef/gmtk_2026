@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Economy;
@@ -18,9 +19,12 @@ namespace TheyWillDescend.Gameplay.Buildings
         [SerializeField] private int minWorkers;
         [SerializeField] private int maxWorkers = 3;
         [SerializeField] private int startingWorkers;
+        [Tooltip("AudioCatalog id played when craft completes. Empty = silent.")]
+        [SerializeField] private string produceSoundId = "";
 
         private IGameEventBus _bus;
         private IInventory _inventory;
+        private IAudioManager _audio;
         private int _workers;
         private readonly Dictionary<string, int> _storedInputs = new();
         private float _progress;
@@ -74,10 +78,11 @@ namespace TheyWillDescend.Gameplay.Buildings
         public event System.Action StateChanged;
 
         [Inject]
-        public void Construct(IGameEventBus bus, IInventory inventory)
+        public void Construct(IGameEventBus bus, IInventory inventory, IAudioManager audio)
         {
             _bus = bus;
             _inventory = inventory;
+            _audio = audio;
         }
 
         private void Awake()
@@ -269,7 +274,11 @@ namespace TheyWillDescend.Gameplay.Buildings
             _bus?.Publish(new ResourceProducedEvent(buildingId, recipe.OutputResourceId));
 
             if (recipe.OutputResource != null)
+            {
                 _inventory?.TryAdd(recipe.OutputResource);
+                if (!string.IsNullOrEmpty(produceSoundId))
+                    _audio?.Play(produceSoundId);
+            }
             else
                 Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
 

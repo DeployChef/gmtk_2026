@@ -63,10 +63,16 @@ _Project/
 | --- | --- |
 | Фоновая музыка (main) | `MusicMain` |
 | Фоновая музыка (мрачная) | `MusicDark` |
+| Взял карту / карта в лоток | `CardPickup` |
+| Успешный drop на здание | `CardDropOk` |
+| Производство выдало ресурс | `ResoursGold` |
+| Старт стройки (позже) | `BuildStart` |
+| Удар молнии | `Thunder` (`ThunderService`) |
+| Поражение (позже) | `Defeat` |
 
 Старт игры: `GameStartState` → `Play(MusicMain)` (loop в каталоге).
 
-Конкретные SFX (клик, drop, катаклизмы) добавим в каталог, когда появятся клипы.
+Удар: `RandomStrikeButton` → `IDisasterManager` (сцена, VFX) → `IThunderService` (SFX + disable).
 
 ## Доработка: привязка к BPM
 

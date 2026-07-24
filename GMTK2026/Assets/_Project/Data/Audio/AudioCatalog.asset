@@ -97,11 +97,13 @@ MonoBehaviour:
   - id: ResoursGold
     channel: 1
     clips:
-    - {fileID: 8300000, guid: a1f3ec74ccd046a4c8be517461b75020, type: 3}
-    - {fileID: 8300000, guid: 809ffe183db841e4494c2258c7b6265e, type: 3}
-    - {fileID: 8300000, guid: 5a7ae0895b5be6e4284c9a6798074217, type: 3}
-    - {fileID: 8300000, guid: 98440bd0419ea8648bc400ba3fb152fc, type: 3}
-    - {fileID: 8300000, guid: e6345f4d10aba934cbdc073208a831c2, type: 3}
+    - {fileID: 8300000, guid: 0edf6f4eb3219a74da07cb17a9c2fbf7, type: 3}
+    - {fileID: 8300000, guid: 3ad8d33c2cc430c41a6e2d31b645ef62, type: 3}
+    - {fileID: 8300000, guid: 766d9d65445581845bc028c8e518e87c, type: 3}
+    - {fileID: 8300000, guid: 08582e30b470c3443b049a5a148ff298, type: 3}
+    - {fileID: 8300000, guid: a7b31da3e245b1a4292733867b3a4840, type: 3}
+    - {fileID: 8300000, guid: ac5d920afbf6af64294591d4f5f8fb00, type: 3}
+    - {fileID: 8300000, guid: d5a71c77cb0f45146a2729f18acaef3f, type: 3}
     mixerGroup: {fileID: -523454908963569033, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 50
     allowOverlap: 0
@@ -132,6 +134,44 @@ MonoBehaviour:
     fadeDuration: 1
     fadeOutDuration: 1
     stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+  - id: Thunder
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: 5b1667634c0c25341bbb83fb9236d8d5, type: 3}
+    - {fileID: 8300000, guid: 260d2341f8b772145965b8e5158cc26a, type: 3}
+    - {fileID: 8300000, guid: 1a5f097f905488849b5185659063093d, type: 3}
+    mixerGroup: {fileID: 5028489102024711136, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 80
+    allowOverlap: 0
+    cooldown: 0.2
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 0
+    basePitch: 1
+    pitchRandomRange: 0
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+  - id: Defeat
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: f679dcfea4424d44ca93f5cc4f8c45df, type: 3}
+    mixerGroup: {fileID: 5028489102024711136, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 90
+    allowOverlap: 0
+    cooldown: 0
+    loop: 0
+    enableFade: 1
+    fadeDuration: 0.3
+    fadeOutDuration: 1
+    stopOnPause: 0
     basePitch: 1
     pitchRandomRange: 0
     bpmStart: 0

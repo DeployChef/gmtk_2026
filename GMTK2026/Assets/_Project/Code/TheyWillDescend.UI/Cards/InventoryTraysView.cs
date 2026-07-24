@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Economy;
@@ -24,11 +25,13 @@ namespace TheyWillDescend.UI.Cards
         [SerializeField] private float insertDuration = 0.25f;
 
         private IInventory _inventory;
+        private IAudioManager _audio;
         private IDisposable _changedSub;
         private IDisposable _clearedSub;
         private IDisposable _workersSub;
         private readonly Dictionary<string, CardTrayView> _byId = new();
         private readonly Dictionary<int, int> _workersByBuilding = new();
+        private bool _suppressGainSfx;
 
         public ResourceDefinition FindVillagerResource()
         {
@@ -50,16 +53,19 @@ namespace TheyWillDescend.UI.Cards
         }
 
         [Inject]
-        public void Construct(IGameEventBus bus, IInventory inventory)
+        public void Construct(IGameEventBus bus, IInventory inventory, IAudioManager audio)
         {
             DisposeSubscriptions();
             _inventory = inventory;
+            _audio = audio;
             RebuildLookup();
             _changedSub = bus.Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             _clearedSub = bus.Subscribe<InventoryClearedEvent>(_ => ClearAllVisuals());
             _workersSub = bus.Subscribe<BuildingWorkersChangedEvent>(OnWorkersChanged);
             CaptureInitialWorkers();
+            _suppressGainSfx = true;
             SyncAllFromInventory();
+            _suppressGainSfx = false;
         }
 
         private void Awake() => RebuildLookup();
@@ -107,14 +113,18 @@ namespace TheyWillDescend.UI.Cards
             if (!_byId.TryGetValue(e.ResourceId, out var tray))
                 return;
 
-            tray.SyncStack(
+            var spawned = tray.SyncStack(
                 e.Count,
                 cardPrefab,
                 stackOffset,
                 maxVisibleStack,
                 insertRisePixels,
-                insertDuration);
+                insertDuration,
+                _audio);
             RefreshCounter(tray, e.Count, e.Capacity);
+
+            if (!_suppressGainSfx && spawned > 0)
+                _audio?.Play(AudioCatalog.Ids.CardPickup);
         }
 
         private void OnWorkersChanged(BuildingWorkersChangedEvent e)
@@ -143,7 +153,8 @@ namespace TheyWillDescend.UI.Cards
                     stackOffset,
                     maxVisibleStack,
                     insertRisePixels,
-                    insertDuration);
+                    insertDuration,
+                    _audio);
                 RefreshCounter(tray, count, capacity);
             }
         }
