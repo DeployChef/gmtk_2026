@@ -23,6 +23,7 @@ namespace TheyWillDescend.Main.GameAppStates
         {
             _timeline?.StartRun();
             _audio?.Play(AudioCatalog.Ids.MusicMain);
+            _audio?.PlayAmbient(AudioCatalog.Ids.AmbientMain);
             Debug.Log("[GameStartState] Enter — timeline StartRun (phase 0 loadout).");
         }
     }
