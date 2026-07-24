@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using VContainer;
 
 namespace TheyWillDescend.UI.Cards
@@ -16,21 +18,30 @@ namespace TheyWillDescend.UI.Cards
         IResourceCard,
         IBeginDragHandler,
         IDragHandler,
-        IEndDragHandler
+        IEndDragHandler,
+        IPointerEnterHandler,
+        IPointerExitHandler
     {
         [SerializeField] private string resourceId = ResourceIds.Id1;
         [SerializeField] private TMPro.TMP_Text titleLabel;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private UnityEngine.UI.Image iconImage;
+        [SerializeField] private Image outlineImage;
+        [SerializeField] private Color outlineColor = Color.yellow;
+        [SerializeField] private string dissolveProperty = "_DissolveAmount";
+        [SerializeField] private float dissolveDuration = 0.5f;
+        [SerializeField] private Vector3 shrinkScale = new Vector3(0.5f, 0.5f, 1f);
 
         private RectTransform _rect;
         private Transform _homeParent;
         private Vector3 _homePosition;
         private Canvas _canvas;
-        private bool _consumed;
+private bool _consumed;
+        private bool _dragging;
         private ResourceKind _kind = ResourceKind.Resource;
         private IAudioManager _audio;
         private readonly List<RaycastResult> _raycastHits = new();
+        private readonly List<Material> _dissolveInstances = new();
 
         public string ResourceId => resourceId;
         public ResourceKind Kind => _kind;
@@ -55,6 +66,12 @@ namespace TheyWillDescend.UI.Cards
             _canvas = GetComponentInParent<Canvas>();
             if (canvasGroup == null)
                 canvasGroup = GetComponent<CanvasGroup>();
+
+            if (outlineImage != null)
+            {
+                outlineImage.color = outlineColor;
+                outlineImage.gameObject.SetActive(false);
+            }
 
             RefreshLabel();
         }
@@ -96,7 +113,9 @@ namespace TheyWillDescend.UI.Cards
 
             canvasGroup.blocksRaycasts = false;
             transform.SetAsLastSibling();
+            _dragging = true;
             _audio?.Play(AudioCatalog.Ids.CardPickup);
+            ShowOutline(true);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -127,6 +146,7 @@ namespace TheyWillDescend.UI.Cards
             if (_consumed)
                 return;
 
+            _dragging = false;
             var pyramid = ResolvePyramidUnderPointer(eventData);
             var building = pyramid == null ? ResolveBuildingUnderPointer(eventData) : null;
             canvasGroup.blocksRaycasts = true;
@@ -155,23 +175,86 @@ namespace TheyWillDescend.UI.Cards
                 }
             }
 
-            if (accepted)
+if (accepted)
             {
                 _consumed = true;
+                canvasGroup.blocksRaycasts = false;
                 _audio?.Play(AudioCatalog.Ids.CardDropOk);
-                Destroy(gameObject);
+                PlayDissolveAndDestroy();
                 return;
             }
 
             ReturnHome();
         }
 
-        private void ReturnHome()
+        public void OnPointerEnter(PointerEventData eventData)
         {
+            if (!_consumed)
+                ShowOutline(true);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (!_consumed && !_dragging)
+                ShowOutline(false);
+        }
+
+private void ReturnHome()
+        {
+            ShowOutline(false);
             if (_homeParent != null)
                 transform.SetParent(_homeParent, true);
 
             transform.position = _homePosition;
+        }
+
+        private void ShowOutline(bool show)
+        {
+            if (outlineImage != null)
+                outlineImage.gameObject.SetActive(show);
+        }
+
+        private void PlayDissolveAndDestroy()
+        {
+            var images = GetComponentsInChildren<Image>();
+            var hasDissolve = false;
+
+            foreach (var img in images)
+            {
+                if (img.material == null || !img.material.HasProperty(dissolveProperty))
+                    continue;
+
+                var instance = new Material(img.material);
+                instance.SetFloat(dissolveProperty, 0f);
+                img.material = instance;
+                _dissolveInstances.Add(instance);
+                hasDissolve = true;
+            }
+
+            if (!hasDissolve)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            DissolveAsync().Forget();
+        }
+
+        private async UniTaskVoid DissolveAsync()
+        {
+            var startScale = transform.localScale;
+            var elapsed = 0f;
+            while (elapsed < dissolveDuration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                var t = Mathf.Clamp01(elapsed / dissolveDuration);
+                foreach (var mat in _dissolveInstances)
+                    mat.SetFloat(dissolveProperty, t);
+                transform.localScale = Vector3.Lerp(startScale, shrinkScale, t);
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+
+            Destroy(gameObject);
         }
 
         private PyramidOfferingPoint ResolvePyramidUnderPointer(PointerEventData eventData)
