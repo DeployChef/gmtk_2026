@@ -55,12 +55,18 @@ namespace TheyWillDescend.Core.Timeline
         [Tooltip("BuildingIds that transition Locked → Buildable when this phase starts.")]
         [SerializeField] private int[] unlockBuildingIds = Array.Empty<int>();
 
+        [Header("Era production modifiers")]
+        [Tooltip("Speed tweaks while this phase is active. Stack multiplicatively when several match.")]
+        [SerializeField] private PhaseProductionModifier[] productionModifiers = Array.Empty<PhaseProductionModifier>();
+
         public string Title => string.IsNullOrEmpty(title) ? "Phase" : title;
         public string Tooltip => tooltip;
         public float DurationSeconds => Mathf.Max(0.1f, durationSeconds);
         public Color Color => color;
         public PhaseOfferItem[] Requirements => requirements ?? Array.Empty<PhaseOfferItem>();
         public int[] UnlockBuildingIds => unlockBuildingIds ?? Array.Empty<int>();
+        public PhaseProductionModifier[] ProductionModifiers =>
+            productionModifiers ?? Array.Empty<PhaseProductionModifier>();
 
         public int TotalRequiredCards
         {
@@ -72,6 +78,24 @@ namespace TheyWillDescend.Core.Timeline
                     total += items[i].Count;
                 return total;
             }
+        }
+
+        /// <summary>
+        /// Combined speed multiplier for a building producing <paramref name="outputResourceId"/>.
+        /// 1 = normal; 0.8 = −20%; 1.1 = +10%.
+        /// </summary>
+        public float GetProductionSpeedMultiplier(int buildingId, string outputResourceId)
+        {
+            var mul = 1f;
+            var mods = ProductionModifiers;
+            for (var i = 0; i < mods.Length; i++)
+            {
+                var mod = mods[i];
+                if (mod != null && mod.AppliesTo(buildingId, outputResourceId))
+                    mul *= mod.SpeedMultiplier;
+            }
+
+            return Mathf.Max(0.05f, mul);
         }
     }
 

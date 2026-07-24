@@ -9,8 +9,8 @@ using VContainer;
 namespace TheyWillDescend.UI.Timeline
 {
     /// <summary>
-    /// TopBar timeline: hand-placed phase segments (no runtime spawn) + years label.
-    /// Assign segments in order: index 0 = phase 0, etc.
+    /// TopBar timeline: hand-placed phase segments + years label.
+    /// Era modifiers live on each <see cref="TimelinePhaseSegmentView"/> (revealed when era starts).
     /// </summary>
     public sealed class TimelineHudView : MonoBehaviour
     {
@@ -33,11 +33,12 @@ namespace TheyWillDescend.UI.Timeline
             _yearsSub?.Dispose();
             _phaseStartedSub?.Dispose();
             _yearsSub = bus.Subscribe<TimelineYearsChangedEvent>(OnYears);
-            _phaseStartedSub = bus.Subscribe<PhaseStartedEvent>(_ => ApplyVisualsOnce());
+            _phaseStartedSub = bus.Subscribe<PhaseStartedEvent>(_ => OnPhaseStarted());
 
             _visualsApplied = false;
             ApplyVisualsOnce();
             RefreshProgress();
+            RefreshModifierReveal();
         }
 
         private void LateUpdate() => RefreshProgress();
@@ -55,6 +56,12 @@ namespace TheyWillDescend.UI.Timeline
             yearsLabel.text = string.Format(yearsFormat, evt.YearsElapsed);
         }
 
+        private void OnPhaseStarted()
+        {
+            ApplyVisualsOnce();
+            RefreshModifierReveal();
+        }
+
         private void ApplyVisualsOnce()
         {
             if (!applyPhaseVisualsFromConfig || _visualsApplied || _timeline == null || segments == null)
@@ -68,6 +75,21 @@ namespace TheyWillDescend.UI.Timeline
             }
 
             _visualsApplied = true;
+        }
+
+        private void RefreshModifierReveal()
+        {
+            if (_timeline == null || segments == null)
+                return;
+
+            var current = _timeline.CurrentPhaseIndex;
+            for (var i = 0; i < segments.Length; i++)
+            {
+                if (segments[i] == null)
+                    continue;
+                // Visible from the moment the era starts (current + past). Future stays empty.
+                segments[i].SetModifiersRevealed(i <= current);
+            }
         }
 
         private void RefreshProgress()

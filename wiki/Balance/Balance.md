@@ -38,30 +38,30 @@
 
 1. **Оффер** — count / duration / `secondsReward`
 2. **Люди** — сколько дают, hire-стоимость (план), перестановки между джобами
-3. **Production modifiers** по фазе (−% / +% скорости) — ещё не в коде
+3. **Production modifiers** по фазе (−% / +% скорости) — **в коде** + чипы на TopBar
 4. **Early unlock** зданий «не для текущего оффера» — стратегия стока наперёд
 
-### Production modifiers (план)
+### Production modifiers (в коде)
 
-На фазе множитель скорости производства. Пример: фаза 2 → **−20% Corn** → Farm медленнее → оффер кукурузы давит **без** резки count.
+На `PhaseDefinition.productionModifiers[]`. Тултип + иконка на TopBar (`EraModifierHudView`).
 
-```
-EffectiveProdSec = BaseProdSec / (1 + SpeedPct/100)
-# −20% при Base=3с → 3 / 0.8 = 3.75с
-```
+Формула: `EffectiveProdSec = BaseProdSec / (1 + SpeedPct/100)`.  
+Тик: `_progress += dt * (1 + SpeedPct/100)` (несколько матчей — перемножаются).
 
-Черновик по фазам — лист `03b_Modifiers` в xlsx. Типичные якоря:
+Черновик по фазам (в `GameTimelineConfig`):
 
 | Phase | Draft modifier |
 | --- | --- |
 | 0 | нет |
-| 1 | 0..−10% Stone (когда появится quarry) |
+| 1 | −10% Stone |
 | 2 | **−20% Corn** |
 | 3 | −15% Obsidian |
 | 4 | −10% All |
-| 5 | **+5..+10%** (передышка / развитие) |
-| 6 | −10..−20% Obsidian/Blood |
+| 5 | **+5% All** + **+10% Blood** (передышка) |
+| 6 | −20% Obsidian, −10% Blood |
 | 7 | −15% All |
+
+Подробные title/description правятся в Inspector на каждом модификаторе.
 
 ---
 
@@ -144,11 +144,10 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 ## Gaps (закрыть до серьёзного баланса)
 
-1. **Нет производителя Stone** — фазы 1/4 требуют камень.
+1. **Нет производителя Stone** — фазы 1/4 требуют камень (модификатор −10% Stone пока «на будущее»).
 2. **Altar (id 4) нигде не unlock** — Blood недоступен в нормальном ране; логично открыть на фазе 5 (передышка/развитие).
-3. **Phase production modifiers** — нет в `PhaseDefinition` / production tick.
-4. **Workers не ускоряют** — только порог.
-5. **Hire-оффер жителей** — вместо пассивного Home.
+3. **Workers не ускоряют** — только порог.
+4. **Hire-оффер жителей** — вместо пассивного Home.
 
 ---
 
