@@ -323,10 +323,18 @@ MonoBehaviour:
   canvasGroup: {fileID: 7212072353480294420}
   iconImage: {fileID: 4461094673574217151}
   outlineImage: {fileID: 1415141216375929187}
-  outlineColor: {r: 0, g: 0.84493864, b: 1, a: 1}
+  outlineColor: {r: 0.7735849, g: 0.67380697, b: 0, a: 1}
+  dragGlowColorA: {r: 0.68664306, g: 0.77254903, b: 0, a: 0.8}
+  dragGlowColorB: {r: 0.77254903, g: 0.6745098, b: 0, a: 1}
+  dragGlowColorCycle: 1
+  outlineFadeInDuration: 0.15
+  outlineFadeOutDuration: 0.25
+  outlinePulseMinAlpha: 0.3
+  outlinePulseDuration: 2
   dissolveProperty: _DissolveAmount
-  dissolveDuration: 0.3
+  dissolveDuration: 0.5
   shrinkScale: {x: 0.3, y: 0.3, z: 1}
+  returnHomeDuration: 0.25
 --- !u!1 &6830006918936796920
 GameObject:
   m_ObjectHideFlags: 0

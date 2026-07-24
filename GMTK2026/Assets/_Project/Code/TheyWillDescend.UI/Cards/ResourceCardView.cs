@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
@@ -28,9 +29,17 @@ namespace TheyWillDescend.UI.Cards
         [SerializeField] private UnityEngine.UI.Image iconImage;
         [SerializeField] private Image outlineImage;
         [SerializeField] private Color outlineColor = Color.yellow;
+        [SerializeField] private Color dragGlowColorA = new Color(1f, 0.9f, 0.3f, 1f);
+        [SerializeField] private Color dragGlowColorB = new Color(1f, 0.4f, 0.1f, 1f);
+        [SerializeField] private float dragGlowColorCycle = 0.6f;
+        [SerializeField] private float outlineFadeInDuration = 0.15f;
+        [SerializeField] private float outlineFadeOutDuration = 0.25f;
+        [SerializeField] private float outlinePulseMinAlpha = 0.5f;
+        [SerializeField] private float outlinePulseDuration = 0.8f;
         [SerializeField] private string dissolveProperty = "_DissolveAmount";
         [SerializeField] private float dissolveDuration = 0.5f;
         [SerializeField] private Vector3 shrinkScale = new Vector3(0.5f, 0.5f, 1f);
+        [SerializeField] private float returnHomeDuration = 0.25f;
 
         private RectTransform _rect;
         private Transform _homeParent;
@@ -42,6 +51,10 @@ private bool _consumed;
         private IAudioManager _audio;
         private readonly List<RaycastResult> _raycastHits = new();
         private readonly List<Material> _dissolveInstances = new();
+        private Tween _outlineTween;
+        private Tween _pulseTween;
+        private Tween _colorTween;
+        private float _outlineAlpha;
 
         public string ResourceId => resourceId;
         public ResourceKind Kind => _kind;
@@ -69,8 +82,9 @@ private bool _consumed;
 
             if (outlineImage != null)
             {
-                outlineImage.color = outlineColor;
-                outlineImage.gameObject.SetActive(false);
+                var c = outlineColor;
+                c.a = 0f;
+                outlineImage.color = c;
             }
 
             RefreshLabel();
@@ -113,9 +127,9 @@ private bool _consumed;
 
             canvasGroup.blocksRaycasts = false;
             transform.SetAsLastSibling();
-            _dragging = true;
+_dragging = true;
             _audio?.Play(AudioCatalog.Ids.CardPickup);
-            ShowOutline(true);
+            ShowOutline(true, true);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -180,6 +194,17 @@ if (accepted)
                 _consumed = true;
                 canvasGroup.blocksRaycasts = false;
                 _audio?.Play(AudioCatalog.Ids.CardDropOk);
+
+                // Instantly hide outline before dissolve
+                _outlineTween?.Kill();
+                _pulseTween?.Kill();
+                if (outlineImage != null)
+                {
+                    var c = outlineImage.color;
+                    c.a = 0f;
+                    outlineImage.color = c;
+                }
+
                 PlayDissolveAndDestroy();
                 return;
             }
@@ -199,19 +224,114 @@ if (accepted)
                 ShowOutline(false);
         }
 
-private void ReturnHome()
+        private void ReturnHome()
         {
             ShowOutline(false);
             if (_homeParent != null)
                 transform.SetParent(_homeParent, true);
 
+            ReturnHomeAsync().Forget();
+        }
+
+        private async UniTaskVoid ReturnHomeAsync()
+        {
+            var startPos = transform.position;
+            var elapsed = 0f;
+            var duration = Mathf.Max(0.01f, returnHomeDuration);
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                var t = Mathf.Clamp01(elapsed / duration);
+                t = 1f - (1f - t) * (1f - t); // ease-out
+                transform.position = Vector3.Lerp(startPos, _homePosition, t);
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+
             transform.position = _homePosition;
         }
 
-        private void ShowOutline(bool show)
+private void ShowOutline(bool show, bool isDragging = false)
         {
-            if (outlineImage != null)
-                outlineImage.gameObject.SetActive(show);
+            if (outlineImage == null)
+                return;
+
+            _outlineTween?.Kill();
+            _pulseTween?.Kill();
+            _colorTween?.Kill();
+
+            if (show)
+            {
+                // Set initial color + alpha
+                var baseColor = isDragging ? dragGlowColorA : outlineColor;
+                _outlineAlpha = 0f;
+                baseColor.a = _outlineAlpha;
+                outlineImage.color = baseColor;
+
+                // Fade in alpha
+                _outlineTween = DOTween.To(
+                    () => _outlineAlpha,
+                    val =>
+                    {
+                        _outlineAlpha = val;
+                        var c = outlineImage.color;
+                        c.a = val;
+                        outlineImage.color = c;
+                    },
+                    1f,
+                    outlineFadeInDuration)
+                    .SetEase(Ease.OutCubic)
+                    .OnComplete(() =>
+                    {
+                        // Alpha pulsation 100% <-> 50%
+                        _pulseTween = DOTween.To(
+                            () => _outlineAlpha,
+                            val =>
+                            {
+                                _outlineAlpha = val;
+                                var c = outlineImage.color;
+                                c.a = val;
+                                outlineImage.color = c;
+                            },
+                            outlinePulseMinAlpha,
+                            outlinePulseDuration * 0.5f)
+                            .SetLoops(-1, LoopType.Yoyo)
+                            .SetEase(Ease.InOutSine);
+
+                        // Color cycling between A and B (only when dragging)
+                        if (isDragging)
+                        {
+                            _colorTween = DOTween.To(
+                                () => 0f,
+                                t =>
+                                {
+                                    var c = Color.Lerp(dragGlowColorA, dragGlowColorB, t);
+                                    c.a = _outlineAlpha;
+                                    outlineImage.color = c;
+                                },
+                                1f,
+                                dragGlowColorCycle)
+                                .SetLoops(-1, LoopType.Yoyo)
+                                .SetEase(Ease.InOutSine);
+                        }
+                    });
+            }
+            else
+            {
+                // Fade out
+                _outlineTween = DOTween.To(
+                    () => _outlineAlpha,
+                    val =>
+                    {
+                        _outlineAlpha = val;
+                        var c = outlineImage.color;
+                        c.a = val;
+                        outlineImage.color = c;
+                    },
+                    0f,
+                    outlineFadeOutDuration)
+                    .SetEase(Ease.OutQuad);
+            }
         }
 
         private void PlayDissolveAndDestroy()
