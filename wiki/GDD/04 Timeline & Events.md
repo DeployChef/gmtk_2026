@@ -55,7 +55,7 @@
 
 ### Debug
 
-Кнопки **Jump to phase** / **Grant All Cards** — окно **They Will Descend → Cheat Panel** (только Play Mode). Runtime UI нет. Jump применяет Starting Cards/Buildings фазы и сбрасывает таймер пирамиды. Каталог чит-карт — `CheatPanelConfig`.
+Кнопки **Jump to phase** / **Grant All Cards** — окно **They Will Descend → Cheat Panel** (только Play Mode). Jump сбрасывает здания по `CheatPanelConfig` (Built list / Locked + cumulative unlocks) и карты. Runtime UI нет.
 
 ### UI
 

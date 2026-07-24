@@ -8,7 +8,7 @@ using VContainer;
 namespace TheyWillDescend.Editor
 {
     /// <summary>
-    /// Play Mode cheat panel: grant cards + phase jump. Uses <see cref="CheatPanelConfig"/> from the window field (not GameLifetimeScope).
+    /// Play Mode cheat panel: grant cards + phase jump with building reset from <see cref="CheatPanelConfig"/>.
     /// </summary>
     public sealed class CheatPanelWindow : EditorWindow
     {
@@ -20,7 +20,7 @@ namespace TheyWillDescend.Editor
         public static void Open()
         {
             var window = GetWindow<CheatPanelWindow>("Cheat Panel");
-            window.minSize = new Vector2(280, 320);
+            window.minSize = new Vector2(280, 360);
             window.Show();
         }
 
@@ -30,20 +30,16 @@ namespace TheyWillDescend.Editor
             {
                 var guids = AssetDatabase.FindAssets("t:CheatPanelConfig");
                 if (guids.Length > 0)
-                {
-                    var path = AssetDatabase.GUIDToAssetPath(guids[0]);
-                    _cheats = AssetDatabase.LoadAssetAtPath<CheatPanelConfig>(path);
-                }
+                    _cheats = AssetDatabase.LoadAssetAtPath<CheatPanelConfig>(
+                        AssetDatabase.GUIDToAssetPath(guids[0]));
             }
 
             if (_timeline == null)
             {
                 var guids = AssetDatabase.FindAssets("t:GameTimelineConfig");
                 if (guids.Length > 0)
-                {
-                    var path = AssetDatabase.GUIDToAssetPath(guids[0]);
-                    _timeline = AssetDatabase.LoadAssetAtPath<GameTimelineConfig>(path);
-                }
+                    _timeline = AssetDatabase.LoadAssetAtPath<GameTimelineConfig>(
+                        AssetDatabase.GUIDToAssetPath(guids[0]));
             }
         }
 
@@ -57,7 +53,7 @@ namespace TheyWillDescend.Editor
             _timeline = (GameTimelineConfig)EditorGUILayout.ObjectField(
                 "Timeline Config", _timeline, typeof(GameTimelineConfig), false);
 
-            if (_cheats != null && GUILayout.Button("Ping Cheat Config"))
+            if (_cheats != null && GUILayout.Button("Ping / Edit Cheat Config"))
             {
                 EditorGUIUtility.PingObject(_cheats);
                 Selection.activeObject = _cheats;
@@ -68,8 +64,9 @@ namespace TheyWillDescend.Editor
             if (!Application.isPlaying)
             {
                 EditorGUILayout.HelpBox(
-                    "Enter Play Mode (Game scene loaded) to use cheats.\n" +
-                    "No need to assign CheatPanelConfig on GameLifetimeScope — only here.",
+                    "Play Mode required.\n" +
+                    "Jump resets buildings from CheatPanelConfig phase loadouts (Built list → Built, rest Locked, then cumulative unlocks).\n" +
+                    "Edit Built Buildings / cards on CheatPanelConfig — not on the timeline.",
                     MessageType.Info);
                 EditorGUILayout.EndScrollView();
                 return;
@@ -83,9 +80,9 @@ namespace TheyWillDescend.Editor
             }
 
             if (_cheats == null)
-                EditorGUILayout.HelpBox("Assign Cheat Panel Config (catalog lives there).", MessageType.Warning);
+                EditorGUILayout.HelpBox("Assign Cheat Panel Config.", MessageType.Warning);
             else if (_cheats.GrantAllCardsOnJump)
-                EditorGUILayout.HelpBox("Grant All Cards On Jump is ON — Jump will refill catalog after loadout.", MessageType.None);
+                EditorGUILayout.HelpBox("Grant All On Jump ON — Jump fills catalog instead of phase Starting Cards.", MessageType.None);
 
             EditorGUILayout.Space(12);
             EditorGUILayout.LabelField("Phase Jump", EditorStyles.boldLabel);
@@ -97,27 +94,50 @@ namespace TheyWillDescend.Editor
             }
             else
             {
+                if (_cheats != null && _cheats.PhaseLoadouts.Length < phases.Length)
+                {
+                    EditorGUILayout.HelpBox(
+                        $"Phase Loadouts ({_cheats.PhaseLoadouts.Length}) < phases ({phases.Length}). " +
+                        "Missing indices = all Locked + cumulative unlocks only.",
+                        MessageType.Warning);
+                }
+
                 for (var i = 0; i < phases.Length; i++)
                 {
                     var phase = phases[i];
                     var title = phase != null ? phase.Title : $"Phase {i}";
-                    if (!GUILayout.Button($"Jump to [{i}] {title}"))
+                    var loadout = _cheats != null ? _cheats.GetPhaseLoadout(i) : null;
+                    var builtCount = loadout != null ? loadout.BuiltBuildings.Length : 0;
+                    var label = loadout != null && !string.IsNullOrEmpty(loadout.Label)
+                        ? loadout.Label
+                        : title;
+
+                    if (!GUILayout.Button($"Jump [{i}] {label}  (built×{builtCount})"))
                         continue;
 
-                    if (!TryResolve(out ITimelineService timeline))
-                    {
-                        Debug.LogWarning("[CheatPanel] No ITimelineService — is Game scene loaded?");
-                        continue;
-                    }
-
-                    timeline.DebugJumpToPhase(i);
-
-                    if (_cheats != null && _cheats.GrantAllCardsOnJump)
-                        TryGrantAllCards();
+                    TryJumpToPhase(i);
                 }
             }
 
             EditorGUILayout.EndScrollView();
+        }
+
+        private void TryJumpToPhase(int phaseIndex)
+        {
+            if (!TryResolve(out ITimelineService timeline))
+            {
+                Debug.LogWarning("[CheatPanel] No ITimelineService — is Game scene loaded?");
+                return;
+            }
+
+            if (!TryResolve(out IPhaseLoadoutApplier loadout))
+            {
+                Debug.LogWarning("[CheatPanel] No IPhaseLoadoutApplier — is Game scene loaded?");
+                return;
+            }
+
+            timeline.DebugJumpToPhase(phaseIndex);
+            loadout.ApplyCheatJump(_cheats, _timeline, phaseIndex);
         }
 
         private void TryGrantAllCards()

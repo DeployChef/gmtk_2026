@@ -23,32 +23,23 @@
 
 ```text
 GameTimelineConfig (SO)
-  baselineSeconds                 // старт, напр. 99
-  wrongOfferingTimerDelta         // ± при reject (напр. -1)
-  yearsPerRealtimeSecond
+  baselineSeconds / wrongOfferingTimerDelta / yearsPerRealtimeSecond
+  runStartCards[] / runStartBuildings[]   // только StartRun
   phases[]: PhaseDefinition
-    durationSeconds
-    color / title / tooltip
+    durationSeconds / color / title / tooltip
     requirements[]: PhaseOfferItem
-      resource / count / secondsReward
-    startingCards[]: { ResourceDefinition, count }      // StartRun + Cheat Panel jump
-    startingBuildings[]: { buildingId, active, workers } // пусто = не трогать здания
-    unlockBuildingIds[]           // на PhaseStarted: Locked → Buildable
-    // modifiers[] — вторым заходом
+    unlockBuildingIds[]                   // Locked → Buildable на PhaseStarted
 
-CheatPanelConfig (SO) — отдельно; окно They Will Descend → Cheat Panel
-  grantAllCardsOnJump             // после Jump дополнительно заполнить каталог
-  allCardsCatalog[]
-  grantAllCardsCount / unlimitedGrantCount
+CheatPanelConfig (SO) — They Will Descend → Cheat Panel
+  grantAllCardsOnJump / allCardsCatalog / counts
+  phaseLoadouts[]                         // index = phase index
+    startingCards[]                       // карты на Jump (если grantAll выкл)
+    builtBuildings[]                      // Built + workers; остальные Locked
 ```
 
-Loadout (`startingCards` / `startingBuildings`) применяется только при `StartRun` (фаза 0) и Cheat Panel **Jump**. Обычный advance фазы — нет.
-
-`CheatPanelConfig` **не** вешается на `GameLifetimeScope` — панель сама берёт SO и передаёт в `GrantAllCardsFromCatalog(cheats)`.
-
-Editor: **They Will Descend → Cheat Panel** — Grant All Cards + Jump to phase (Play Mode).
-
-`unlockBuildingIds` применяется на **каждом** `PhaseStarted` (в т.ч. обычный advance): слоты переходят Locked → Buildable. Cost/duration — из `BuildingDefinition`, не из фазы. См. [[08 Buildings]].
+`StartRun`: `runStartCards` / `runStartBuildings` + unlocks фазы 0.  
+Cheat Panel **Jump**: сброс зданий по `builtBuildings` → cumulative `unlockBuildingIds` (0..phase) → карты (catalog или startingCards фазы чит-конфига).  
+Обычный advance: только `unlockBuildingIds` текущей фазы (без сброса Built). См. [[08 Buildings]].
 ## Подношение
 
 ```

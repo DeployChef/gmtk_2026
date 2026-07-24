@@ -15,6 +15,19 @@ MonoBehaviour:
   baselineSeconds: 99
   wrongOfferingTimerDelta: -1
   yearsPerRealtimeSecond: 1
+  runStartCards:
+  - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+    count: 1
+  runStartBuildings:
+  - buildingId: 0
+    active: 1
+    workers: 0
+  - buildingId: 1
+    active: 1
+    workers: 0
+  - buildingId: 2
+    active: 1
+    workers: 0
   phases:
   - title: Dawn Offering
     tooltip: "First demand \u2014 feed the gods with corn."
@@ -24,11 +37,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 6
       secondsReward: 8
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 1
-    startingBuildings: []
-    unlockBuildingIds: 
+    unlockBuildingIds: 00000000010000000200000003000000
   - title: Stone & Timber
     tooltip: "Raise the works \u2014 stone and wood."
     durationSeconds: 90
@@ -40,14 +49,6 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 3
       secondsReward: 8
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 2
-    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 4
-    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
-      count: 4
-    startingBuildings: []
     unlockBuildingIds: 05000000
   - title: Harvest Pressure
     tooltip: More corn. The calendar turns.
@@ -57,10 +58,6 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 12
       secondsReward: 5
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 3
-    startingBuildings: []
     unlockBuildingIds: 
   - title: Obsidian Idols
     tooltip: Craft idols for the temple steps.
@@ -70,14 +67,6 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
       count: 4
       secondsReward: 18
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 3
-    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
-      count: 6
-    - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
-      count: 6
-    startingBuildings: []
     unlockBuildingIds: 
   - title: Mixed Tribute
     tooltip: Wood, stone, and corn together.
@@ -93,10 +82,6 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 6
       secondsReward: 4
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 4
-    startingBuildings: []
     unlockBuildingIds: 
   - title: First Blood
     tooltip: "The altar answers \u2014 blood for the pyramid."
@@ -106,10 +91,6 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       count: 3
       secondsReward: 25
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 5
-    startingBuildings: []
     unlockBuildingIds: 
   - title: Twin Demands
     tooltip: Idols and blood in the same breath.
@@ -122,10 +103,6 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       count: 2
       secondsReward: 30
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 6
-    startingBuildings: []
     unlockBuildingIds: 
   - title: Final Propitiation
     tooltip: "Last era \u2014 satisfy the gods or fall."
@@ -141,8 +118,4 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 10
       secondsReward: 3
-    startingCards:
-    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-      count: 8
-    startingBuildings: []
     unlockBuildingIds: 

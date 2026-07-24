@@ -117,7 +117,8 @@ namespace TheyWillDescend.Gameplay.Session
             _totalElapsed = 0f;
             _lastPublishedYears = -1f;
             _pyramidTimer.ResetToBaseline();
-            EnterPhase(0, applyLoadout: true);
+            _loadoutApplier?.ApplyRunStart(_config.RunStartCards, _config.RunStartBuildings);
+            EnterPhase(0, applyUnlocks: true);
             PublishYears(force: true);
         }
 
@@ -199,7 +200,7 @@ namespace TheyWillDescend.Gameplay.Session
             _running = true;
             _runFinished = false;
             _pyramidTimer.ResetToBaseline();
-            EnterPhase(phaseIndex, applyLoadout: true);
+            EnterPhase(phaseIndex, applyUnlocks: false);
             Debug.Log($"[TimelineService] Debug jump → phase {phaseIndex} ({CurrentPhase?.Title}).");
         }
 
@@ -228,10 +229,10 @@ namespace TheyWillDescend.Gameplay.Session
                 return;
             }
 
-            EnterPhase(next, applyLoadout: false);
+            EnterPhase(next, applyUnlocks: true);
         }
 
-        private void EnterPhase(int index, bool applyLoadout)
+        private void EnterPhase(int index, bool applyUnlocks)
         {
             CurrentPhaseIndex = index;
             _phaseElapsed = 0f;
@@ -239,10 +240,7 @@ namespace TheyWillDescend.Gameplay.Session
             var reqCount = phase != null ? phase.Requirements.Length : 0;
             _delivered = new int[reqCount];
 
-            if (applyLoadout && phase != null)
-                _loadoutApplier?.Apply(phase);
-
-            if (phase != null)
+            if (applyUnlocks && phase != null)
                 _loadoutApplier?.ApplyUnlocks(phase);
 
             if (phase != null)

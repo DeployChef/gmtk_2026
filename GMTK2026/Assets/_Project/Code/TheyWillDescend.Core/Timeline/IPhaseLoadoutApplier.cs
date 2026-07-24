@@ -3,14 +3,20 @@ using TheyWillDescend.Core.Cheats;
 namespace TheyWillDescend.Core.Timeline
 {
     /// <summary>
-    /// Phase loadout (StartRun / debug jump) and construction unlocks (every PhaseStarted).
+    /// Phase loadout (StartRun / cheat jump) and construction unlocks.
     /// </summary>
     public interface IPhaseLoadoutApplier
     {
-        void Apply(PhaseDefinition phase);
+        void ApplyRunStart(PhaseStartingCard[] cards, PhaseStartingBuilding[] buildings);
         void ApplyUnlocks(PhaseDefinition phase);
+        void ApplyUnlocksCumulative(GameTimelineConfig timeline, int throughPhaseIndexInclusive);
 
-        /// <summary>Debug cheat: clear inventory and fill catalog from cheat config.</summary>
+        /// <summary>
+        /// Cheat jump: reset all buildings (Built list vs Locked), then cumulative unlocks → Buildable.
+        /// Cards: grant catalog if GrantAllCardsOnJump, else phase loadout starting cards.
+        /// </summary>
+        void ApplyCheatJump(CheatPanelConfig cheats, GameTimelineConfig timeline, int phaseIndex);
+
         void GrantAllCardsFromCatalog(CheatPanelConfig cheats);
     }
 }

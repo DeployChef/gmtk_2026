@@ -51,11 +51,6 @@ namespace TheyWillDescend.Core.Timeline
         [SerializeField] private Color color = Color.gray;
         [SerializeField] private PhaseOfferItem[] requirements = Array.Empty<PhaseOfferItem>();
 
-        [Header("Start loadout (StartRun phase 0 + Cheat Panel jump only)")]
-        [SerializeField] private PhaseStartingCard[] startingCards = Array.Empty<PhaseStartingCard>();
-        [Tooltip("Empty = leave scene buildings as-is. Non-empty = enable listed ids as Built, set the rest to Locked ruins.")]
-        [SerializeField] private PhaseStartingBuilding[] startingBuildings = Array.Empty<PhaseStartingBuilding>();
-
         [Header("Construction unlock (every PhaseStarted, including normal advance)")]
         [Tooltip("BuildingIds that transition Locked → Buildable when this phase starts.")]
         [SerializeField] private int[] unlockBuildingIds = Array.Empty<int>();
@@ -65,8 +60,6 @@ namespace TheyWillDescend.Core.Timeline
         public float DurationSeconds => Mathf.Max(0.1f, durationSeconds);
         public Color Color => color;
         public PhaseOfferItem[] Requirements => requirements ?? Array.Empty<PhaseOfferItem>();
-        public PhaseStartingCard[] StartingCards => startingCards ?? Array.Empty<PhaseStartingCard>();
-        public PhaseStartingBuilding[] StartingBuildings => startingBuildings ?? Array.Empty<PhaseStartingBuilding>();
         public int[] UnlockBuildingIds => unlockBuildingIds ?? Array.Empty<int>();
 
         public int TotalRequiredCards
@@ -91,11 +84,19 @@ namespace TheyWillDescend.Core.Timeline
         [Tooltip("Applied to pyramid timer when a non-offer card is dropped on the pyramid (e.g. -1).")]
         [SerializeField] private float wrongOfferingTimerDelta = -1f;
         [SerializeField] private float yearsPerRealtimeSecond = 1f;
+
+        [Header("Run start (StartRun only — not Cheat Panel jump)")]
+        [SerializeField] private PhaseStartingCard[] runStartCards = Array.Empty<PhaseStartingCard>();
+        [Tooltip("Empty = leave scene buildings as-is. Non-empty = listed Built, the rest Locked.")]
+        [SerializeField] private PhaseStartingBuilding[] runStartBuildings = Array.Empty<PhaseStartingBuilding>();
+
         [SerializeField] private PhaseDefinition[] phases = Array.Empty<PhaseDefinition>();
 
         public float BaselineSeconds => Mathf.Max(0f, baselineSeconds);
         public float WrongOfferingTimerDelta => wrongOfferingTimerDelta;
         public float YearsPerRealtimeSecond => Mathf.Max(0f, yearsPerRealtimeSecond);
+        public PhaseStartingCard[] RunStartCards => runStartCards ?? Array.Empty<PhaseStartingCard>();
+        public PhaseStartingBuilding[] RunStartBuildings => runStartBuildings ?? Array.Empty<PhaseStartingBuilding>();
         public PhaseDefinition[] Phases => phases ?? Array.Empty<PhaseDefinition>();
         public int PhaseCount => Phases.Length;
     }
