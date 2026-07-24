@@ -7,7 +7,8 @@
         "UniTask",
         "VContainer",
         "Unity.TextMeshPro",
-        "Unity.UGUI"
+        "Unity.UGUI",
+        "Unity.InputSystem"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

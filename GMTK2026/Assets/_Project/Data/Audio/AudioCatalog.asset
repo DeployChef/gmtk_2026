@@ -60,7 +60,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: de2f1fac0a3e31447b76f93b5012e7ef, type: 3}
     mixerGroup: {fileID: 5028489102024711136, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 15
-    allowOverlap: 0
+    allowOverlap: 1
     cooldown: 0.54
     loop: 0
     enableFade: 0
