@@ -1035,6 +1035,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: House
       objectReference: {fileID: 0}
+    - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: Well
+      objectReference: {fileID: 0}
     - target: {fileID: 2282241876121506709, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -1508,6 +1512,10 @@ PrefabInstance:
     - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: minWorkers
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: Obsidian
       objectReference: {fileID: 0}
     - target: {fileID: 2282241876121506709, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2441,6 +2449,10 @@ PrefabInstance:
     - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: buildingId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: Lumber
       objectReference: {fileID: 0}
     - target: {fileID: 2282241876121506709, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -3492,6 +3504,10 @@ PrefabInstance:
       propertyPath: buildingId
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: HumanFarm
+      objectReference: {fileID: 0}
     - target: {fileID: 2107627749629253546, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -4318,6 +4334,10 @@ PrefabInstance:
     - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: buildingId
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: Farm
       objectReference: {fileID: 0}
     - target: {fileID: 2282241876121506709, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5378,6 +5398,10 @@ PrefabInstance:
     - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: minWorkers
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1654480313162895785, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: Altar
       objectReference: {fileID: 0}
     - target: {fileID: 2282241876121506709, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
