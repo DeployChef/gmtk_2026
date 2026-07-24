@@ -206,8 +206,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ad8a7fc0becf7649ba84378a913069c, type: 2}
+  m_sharedMaterial: {fileID: 2998332081864961978, guid: 9ad8a7fc0becf7649ba84378a913069c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_margin: {x: 15, y: 15, z: 15, w: 15}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &2582262075022972374
@@ -418,8 +418,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Body Body Body
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9ad8a7fc0becf7649ba84378a913069c, type: 2}
+  m_sharedMaterial: {fileID: 2998332081864961978, guid: 9ad8a7fc0becf7649ba84378a913069c, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -485,7 +485,7 @@ MonoBehaviour:
   m_margin: {x: 15, y: 15, z: 15, w: 15}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &3642446963087902935
@@ -1059,6 +1059,7 @@ MonoBehaviour:
   buffIconColor: {r: 0.48584908, g: 1, b: 0.5655063, a: 1}
   debuffIconColor: {r: 1, g: 0.5330188, b: 0.5330188, a: 1}
   neutralIconColor: {r: 1, g: 1, b: 1, a: 1}
+  outlineChildName: Outline
   tooltipRoot: {fileID: 8079807846127607567}
   tooltipTitle: {fileID: 3877237608765316787}
   tooltipBody: {fileID: 3109418679404237099}
