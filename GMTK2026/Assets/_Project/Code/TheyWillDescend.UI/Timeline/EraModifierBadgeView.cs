@@ -20,6 +20,7 @@ namespace TheyWillDescend.UI.Timeline
         [SerializeField] private Color buffIconColor = new(0.35f, 1f, 0.45f, 1f);
         [SerializeField] private Color debuffIconColor = new(1f, 0.35f, 0.35f, 1f);
         [SerializeField] private Color neutralIconColor = Color.white;
+        [SerializeField] private string outlineChildName = "Outline";
 
         [Header("Tooltip (optional)")]
         [SerializeField] private GameObject tooltipRoot;
@@ -83,8 +84,17 @@ namespace TheyWillDescend.UI.Timeline
                 img.sprite = sprite;
                 img.enabled = true;
                 img.preserveAspect = true;
-                img.color = ResolveTint(mod.SpeedPercent);
+                img.color = Color.white;
                 img.raycastTarget = true;
+
+                // Tint the outline frame (buff=green, debuff=red)
+                var outlineTr = img.transform.Find(outlineChildName);
+                if (outlineTr != null)
+                {
+                    var outlineImg = outlineTr.GetComponent<Image>();
+                    if (outlineImg != null)
+                        outlineImg.color = ResolveTint(mod.SpeedPercent);
+                }
 
                 var hover = go.GetComponent<ModifierIconHover>();
                 if (hover == null)

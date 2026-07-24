@@ -310,8 +310,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.1, y: 10.3}
-  m_SizeDelta: {x: 20, y: 40}
+  m_AnchoredPosition: {x: 31.6, y: -7.7}
+  m_SizeDelta: {x: 51.0988, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3003268109552085801
 CanvasRenderer:
@@ -341,7 +341,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cf73cd482dd1e1d40a77ab33f5a9e2a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 08c1fac7fc90eaa4ca05d1016c25f9d4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -926,6 +926,7 @@ GameObject:
   - component: {fileID: 1818862583343273444}
   - component: {fileID: 865955994843837170}
   - component: {fileID: 1577045012844526148}
+  - component: {fileID: 5902520391346163361}
   m_Layer: 5
   m_Name: ModifiersRoot
   m_TagString: Untagged
@@ -949,7 +950,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.57732, y: 41.81261}
+  m_AnchoredPosition: {x: 30.7, y: 31.04}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &865955994843837170
@@ -992,6 +993,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
   m_HorizontalFit: 2
   m_VerticalFit: 2
+--- !u!222 &5902520391346163361
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6455550504169637190}
+  m_CullTransparentMesh: 1
 --- !u!1 &7911255135965276176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1011,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4995195936458768293}
   - component: {fileID: 4114128370015363856}
+  - component: {fileID: 4972758792870627624}
+  - component: {fileID: 6596832692735817565}
   m_Layer: 0
   m_Name: Modifiers
   m_TagString: Untagged
@@ -1043,14 +1054,52 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Timeline.EraModifierBadgeView
   iconsContainer: {fileID: 1818862583343273444}
-  iconPrefab: {fileID: 874522909585321699, guid: 0c1e0bd7b7529e04899dce78f6f09bf3, type: 3}
+  iconPrefab: {fileID: 874522909585321699, guid: 02af80e62f4fde54e8b6319e3e1d6331, type: 3}
   canvasGroup: {fileID: 0}
-  buffIconColor: {r: 0.35, g: 1, b: 0.45, a: 1}
-  debuffIconColor: {r: 1, g: 0.35, b: 0.35, a: 1}
+  buffIconColor: {r: 0.48584908, g: 1, b: 0.5655063, a: 1}
+  debuffIconColor: {r: 1, g: 0.5330188, b: 0.5330188, a: 1}
   neutralIconColor: {r: 1, g: 1, b: 1, a: 1}
   tooltipRoot: {fileID: 8079807846127607567}
   tooltipTitle: {fileID: 3877237608765316787}
   tooltipBody: {fileID: 3109418679404237099}
+--- !u!222 &4972758792870627624
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7911255135965276176}
+  m_CullTransparentMesh: 1
+--- !u!114 &6596832692735817565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7911255135965276176}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &8079807846127607567
 GameObject:
   m_ObjectHideFlags: 0

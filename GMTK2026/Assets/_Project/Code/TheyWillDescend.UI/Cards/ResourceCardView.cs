@@ -47,6 +47,7 @@ namespace TheyWillDescend.UI.Cards
         private Canvas _canvas;
 private bool _consumed;
         private bool _dragging;
+        private ProductionBuilding _hoverBuilding;
         private ResourceKind _kind = ResourceKind.Resource;
         private IAudioManager _audio;
         private readonly List<RaycastResult> _raycastHits = new();
@@ -153,6 +154,8 @@ _dragging = true;
             {
                 _rect.position = eventData.position;
             }
+
+            UpdateHoverVfx(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -161,6 +164,7 @@ _dragging = true;
                 return;
 
             _dragging = false;
+            ClearHoverVfx();
             var pyramid = ResolvePyramidUnderPointer(eventData);
             var building = pyramid == null ? ResolveBuildingUnderPointer(eventData) : null;
             canvasGroup.blocksRaycasts = true;
@@ -244,6 +248,31 @@ if (accepted)
                 transform.SetParent(_homeParent, true);
 
             ReturnHomeAsync().Forget();
+        }
+
+        private void UpdateHoverVfx(PointerEventData eventData)
+        {
+            var building = ResolveBuildingUnderPointer(eventData);
+
+            if (building == _hoverBuilding)
+                return;
+
+            ClearHoverVfx();
+
+            if (building != null)
+            {
+                _hoverBuilding = building;
+                _hoverBuilding.ShowDropIndicator(true);
+            }
+        }
+
+        private void ClearHoverVfx()
+        {
+            if (_hoverBuilding != null)
+            {
+                _hoverBuilding.ShowDropIndicator(false);
+                _hoverBuilding = null;
+            }
         }
 
         private async UniTaskVoid ReturnHomeAsync()

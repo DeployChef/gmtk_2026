@@ -26,6 +26,10 @@ namespace TheyWillDescend.Gameplay.Buildings
         [SerializeField] private int startingWorkers;
         [Tooltip("AudioCatalog id played when craft completes. Empty = silent.")]
         [SerializeField] private string produceSoundId = "";
+        [Tooltip("VFX prefab spawned behind the building when a card hovers over it.")]
+        [SerializeField] private GameObject dropVfxPrefab;
+        [Tooltip("Spawn point for the drop VFX. Defaults to building position if unset.")]
+        [SerializeField] private Transform vfxSpawnPoint;
 
         private IGameEventBus _bus;
         private IInventory _inventory;
@@ -39,6 +43,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         private bool _producing;
         private float _buildProgress;
         private float _disabledTimer;
+        private GameObject _activeDropVfx;
 
         public int BuildingId => buildingId;
         public BuildingDefinition Definition => definition;
@@ -124,6 +129,49 @@ namespace TheyWillDescend.Gameplay.Buildings
         {
             PublishWorkers();
             StateChanged?.Invoke();
+        }
+
+        /// <summary>
+        /// Shows/hides the drop indicator VFX when a card hovers over this building.
+        /// </summary>
+        public void ShowDropIndicator(bool show)
+        {
+            if (!show)
+            {
+                if (_activeDropVfx != null)
+                    Destroy(_activeDropVfx);
+                _activeDropVfx = null;
+                return;
+            }
+
+            if (dropVfxPrefab == null || _activeDropVfx != null)
+                return;
+
+            var spawnPos = vfxSpawnPoint != null ? vfxSpawnPoint.position : GetBottomCenter();
+            _activeDropVfx = Instantiate(dropVfxPrefab, spawnPos, Quaternion.identity, transform);
+        }
+
+        private Vector3 GetBottomCenter()
+        {
+            var renderers = GetComponentsInChildren<Renderer>();
+            if (renderers.Length > 0)
+            {
+                var bounds = renderers[0].bounds;
+                for (var i = 1; i < renderers.Length; i++)
+                    bounds.Encapsulate(renderers[i].bounds);
+                return new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+            }
+
+            var colliders = GetComponentsInChildren<Collider>();
+            if (colliders.Length > 0)
+            {
+                var bounds = colliders[0].bounds;
+                for (var i = 1; i < colliders.Length; i++)
+                    bounds.Encapsulate(colliders[i].bounds);
+                return new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+            }
+
+            return transform.position;
         }
 
         private void Update()
