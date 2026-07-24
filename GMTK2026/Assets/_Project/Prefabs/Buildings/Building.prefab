@@ -528,7 +528,7 @@ MonoBehaviour:
   workersLabel: {fileID: 7018020335264985405}
   inputContainer: {fileID: 4538937260332610361}
   outputIcon: {fileID: 8587720486727402403}
-  inputIconPrefab: {fileID: 874522909585321699, guid: 0c1e0bd7b7529e04899dce78f6f09bf3, type: 3}
+  inputIconPrefab: {fileID: 0}
   progressSlider: {fileID: 0}
   progressFill: {fileID: 579418610766277320}
   producedPopup: {fileID: 0}
