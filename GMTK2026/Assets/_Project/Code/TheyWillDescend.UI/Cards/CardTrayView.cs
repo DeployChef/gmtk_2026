@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Economy;
 using TMPro;
 using UnityEngine;
@@ -41,26 +42,26 @@ namespace TheyWillDescend.UI.Cards
 
         /// <summary>
         /// FIFO stack: top = oldest (last sibling). New cards insert under and slide in from above.
+        /// Returns how many new card visuals were spawned.
         /// </summary>
-        public void SyncStack(
+        public int SyncStack(
             int count,
             GameObject cardPrefab,
             Vector2 stackOffset,
             int maxVisibleStack,
             float insertRisePixels,
-            float insertDuration)
+            float insertDuration,
+            IAudioManager audio = null)
         {
             if (stackRoot == null || cardPrefab == null || resource == null)
-                return;
+                return 0;
 
             var visible = count <= 0 ? 0 : Mathf.Clamp(count, 0, Mathf.Max(1, maxVisibleStack));
 
-            // Snapshot — never loop on childCount while Destroy is pending (leaks / freeze).
             var cards = new List<Transform>(stackRoot.childCount);
             for (var i = 0; i < stackRoot.childCount; i++)
                 cards.Add(stackRoot.GetChild(i));
 
-            // Hierarchy: last sibling = top. Trim from top first.
             while (cards.Count > visible)
             {
                 var top = cards[cards.Count - 1];
@@ -76,7 +77,9 @@ namespace TheyWillDescend.UI.Cards
                 var card = instance.GetComponentInChildren<IResourceCard>(true);
                 card?.Setup(resource);
 
-                // New card goes under the deck (behind top).
+                var view = instance.GetComponentInChildren<ResourceCardView>(true);
+                view?.BindAudio(audio);
+
                 instance.transform.SetAsFirstSibling();
                 cards.Insert(0, instance.transform);
 
@@ -85,6 +88,7 @@ namespace TheyWillDescend.UI.Cards
             }
 
             Relayout(cards, stackOffset, added, insertRisePixels, insertDuration);
+            return added.Count;
         }
 
         private static void DestroyCard(Transform card)
@@ -93,7 +97,6 @@ namespace TheyWillDescend.UI.Cards
                 return;
 
             DOTween.Kill(card);
-            // Unparent first so childCount drops this frame (Destroy is deferred).
             card.SetParent(null, false);
             Object.Destroy(card.gameObject);
         }
@@ -106,7 +109,6 @@ namespace TheyWillDescend.UI.Cards
             float insertDuration)
         {
             var n = cardsBottomToTop.Count;
-            // depth 0 = top = last in list
             for (var depth = 0; depth < n; depth++)
             {
                 var child = cardsBottomToTop[n - 1 - depth] as RectTransform;

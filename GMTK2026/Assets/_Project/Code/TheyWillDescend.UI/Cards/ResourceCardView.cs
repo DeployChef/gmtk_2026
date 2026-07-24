@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using VContainer;
 
 namespace TheyWillDescend.UI.Cards
 {
@@ -27,6 +29,7 @@ namespace TheyWillDescend.UI.Cards
         private Canvas _canvas;
         private bool _consumed;
         private ResourceKind _kind = ResourceKind.Resource;
+        private IAudioManager _audio;
         private readonly List<RaycastResult> _raycastHits = new();
 
         public string ResourceId => resourceId;
@@ -34,6 +37,17 @@ namespace TheyWillDescend.UI.Cards
 
         private bool IsVillager =>
             _kind == ResourceKind.Villager || resourceId == ResourceIds.Villager;
+
+        [Inject]
+        public void Construct(IAudioManager audio)
+        {
+            _audio = audio;
+        }
+
+        public void BindAudio(IAudioManager audio)
+        {
+            _audio = audio;
+        }
 
         private void Awake()
         {
@@ -82,6 +96,7 @@ namespace TheyWillDescend.UI.Cards
 
             canvasGroup.blocksRaycasts = false;
             transform.SetAsLastSibling();
+            _audio?.Play(AudioCatalog.Ids.CardPickup);
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -120,8 +135,6 @@ namespace TheyWillDescend.UI.Cards
             {
                 if (IsVillager)
                 {
-                    // Если рабочих уже достаточно для рецепта — житель идёт как input.
-                    // Иначе — сначала пытаемся назначить рабочим.
                     var workersSatisfied = building.Recipe != null
                         && building.Workers >= building.Recipe.WorkersRequired;
 
@@ -140,6 +153,7 @@ namespace TheyWillDescend.UI.Cards
             if (accepted)
             {
                 _consumed = true;
+                _audio?.Play(AudioCatalog.Ids.CardDropOk);
                 Destroy(gameObject);
                 return;
             }
