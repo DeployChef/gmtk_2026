@@ -2,10 +2,10 @@ using System.Collections.Generic;
 using TheyWillDescend.Core.Buildings;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
-using TheyWillDescend.UI.Timeline;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using TheyWillDescend.UI;
 
 namespace TheyWillDescend.UI.Buildings
 {
@@ -22,7 +22,7 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Slider progressSlider;
         [SerializeField] private Image progressFill;
 
-        private readonly List<PyramidOfferIconView> _slots = new();
+        private readonly List<ResourceIconScript> _slots = new();
         private bool _iconsBuilt;
 
         private void Awake()
@@ -117,10 +117,10 @@ namespace TheyWillDescend.UI.Buildings
 
             go.SetActive(true);
 
-            var view = go.GetComponent<PyramidOfferIconView>();
+            var view = go.GetComponent<ResourceIconScript>();
             if (view == null)
             {
-                view = go.AddComponent<PyramidOfferIconView>();
+                view = go.AddComponent<ResourceIconScript>();
                 view.Bind(
                     go.GetComponentInChildren<Image>(),
                     go.GetComponentInChildren<TMP_Text>());
@@ -209,7 +209,7 @@ namespace TheyWillDescend.UI.Buildings
             tmp.fontSize = 22f;
             tmp.text = "0/0";
 
-            var view = go.AddComponent<PyramidOfferIconView>();
+            var view = go.AddComponent<ResourceIconScript>();
             view.Bind(img, tmp);
             return go;
         }
