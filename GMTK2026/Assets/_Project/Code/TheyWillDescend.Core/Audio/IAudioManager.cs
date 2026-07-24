@@ -13,6 +13,9 @@ namespace TheyWillDescend.Core.Audio
         bool IsPlaying(string soundId);
         bool IsMusicPaused { get; }
         bool HasMusicClip { get; }
+        bool HasAmbientClip { get; }
+        void PlayAmbient(string soundId, float? pitch = null, float? pitchRandomRange = null);
+        void StopAmbient();
         System.Collections.Generic.IEnumerable<AudioClip> EnumerateClips();
         void WarmupClip(AudioClip clip);
 
