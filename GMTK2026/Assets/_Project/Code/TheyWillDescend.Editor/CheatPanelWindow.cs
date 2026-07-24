@@ -1,4 +1,5 @@
 using TheyWillDescend.Core.Cheats;
+using TheyWillDescend.Core.Session;
 using TheyWillDescend.Core.Timeline;
 using TheyWillDescend.Main.DI;
 using UnityEditor;
@@ -119,7 +120,28 @@ namespace TheyWillDescend.Editor
                 }
             }
 
+            EditorGUILayout.Space(12);
+            EditorGUILayout.LabelField("Win / Lose", EditorStyles.boldLabel);
+            if (GUILayout.Button("Force Win", GUILayout.Height(28)))
+                TryForceResult(win: true);
+            if (GUILayout.Button("Force Lose", GUILayout.Height(28)))
+                TryForceResult(win: false);
+
             EditorGUILayout.EndScrollView();
+        }
+
+        private void TryForceResult(bool win)
+        {
+            if (!TryResolve(out IGameResultService results))
+            {
+                Debug.LogWarning("[CheatPanel] No IGameResultService — is Game scene loaded?");
+                return;
+            }
+
+            if (win)
+                results.DeclareWin(GameResultCause.Cheat);
+            else
+                results.DeclareLose(GameResultCause.Cheat);
         }
 
         private void TryJumpToPhase(int phaseIndex)

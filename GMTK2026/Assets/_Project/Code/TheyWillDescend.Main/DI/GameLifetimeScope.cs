@@ -1,6 +1,7 @@
 using TheyWillDescend.Core.Cheats;
 using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Core.Inventory;
+using TheyWillDescend.Core.Session;
 using TheyWillDescend.Core.Timeline;
 using TheyWillDescend.Gameplay.Buildings;
 using TheyWillDescend.Gameplay.Hazards;
@@ -39,6 +40,7 @@ namespace TheyWillDescend.Main.DI
             builder.Register<PhaseLoadoutApplier>(Lifetime.Singleton).As<IPhaseLoadoutApplier>();
             builder.Register<PyramidTimerService>(Lifetime.Singleton).As<IPyramidTimerService>();
             builder.Register<TimelineService>(Lifetime.Singleton).As<ITimelineService>();
+            builder.RegisterEntryPoint<GameResultService>().As<IGameResultService>();
             builder.RegisterEntryPoint<TimelineSessionDriver>();
 
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();

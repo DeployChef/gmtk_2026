@@ -2,6 +2,7 @@ using System;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Hazards;
+using TheyWillDescend.Core.Session;
 using TheyWillDescend.Core.Timeline;
 using VContainer.Unity;
 
@@ -15,6 +16,7 @@ namespace TheyWillDescend.Gameplay.Session
     {
         private readonly ITimelineService _timeline;
         private readonly IPyramidTimerService _pyramidTimer;
+        private readonly IGameResultService _gameResult;
         private readonly IGameEventBus _bus;
         private readonly IDisasterManager _disasters;
         private IDisposable _phaseFailedSub;
@@ -22,11 +24,13 @@ namespace TheyWillDescend.Gameplay.Session
         public TimelineSessionDriver(
             ITimelineService timeline,
             IPyramidTimerService pyramidTimer,
+            IGameResultService gameResult,
             IGameEventBus bus,
             IDisasterManager disasters)
         {
             _timeline = timeline;
             _pyramidTimer = pyramidTimer;
+            _gameResult = gameResult;
             _bus = bus;
             _disasters = disasters;
         }
@@ -41,6 +45,9 @@ namespace TheyWillDescend.Gameplay.Session
 
         public void Tick()
         {
+            if (_gameResult.HasResult)
+                return;
+
             var dt = UnityEngine.Time.deltaTime;
             _timeline.Tick(dt);
             _pyramidTimer.Tick(dt);
