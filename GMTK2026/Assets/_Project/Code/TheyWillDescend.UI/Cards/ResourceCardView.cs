@@ -118,9 +118,23 @@ namespace TheyWillDescend.UI.Cards
             var accepted = false;
             if (building != null)
             {
-                accepted = IsVillager
-                    ? building.TryAcceptVillagerCard()
-                    : building.TryAcceptResource(resourceId);
+                if (IsVillager)
+                {
+                    // Если рабочих уже достаточно для рецепта — житель идёт как input.
+                    // Иначе — сначала пытаемся назначить рабочим.
+                    var workersSatisfied = building.Recipe != null
+                        && building.Workers >= building.Recipe.WorkersRequired;
+
+                    accepted = workersSatisfied
+                        ? building.TryAcceptResource(ResourceIds.Villager)
+                          || building.TryAcceptVillagerCard()
+                        : building.TryAcceptVillagerCard()
+                          || building.TryAcceptResource(ResourceIds.Villager);
+                }
+                else
+                {
+                    accepted = building.TryAcceptResource(resourceId);
+                }
             }
 
             if (accepted)

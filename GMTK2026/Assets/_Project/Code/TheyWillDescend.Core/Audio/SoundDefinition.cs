@@ -20,6 +20,9 @@ namespace TheyWillDescend.Core.Audio
         [SerializeField] private bool stopOnPause;
         [SerializeField] private float basePitch = 1f;
         [SerializeField] private float pitchRandomRange;
+        [SerializeField] private float bpmStart;
+        [SerializeField] private float bpmEnd;
+        [SerializeField] private float bpmDuration;
 
         public string Id => id;
         public AudioChannel Channel => channel;
@@ -35,5 +38,8 @@ namespace TheyWillDescend.Core.Audio
         public bool StopOnPause => stopOnPause;
         public float BasePitch => basePitch;
         public float PitchRandomRange => pitchRandomRange;
+        public float BpmStart => bpmStart;
+        public float BpmEnd => bpmEnd;
+        public float BpmDuration => bpmDuration;
     }
 }

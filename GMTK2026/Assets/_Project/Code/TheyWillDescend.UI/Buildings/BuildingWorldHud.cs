@@ -26,6 +26,7 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Image outputIcon;
         [SerializeField] private GameObject inputIconPrefab;
         [SerializeField] private Slider progressSlider;
+        [SerializeField] private Image progressFill;
         [Header("Produce feedback")]
         [SerializeField] private TMP_Text producedPopup;
         [SerializeField] private float popupDuration = 0.65f;
@@ -101,6 +102,16 @@ namespace TheyWillDescend.UI.Buildings
 
                 if (show)
                     progressSlider.value = 1f - building.NormalizedProgress;
+            }
+
+            if (progressFill != null)
+            {
+                var show = building.IsProducing;
+                if (progressFill.gameObject.activeSelf != show)
+                    progressFill.gameObject.SetActive(show);
+
+                if (show)
+                    progressFill.fillAmount = building.NormalizedProgress;
             }
 
             RefreshWorkerButtons();

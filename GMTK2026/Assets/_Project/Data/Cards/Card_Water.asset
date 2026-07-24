@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Water
   displayName: Water
   kind: 0
-  icon: {fileID: 4232966903634666928, guid: 5d52259f6705b724a8b463243eae3dde, type: 3}
+  icon: {fileID: 4737793276900329209, guid: d76474f5cad302544871df17f2ff1d8a, type: 3}
   trayCapacity: 8

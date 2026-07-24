@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a8c1e2f3b4d5e6f708192a3b4c5d6e7, type: 3}
+  m_Name: Card_Gold
+  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Economy.CardDefinition
+  id: Gold
+  displayName: Gold
+  kind: 0
+  icon: {fileID: -3988769855312385993, guid: 20200e253c1a29941a1b1774f3c3da1d, type: 3}
+  trayCapacity: 8

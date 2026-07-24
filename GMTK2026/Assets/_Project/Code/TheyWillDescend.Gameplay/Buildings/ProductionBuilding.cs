@@ -25,6 +25,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         private readonly Dictionary<string, int> _storedInputs = new();
         private float _progress;
         private bool _producing;
+        private float _disabledTimer;
 
         public int BuildingId => buildingId;
         public BuildingRecipe Recipe => recipe;
@@ -37,8 +38,10 @@ namespace TheyWillDescend.Gameplay.Buildings
         public float NormalizedProgress =>
             recipe == null ? 0f : Mathf.Clamp01(_progress / recipe.ProductionDurationSeconds);
         public bool IsProducing => _producing;
+        public bool IsDisabled => _disabledTimer > 0f;
         public bool CanProduce =>
             recipe != null
+            && !IsDisabled
             && _workers >= recipe.WorkersRequired
             && (!recipe.RequiresInput || AllInputsFulfilled());
 
@@ -93,6 +96,26 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (recipe == null)
                 return;
 
+            if (IsDisabled)
+            {
+                _disabledTimer -= Time.deltaTime;
+
+                if (_producing || _progress > 0f)
+                {
+                    _producing = false;
+                    _progress = 0f;
+                    PublishProgress();
+                }
+
+                if (_disabledTimer <= 0f)
+                {
+                    _disabledTimer = 0f;
+                    StateChanged?.Invoke();
+                }
+
+                return;
+            }
+
             if (!CanProduce)
             {
                 if (_producing || _progress > 0f)
@@ -116,6 +139,15 @@ namespace TheyWillDescend.Gameplay.Buildings
             CompleteProduction();
         }
 
+        public void DisableTemporarily(float seconds)
+        {
+            _disabledTimer = Mathf.Max(0.01f, seconds);
+            _producing = false;
+            _progress = 0f;
+            PublishProgress();
+            StateChanged?.Invoke();
+        }
+
         public bool TryAddWorker()
         {
             if (_workers >= maxWorkers)
@@ -132,6 +164,9 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryAcceptVillagerCard()
         {
+            if (recipe != null && recipe.WorkersRequired <= 0)
+                return false;
+
             if (_workers >= maxWorkers)
                 return false;
 
@@ -169,9 +204,6 @@ namespace TheyWillDescend.Gameplay.Buildings
         public bool TryAcceptResource(string resourceId)
         {
             if (recipe == null || !recipe.RequiresInput || string.IsNullOrEmpty(resourceId))
-                return false;
-
-            if (resourceId == ResourceIds.Villager)
                 return false;
 
             // Найти индекс входа по resourceId
