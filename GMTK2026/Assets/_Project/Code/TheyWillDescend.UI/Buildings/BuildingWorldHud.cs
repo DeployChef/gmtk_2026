@@ -235,6 +235,10 @@ namespace TheyWillDescend.UI.Buildings
             if (!_iconsBuilt)
                 RebuildInputIcons();
 
+            // Force layout rebuild after visibility change / icon spawn
+            // to prevent overlapping (HorizontalLayoutGroup + ContentSizeFitter).
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
+
             if (progressSlider != null)
             {
                 var show = building.IsProducing;

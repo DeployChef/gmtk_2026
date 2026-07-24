@@ -442,6 +442,13 @@ private void ShowOutline(bool show, bool isDragging = false)
                    ?? fallback.GetComponentInParent<BuildingCardDropZone>()?.Building;
         }
 
+        private void OnDestroy()
+        {
+            _outlineTween?.Kill();
+            _pulseTween?.Kill();
+            _colorTween?.Kill();
+        }
+
         private void RefreshLabel()
         {
             if (titleLabel != null)
