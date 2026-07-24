@@ -15,5 +15,5 @@ MonoBehaviour:
   id: Villager
   displayName: Villager
   kind: 1
-  icon: {fileID: 6286595657586805340, guid: 2d472c5352db8bc4b92153cfcbdd25d0, type: 3}
+  icon: {fileID: 2268338240730316484, guid: 8c7e7233f43dd2c47a0177c36b01a130, type: 3}
   trayCapacity: -1
