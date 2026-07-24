@@ -1,21 +1,25 @@
 using System.Collections.Generic;
 using TheyWillDescend.Core.Audio;
+using TheyWillDescend.Core.Buildings;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Core.Inventory;
 using UnityEngine;
+using UnityEngine.Serialization;
 using VContainer;
 
 namespace TheyWillDescend.Gameplay.Buildings
 {
     /// <summary>
-    /// Core production building: workers, input stock, timed craft, output to inventory.
+    /// Slot: Locked → Buildable → Constructing → Built (production).
     /// </summary>
     public sealed class ProductionBuilding : MonoBehaviour
     {
         [SerializeField] private int buildingId = 1;
-        [SerializeField] private BuildingRecipe recipe;
+        [FormerlySerializedAs("recipe")]
+        [SerializeField] private BuildingDefinition definition;
+        [SerializeField] private BuildingSlotState initialState = BuildingSlotState.Built;
         [SerializeField] private int minWorkers;
         [SerializeField] private int maxWorkers = 3;
         [SerializeField] private int startingWorkers;
@@ -25,53 +29,69 @@ namespace TheyWillDescend.Gameplay.Buildings
         private IGameEventBus _bus;
         private IInventory _inventory;
         private IAudioManager _audio;
+        private BuildingSlotState _slotState;
         private int _workers;
         private readonly Dictionary<string, int> _storedInputs = new();
+        private readonly Dictionary<string, int> _storedBuildCosts = new();
         private float _progress;
         private bool _producing;
+        private float _buildProgress;
         private float _disabledTimer;
 
         public int BuildingId => buildingId;
-        public BuildingRecipe Recipe => recipe;
+        public BuildingDefinition Definition => definition;
+        /// <summary>Alias for older call sites / HUD.</summary>
+        public BuildingDefinition Recipe => definition;
+        public BuildingSlotState SlotState => _slotState;
+        public bool IsBuilt => _slotState == BuildingSlotState.Built;
+        public bool IsConstructing => _slotState == BuildingSlotState.Constructing;
+        public bool IsBuildable => _slotState == BuildingSlotState.Buildable;
+        public bool IsLocked => _slotState == BuildingSlotState.Locked;
         public int Workers => _workers;
         public int MinWorkers => minWorkers;
         public int MaxWorkers => maxWorkers;
-        public int StoredInput => _storedInputs.TryGetValue(recipe.InputResourceId, out var stored) ? stored : 0;
-        public int InputRequired => recipe != null && recipe.InputResources.Length > 0 && recipe.InputAmounts.Length > 0
-            ? Mathf.Max(0, recipe.InputAmounts[0]) : 0;
-        public float NormalizedProgress =>
-            recipe == null ? 0f : Mathf.Clamp01(_progress / recipe.ProductionDurationSeconds);
-        public bool IsProducing => _producing;
-        public bool IsDisabled => _disabledTimer > 0f;
-        public bool CanProduce =>
-            recipe != null
-            && !IsDisabled
-            && _workers >= recipe.WorkersRequired
-            && (!recipe.RequiresInput || AllInputsFulfilled());
+        public int StoredInput =>
+            definition != null && _storedInputs.TryGetValue(definition.InputResourceId, out var stored)
+                ? stored
+                : 0;
+        public int InputRequired => definition != null && definition.InputResources.Length > 0
+                                    && definition.InputAmounts.Length > 0
+            ? Mathf.Max(0, definition.InputAmounts[0])
+            : 0;
 
-        private bool AllInputsFulfilled()
+        public float NormalizedProgress
         {
-            var inputs = recipe.InputResources;
-            var amounts = recipe.InputAmounts;
-            for (var i = 0; i < inputs.Length; i++)
+            get
             {
-                var card = inputs[i];
-                if (card == null)
-                    continue;
+                if (_slotState == BuildingSlotState.Constructing)
+                {
+                    var duration = definition != null ? definition.BuildDurationSeconds : 0f;
+                    return duration <= 0.01f ? 1f : Mathf.Clamp01(_buildProgress / duration);
+                }
 
-                var required = i < amounts.Length ? amounts[i] : 1;
-                if (required <= 0)
-                    continue;
+                if (_slotState != BuildingSlotState.Built || definition == null)
+                    return 0f;
 
-                if (!_storedInputs.TryGetValue(card.Id, out var stored) || stored < required)
-                    return false;
+                return Mathf.Clamp01(_progress / definition.ProductionDurationSeconds);
             }
-
-            return true;
         }
 
+        public bool IsProducing =>
+            _slotState == BuildingSlotState.Constructing
+            || (_slotState == BuildingSlotState.Built && _producing);
+
+        public bool IsDisabled => _disabledTimer > 0f;
+
+        public bool CanProduce =>
+            _slotState == BuildingSlotState.Built
+            && definition != null
+            && !IsDisabled
+            && _workers >= definition.WorkersRequired
+            && (!definition.RequiresInput || AllInputsFulfilled());
+
         public bool CanHireWorker =>
-            _workers < maxWorkers
+            _slotState == BuildingSlotState.Built
+            && _workers < maxWorkers
             && _inventory != null
             && _inventory.GetCount(ResourceIds.Villager) > 0;
 
@@ -87,18 +107,27 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private void Awake()
         {
-            _workers = Mathf.Clamp(startingWorkers, minWorkers, maxWorkers);
+            _slotState = initialState;
+            _workers = _slotState == BuildingSlotState.Built
+                ? Mathf.Clamp(startingWorkers, minWorkers, maxWorkers)
+                : 0;
         }
 
         private void Start()
         {
-            // Ensure HUD / trays know initial assigned workers after DI.
             PublishWorkers();
+            StateChanged?.Invoke();
         }
 
         private void Update()
         {
-            if (recipe == null)
+            if (_slotState == BuildingSlotState.Constructing)
+            {
+                TickConstruction();
+                return;
+            }
+
+            if (_slotState != BuildingSlotState.Built || definition == null)
                 return;
 
             if (IsDisabled)
@@ -138,7 +167,7 @@ namespace TheyWillDescend.Gameplay.Buildings
             _progress += Time.deltaTime;
             PublishProgress();
 
-            if (_progress < recipe.ProductionDurationSeconds)
+            if (_progress < definition.ProductionDurationSeconds)
                 return;
 
             CompleteProduction();
@@ -146,6 +175,9 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public void DisableTemporarily(float seconds)
         {
+            if (_slotState != BuildingSlotState.Built)
+                return;
+
             _disabledTimer = Mathf.Max(0.01f, seconds);
             _producing = false;
             _progress = 0f;
@@ -154,27 +186,71 @@ namespace TheyWillDescend.Gameplay.Buildings
         }
 
         /// <summary>
-        /// Debug / phase-start loadout: set active flag and workers without touching inventory.
+        /// Debug / phase-start loadout. Keeps GameObject active (ruins stay visible when locked).
         /// </summary>
         public void ApplyPhaseLoadout(bool active, int workers)
         {
-            gameObject.SetActive(active);
-            if (!active)
-                return;
+            gameObject.SetActive(true);
 
-            _workers = Mathf.Clamp(workers, minWorkers, maxWorkers);
             _progress = 0f;
             _producing = false;
+            _buildProgress = 0f;
             _disabledTimer = 0f;
             _storedInputs.Clear();
+            _storedBuildCosts.Clear();
+
+            if (!active)
+            {
+                _workers = 0;
+                SetSlotState(BuildingSlotState.Locked);
+                PublishProgress();
+                PublishWorkers();
+                return;
+            }
+
+            _workers = Mathf.Clamp(workers, minWorkers, maxWorkers);
+            SetSlotState(BuildingSlotState.Built);
             PublishProgress();
             PublishWorkers();
-            StateChanged?.Invoke();
+        }
+
+        /// <summary>Locked → Buildable (or skip to Constructing/Built if no cost).</summary>
+        public bool TryUnlock()
+        {
+            if (_slotState != BuildingSlotState.Locked)
+                return false;
+
+            _bus?.Publish(new BuildingUnlockedEvent(buildingId));
+
+            if (definition == null || !definition.HasBuildCost)
+            {
+                if (definition == null || definition.BuildDurationSeconds <= 0.01f)
+                    CompleteConstruction();
+                else
+                    BeginConstruction();
+            }
+            else
+            {
+                SetSlotState(BuildingSlotState.Buildable);
+            }
+
+            return true;
+        }
+
+        public int GetStoredAmount(string resourceId)
+        {
+            if (string.IsNullOrEmpty(resourceId))
+                return 0;
+
+            if (_slotState == BuildingSlotState.Buildable)
+                return _storedBuildCosts.TryGetValue(resourceId, out var buildStored) ? buildStored : 0;
+
+            return _storedInputs.TryGetValue(resourceId, out var stored) ? stored : 0;
         }
 
         public bool TryAddWorker()
         {
-            if (_workers >= maxWorkers)
+            if (_slotState != BuildingSlotState.Built || _workers >= maxWorkers)
                 return false;
 
             if (_inventory == null || !_inventory.TryRemove(ResourceIds.Villager))
@@ -188,7 +264,10 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryAcceptVillagerCard()
         {
-            if (recipe != null && recipe.WorkersRequired <= 0)
+            if (_slotState != BuildingSlotState.Built)
+                return false;
+
+            if (definition != null && definition.WorkersRequired <= 0)
                 return false;
 
             if (_workers >= maxWorkers)
@@ -205,7 +284,7 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryRemoveWorker()
         {
-            if (_workers <= minWorkers || _inventory == null)
+            if (_slotState != BuildingSlotState.Built || _workers <= minWorkers || _inventory == null)
                 return false;
 
             var villager = _inventory.GetDefinition(ResourceIds.Villager);
@@ -227,12 +306,20 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryAcceptResource(string resourceId)
         {
-            if (recipe == null || !recipe.RequiresInput || string.IsNullOrEmpty(resourceId))
+            if (string.IsNullOrEmpty(resourceId))
                 return false;
 
-            // Найти индекс входа по resourceId
+            if (_slotState == BuildingSlotState.Buildable)
+                return TryAcceptBuildResource(resourceId);
+
+            if (_slotState != BuildingSlotState.Built)
+                return false;
+
+            if (definition == null || !definition.RequiresInput)
+                return false;
+
             var inputIndex = -1;
-            var inputs = recipe.InputResources;
+            var inputs = definition.InputResources;
             for (var i = 0; i < inputs.Length; i++)
             {
                 if (inputs[i] != null && inputs[i].Id == resourceId)
@@ -245,8 +332,7 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (inputIndex < 0)
                 return false;
 
-            // Проверить, не превышен ли лимит для этого ресурса
-            var amounts = recipe.InputAmounts;
+            var amounts = definition.InputAmounts;
             var required = inputIndex < amounts.Length ? amounts[inputIndex] : 1;
             if (required <= 0)
                 return false;
@@ -264,12 +350,135 @@ namespace TheyWillDescend.Gameplay.Buildings
             return true;
         }
 
+        private bool TryAcceptBuildResource(string resourceId)
+        {
+            if (definition == null)
+                return false;
+
+            var costs = definition.BuildCost;
+            var costIndex = -1;
+            for (var i = 0; i < costs.Length; i++)
+            {
+                var item = costs[i];
+                if (item?.Resource == null || item.Count <= 0)
+                    continue;
+                if (item.ResourceId != resourceId)
+                    continue;
+                costIndex = i;
+                break;
+            }
+
+            if (costIndex < 0)
+                return false;
+
+            var required = costs[costIndex].Count;
+            _storedBuildCosts.TryGetValue(resourceId, out var stored);
+            if (stored >= required)
+                return false;
+
+            if (_inventory == null || !_inventory.TryRemove(resourceId))
+                return false;
+
+            stored++;
+            _storedBuildCosts[resourceId] = stored;
+            _bus?.Publish(new BuildingBuildProgressEvent(buildingId, resourceId, stored, required));
+            StateChanged?.Invoke();
+
+            if (AllBuildCostsFulfilled())
+                BeginConstruction();
+
+            return true;
+        }
+
+        private bool AllBuildCostsFulfilled()
+        {
+            if (definition == null)
+                return false;
+
+            var costs = definition.BuildCost;
+            for (var i = 0; i < costs.Length; i++)
+            {
+                var item = costs[i];
+                if (item?.Resource == null || item.Count <= 0)
+                    continue;
+
+                if (!_storedBuildCosts.TryGetValue(item.ResourceId, out var stored) || stored < item.Count)
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool AllInputsFulfilled()
+        {
+            var inputs = definition.InputResources;
+            var amounts = definition.InputAmounts;
+            for (var i = 0; i < inputs.Length; i++)
+            {
+                var card = inputs[i];
+                if (card == null)
+                    continue;
+
+                var required = i < amounts.Length ? amounts[i] : 1;
+                if (required <= 0)
+                    continue;
+
+                if (!_storedInputs.TryGetValue(card.Id, out var stored) || stored < required)
+                    return false;
+            }
+
+            return true;
+        }
+
+        private void TickConstruction()
+        {
+            var duration = definition != null ? definition.BuildDurationSeconds : 0f;
+            if (duration <= 0.01f)
+            {
+                CompleteConstruction();
+                return;
+            }
+
+            _buildProgress += Time.deltaTime;
+            PublishProgress();
+
+            if (_buildProgress < duration)
+                return;
+
+            CompleteConstruction();
+        }
+
+        private void BeginConstruction()
+        {
+            _buildProgress = 0f;
+            SetSlotState(BuildingSlotState.Constructing);
+            _bus?.Publish(new BuildingConstructionStartedEvent(buildingId));
+            PublishProgress();
+        }
+
+        private void CompleteConstruction()
+        {
+            _buildProgress = 0f;
+            _storedBuildCosts.Clear();
+            _workers = Mathf.Clamp(_workers, minWorkers, maxWorkers);
+            SetSlotState(BuildingSlotState.Built);
+            _bus?.Publish(new BuildingConstructedEvent(buildingId));
+            PublishProgress();
+            PublishWorkers();
+        }
+
+        private void SetSlotState(BuildingSlotState next)
+        {
+            _slotState = next;
+            StateChanged?.Invoke();
+        }
+
         private void CompleteProduction()
         {
-            if (recipe.RequiresInput)
+            if (definition.RequiresInput)
             {
-                var inputs = recipe.InputResources;
-                var amounts = recipe.InputAmounts;
+                var inputs = definition.InputResources;
+                var amounts = definition.InputAmounts;
                 for (var i = 0; i < inputs.Length; i++)
                 {
                     var card = inputs[i];
@@ -290,11 +499,11 @@ namespace TheyWillDescend.Gameplay.Buildings
 
             PublishInput();
             PublishProgress();
-            _bus?.Publish(new ResourceProducedEvent(buildingId, recipe.OutputResourceId));
+            _bus?.Publish(new ResourceProducedEvent(buildingId, definition.OutputResourceId));
 
-            if (recipe.OutputResource != null)
+            if (definition.OutputResource != null)
             {
-                _inventory?.TryAdd(recipe.OutputResource);
+                _inventory?.TryAdd(definition.OutputResource);
                 if (!string.IsNullOrEmpty(produceSoundId))
                     _audio?.Play(produceSoundId);
             }
@@ -309,15 +518,15 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private void PublishInput()
         {
-            if (recipe == null)
+            if (definition == null)
                 return;
 
-            _storedInputs.TryGetValue(recipe.InputResourceId, out var stored);
+            _storedInputs.TryGetValue(definition.InputResourceId, out var stored);
             _bus?.Publish(new BuildingInputChangedEvent(
                 buildingId,
-                recipe.InputResourceId,
+                definition.InputResourceId,
                 stored,
-                recipe.InputAmountRequired));
+                definition.InputAmountRequired));
         }
 
         private void PublishProgress() =>

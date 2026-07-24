@@ -8,6 +8,7 @@
 
 - **длительностью** (может отличаться: 60с / 120с / …);
 - **требованиями Пирамиды** (офферы: ресурс, количество, **цена в секундах за карту**);
+- **разблокировкой зданий** (`unlockBuildingIds[]`) — руины получают оффер стройки (см. [[03 Economy#5.2. Строительство (оффер на слоте)|Economy]]);
 - позже — **модификаторами правил** эры (вторым заходом);
 - визуалом сегмента на TopBar (цвет, тултип).
 
@@ -54,7 +55,7 @@
 
 ### Debug
 
-Кнопки **Jump to phase** в Inspector у `GameTimelineConfig` (только Play Mode). Runtime UI нет. Jump применяет Starting Cards/Buildings фазы и сбрасывает таймер пирамиды.
+Кнопки **Jump to phase** / **Grant All Cards** — окно **They Will Descend → Cheat Panel** (только Play Mode). Runtime UI нет. Jump применяет Starting Cards/Buildings фазы и сбрасывает таймер пирамиды. Каталог чит-карт — `CheatPanelConfig`.
 
 ### UI
 

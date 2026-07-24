@@ -51,10 +51,14 @@ namespace TheyWillDescend.Core.Timeline
         [SerializeField] private Color color = Color.gray;
         [SerializeField] private PhaseOfferItem[] requirements = Array.Empty<PhaseOfferItem>();
 
-        [Header("Start loadout (StartRun phase 0 + Inspector debug jump only)")]
+        [Header("Start loadout (StartRun phase 0 + Cheat Panel jump only)")]
         [SerializeField] private PhaseStartingCard[] startingCards = Array.Empty<PhaseStartingCard>();
-        [Tooltip("Empty = leave scene buildings as-is. Non-empty = enable listed ids, disable the rest.")]
+        [Tooltip("Empty = leave scene buildings as-is. Non-empty = enable listed ids as Built, set the rest to Locked ruins.")]
         [SerializeField] private PhaseStartingBuilding[] startingBuildings = Array.Empty<PhaseStartingBuilding>();
+
+        [Header("Construction unlock (every PhaseStarted, including normal advance)")]
+        [Tooltip("BuildingIds that transition Locked → Buildable when this phase starts.")]
+        [SerializeField] private int[] unlockBuildingIds = Array.Empty<int>();
 
         public string Title => string.IsNullOrEmpty(title) ? "Phase" : title;
         public string Tooltip => tooltip;
@@ -63,6 +67,7 @@ namespace TheyWillDescend.Core.Timeline
         public PhaseOfferItem[] Requirements => requirements ?? Array.Empty<PhaseOfferItem>();
         public PhaseStartingCard[] StartingCards => startingCards ?? Array.Empty<PhaseStartingCard>();
         public PhaseStartingBuilding[] StartingBuildings => startingBuildings ?? Array.Empty<PhaseStartingBuilding>();
+        public int[] UnlockBuildingIds => unlockBuildingIds ?? Array.Empty<int>();
 
         public int TotalRequiredCards
         {

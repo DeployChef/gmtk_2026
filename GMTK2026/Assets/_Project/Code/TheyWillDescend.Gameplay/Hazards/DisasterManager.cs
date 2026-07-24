@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using TheyWillDescend.Core.Buildings;
 using TheyWillDescend.Core.Hazards;
+using TheyWillDescend.Gameplay.Buildings;
 using UnityEngine;
 using VContainer;
 
@@ -6,6 +9,7 @@ namespace TheyWillDescend.Gameplay.Hazards
 {
     /// <summary>
     /// Scene façade for disasters: Inspector VFX + delegates strike effects to <see cref="IThunderService"/>.
+    /// Only <see cref="BuildingSlotState.Built"/> houses are valid targets.
     /// </summary>
     public sealed class DisasterManager : MonoBehaviour, IDisasterManager
     {
@@ -27,6 +31,7 @@ namespace TheyWillDescend.Gameplay.Hazards
         [SerializeField] private Vector3 tertiaryVfxOffset = Vector3.zero;
 
         private IThunderService _thunder;
+        private readonly List<GameObject> _builtHouses = new();
 
         [Inject]
         public void Construct(IThunderService thunder)
@@ -42,14 +47,14 @@ namespace TheyWillDescend.Gameplay.Hazards
                 return false;
             }
 
-            var houses = GameObject.FindGameObjectsWithTag(HouseTag);
-            if (houses.Length == 0)
+            CollectBuiltHouses();
+            if (_builtHouses.Count == 0)
             {
-                Debug.LogWarning("[DisasterManager] No objects with tag 'House' found.");
+                Debug.LogWarning("[DisasterManager] No Built houses with tag 'House' found.");
                 return false;
             }
 
-            var target = houses[Random.Range(0, houses.Length)];
+            var target = _builtHouses[Random.Range(0, _builtHouses.Count)];
             var basePos = target.transform.position;
 
             SpawnVfx(lightningPrefab, basePos + lightningOffset, lightningLifetime);
@@ -58,6 +63,27 @@ namespace TheyWillDescend.Gameplay.Hazards
 
             _thunder?.ApplyStrike(target, disableDuration);
             return true;
+        }
+
+        private void CollectBuiltHouses()
+        {
+            _builtHouses.Clear();
+            var houses = GameObject.FindGameObjectsWithTag(HouseTag);
+            for (var i = 0; i < houses.Length; i++)
+            {
+                var house = houses[i];
+                if (house == null || !house.activeInHierarchy)
+                    continue;
+
+                var building = house.GetComponentInChildren<ProductionBuilding>();
+                if (building == null)
+                    building = house.GetComponentInParent<ProductionBuilding>();
+
+                if (building == null || !building.IsBuilt)
+                    continue;
+
+                _builtHouses.Add(house);
+            }
         }
 
         private static void SpawnVfx(GameObject prefab, Vector3 pos, float lifetime)

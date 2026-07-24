@@ -17,7 +17,7 @@ MonoBehaviour:
   yearsPerRealtimeSecond: 1
   phases:
   - title: Dawn Offering
-    tooltip: First demand — feed the gods with corn.
+    tooltip: "First demand \u2014 feed the gods with corn."
     durationSeconds: 60
     color: {r: 0.85, g: 0.65, b: 0.2, a: 1}
     requirements:
@@ -28,8 +28,9 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 1
     startingBuildings: []
+    unlockBuildingIds: 
   - title: Stone & Timber
-    tooltip: Raise the works — stone and wood.
+    tooltip: "Raise the works \u2014 stone and wood."
     durationSeconds: 90
     color: {r: 0.55, g: 0.55, b: 0.6, a: 1}
     requirements:
@@ -47,6 +48,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 4
     startingBuildings: []
+    unlockBuildingIds: 05000000
   - title: Harvest Pressure
     tooltip: More corn. The calendar turns.
     durationSeconds: 90
@@ -59,6 +61,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 3
     startingBuildings: []
+    unlockBuildingIds: 
   - title: Obsidian Idols
     tooltip: Craft idols for the temple steps.
     durationSeconds: 100
@@ -75,6 +78,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
       count: 6
     startingBuildings: []
+    unlockBuildingIds: 
   - title: Mixed Tribute
     tooltip: Wood, stone, and corn together.
     durationSeconds: 100
@@ -93,8 +97,9 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 4
     startingBuildings: []
+    unlockBuildingIds: 
   - title: First Blood
-    tooltip: The altar answers — blood for the pyramid.
+    tooltip: "The altar answers \u2014 blood for the pyramid."
     durationSeconds: 110
     color: {r: 0.65, g: 0.1, b: 0.15, a: 1}
     requirements:
@@ -105,6 +110,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 5
     startingBuildings: []
+    unlockBuildingIds: 
   - title: Twin Demands
     tooltip: Idols and blood in the same breath.
     durationSeconds: 120
@@ -120,8 +126,9 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 6
     startingBuildings: []
+    unlockBuildingIds: 
   - title: Final Propitiation
-    tooltip: Last era — satisfy the gods or fall.
+    tooltip: "Last era \u2014 satisfy the gods or fall."
     durationSeconds: 120
     color: {r: 0.15, g: 0.05, b: 0.2, a: 1}
     requirements:
@@ -138,3 +145,4 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 8
     startingBuildings: []
+    unlockBuildingIds: 

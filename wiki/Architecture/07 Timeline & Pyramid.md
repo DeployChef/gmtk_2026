@@ -7,7 +7,7 @@
 1. **`ITimelineService`** — clock партии, фазы из SO, прогресс оффера, смена фазы, гнев при провале, debug jump.
 2. **`IPyramidTimerService`** — countdown; baseline на старте; `+secondsReward` за верный оффер; `wrongOfferingTimerDelta` (±) при reject; `00:00` → lose.
 
-Пирамида — drop-zone. Кара фазы → шина → `IDisasterManager.TryStrikeRandomHouse()`.
+Пирамида — drop-zone. Кара фазы → шина → `IDisasterManager.TryStrikeRandomHouse()` (только **Built** слоты; руины / стройка вне пула). См. [[08 Buildings]].
 
 ## Баланс (без автоматематики)
 
@@ -31,12 +31,24 @@ GameTimelineConfig (SO)
     color / title / tooltip
     requirements[]: PhaseOfferItem
       resource / count / secondsReward
-    startingCards[]: { ResourceDefinition, count }      // StartRun + debug jump
+    startingCards[]: { ResourceDefinition, count }      // StartRun + Cheat Panel jump
     startingBuildings[]: { buildingId, active, workers } // пусто = не трогать здания
+    unlockBuildingIds[]           // на PhaseStarted: Locked → Buildable
     // modifiers[] — вторым заходом
+
+CheatPanelConfig (SO) — отдельно; окно They Will Descend → Cheat Panel
+  grantAllCardsOnJump             // после Jump дополнительно заполнить каталог
+  allCardsCatalog[]
+  grantAllCardsCount / unlimitedGrantCount
 ```
 
-Loadout применяется только при `StartRun` (фаза 0) и Inspector **Jump to phase**. Обычный advance фазы — нет.
+Loadout (`startingCards` / `startingBuildings`) применяется только при `StartRun` (фаза 0) и Cheat Panel **Jump**. Обычный advance фазы — нет.
+
+`CheatPanelConfig` **не** вешается на `GameLifetimeScope` — панель сама берёт SO и передаёт в `GrantAllCardsFromCatalog(cheats)`.
+
+Editor: **They Will Descend → Cheat Panel** — Grant All Cards + Jump to phase (Play Mode).
+
+`unlockBuildingIds` применяется на **каждом** `PhaseStarted` (в т.ч. обычный advance): слоты переходят Locked → Buildable. Cost/duration — из `BuildingDefinition`, не из фазы. См. [[08 Buildings]].
 ## Подношение
 
 ```
@@ -60,7 +72,7 @@ DnD ресурс → Pyramid
 
 ### Debug phase jump
 
-Inspector у `GameTimelineConfig` (`GameTimelineConfigEditor`): кнопки Jump в Play Mode → `ITimelineService.DebugJumpToPhase` + loadout. Не в игровом UI.
+Окно **They Will Descend → Cheat Panel** (Play Mode) → Jump / Grant All. Настройки карт — `CheatPanelConfig`. Не в игровом UI.
 
 ## UI
 
@@ -77,7 +89,7 @@ Inspector у `GameTimelineConfig` (`GameTimelineConfigEditor`): кнопки Jum
 | Фазы + офферы с `secondsReward` | Модификаторы производства эры |
 | Reject + `wrongOfferingTimerDelta` | Прочие катаклизмы / lose VFX |
 | Гнев-молния, TopBar сегменты, World-таймер | Спрайт пирамиды |
-| Inspector Jump + phase loadout | Win state rewind |
+| Cheat Panel Jump + phase loadout | Win state rewind |
 
 ## Реализованные типы
 
@@ -86,7 +98,7 @@ Inspector у `GameTimelineConfig` (`GameTimelineConfigEditor`): кнопки Jum
 | Core | `GameTimelineConfig`, `PhaseDefinition`, `PhaseOfferItem`, `ITimelineService`, `IPyramidTimerService`, timeline/pyramid events |
 | Gameplay | `TimelineService`, `PyramidTimerService`, `TimelineSessionDriver`, `PyramidOfferingPoint`, `PhaseLoadoutApplier` |
 | UI | `TimelineHudView`, `TimelinePhaseSegmentView`, `PyramidTimerWorldHud`, `PyramidCardDropZone`, `PyramidOfferWorldHud` |
-| Editor | `GameTimelineConfigEditor` — Jump to phase |
+| Editor | `CheatPanelWindow` — Jump / Grant All; `CheatPanelConfig` |
 | Main | регистрация в `GameLifetimeScope`; `GameStartState` → `StartRun()` |
 
 ## Связь

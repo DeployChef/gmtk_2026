@@ -56,7 +56,11 @@ builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
 | `ResourceProducedEvent` | здание выдало карточку (ресурс / житель / актибка) | спавн в CardsRail |
 | `CardDroppedOnBuildingEvent` | DnD ресурса/активки/жителя | крафт / бафф / +worker |
 | `OfferingSubmittedEvent` | ресурс на Пирамиду (в т.ч. Кровь) | прогресс оффера фазы, +N сек таймера, аудио, Шаман |
-| `PhaseStartedEvent` / `PhaseCompletedEvent` | смена / закрытие эры | UI таймлайна, модификаторы производства, Шаман |
+| `BuildingUnlockedEvent` | фаза открыла слот (Locked → Buildable) | BuildOffer HUD, аудио |
+| `BuildingBuildProgressEvent` | принят ресурс в cost стройки | BuildOffer HUD |
+| `BuildingConstructionStartedEvent` | оффер стройки закрыт → таймер | progress HUD |
+| `BuildingConstructedEvent` | таймер стройки закончен → Built | production HUD, VFX |
+| `PhaseStartedEvent` / `PhaseCompletedEvent` | смена / закрытие эры | UI таймлайна, unlock зданий, модификаторы, Шаман |
 | `PhaseFailedEvent` / `GodsDemandFailedEvent` | оффер фазы не закрыт к дедлайну | `IDisasterManager` (молния), UI, аудио |
 | `TimelineYearsChangedEvent` | тик «лет прошло» | TopBar label |
 | `PyramidTimerChangedEvent` | тик / порог тревоги | World HUD пирамиды, аудио |

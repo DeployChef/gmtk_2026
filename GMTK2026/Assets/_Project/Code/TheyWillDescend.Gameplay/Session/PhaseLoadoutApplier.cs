@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using TheyWillDescend.Core.Cheats;
+using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.Core.Timeline;
 using TheyWillDescend.Gameplay.Buildings;
@@ -24,6 +26,92 @@ namespace TheyWillDescend.Gameplay.Session
             ApplyBuildings(phase.StartingBuildings);
         }
 
+        public void ApplyUnlocks(PhaseDefinition phase)
+        {
+            if (phase == null)
+                return;
+
+            var ids = phase.UnlockBuildingIds;
+            if (ids.Length == 0)
+                return;
+
+            var unlock = new HashSet<int>(ids);
+            var buildings = Object.FindObjectsByType<ProductionBuilding>(
+                FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            for (var i = 0; i < buildings.Length; i++)
+            {
+                var building = buildings[i];
+                if (!unlock.Contains(building.BuildingId))
+                    continue;
+
+                building.TryUnlock();
+            }
+        }
+
+        public void GrantAllCardsFromCatalog(CheatPanelConfig cheats)
+        {
+            _inventory.Clear();
+
+            if (cheats == null)
+            {
+                Debug.LogWarning("[PhaseLoadout] CheatPanelConfig is null — cannot grant cards.");
+                return;
+            }
+
+            var catalog = cheats.AllCardsCatalog;
+            if (catalog.Length == 0)
+            {
+                Debug.LogWarning(
+                    "[PhaseLoadout] All Cards Catalog is empty — assign ResourceDefinitions on CheatPanelConfig.");
+                return;
+            }
+
+            var fixedCount = cheats.GrantAllCardsCount;
+            for (var i = 0; i < catalog.Length; i++)
+            {
+                var definition = catalog[i];
+                if (definition == null)
+                    continue;
+
+                if (fixedCount > 0)
+                {
+                    GrantAmount(definition, fixedCount);
+                    continue;
+                }
+
+                if (definition.HasTrayCapacityLimit)
+                    GrantUntilFull(definition);
+                else
+                    GrantAmount(definition, cheats.UnlimitedGrantCount);
+            }
+
+            Debug.Log("[PhaseLoadout] Granted all cards from cheat catalog.");
+        }
+
+        private void GrantUntilFull(ResourceDefinition definition)
+        {
+            var capacity = Mathf.Max(0, definition.TrayCapacity);
+            for (var n = 0; n < capacity; n++)
+            {
+                if (!_inventory.TryAdd(definition))
+                    break;
+            }
+        }
+
+        private void GrantAmount(ResourceDefinition definition, int amount)
+        {
+            for (var n = 0; n < amount; n++)
+            {
+                if (!_inventory.TryAdd(definition))
+                {
+                    Debug.LogWarning(
+                        $"[PhaseLoadout] Could not add more {definition.Id} (tray full?). Stopped this stack.");
+                    break;
+                }
+            }
+        }
+
         private void ApplyCards(PhaseStartingCard[] cards)
         {
             _inventory.Clear();
@@ -37,15 +125,7 @@ namespace TheyWillDescend.Gameplay.Session
                 if (entry?.Resource == null || entry.Count <= 0)
                     continue;
 
-                for (var n = 0; n < entry.Count; n++)
-                {
-                    if (!_inventory.TryAdd(entry.Resource))
-                    {
-                        Debug.LogWarning(
-                            $"[PhaseLoadout] Could not add {entry.Resource.Id} (tray full?). Stopped this stack.");
-                        break;
-                    }
-                }
+                GrantAmount(entry.Resource, entry.Count);
             }
         }
 

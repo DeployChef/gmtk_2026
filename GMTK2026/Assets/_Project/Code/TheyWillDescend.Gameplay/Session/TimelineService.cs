@@ -243,6 +243,9 @@ namespace TheyWillDescend.Gameplay.Session
                 _loadoutApplier?.Apply(phase);
 
             if (phase != null)
+                _loadoutApplier?.ApplyUnlocks(phase);
+
+            if (phase != null)
             {
                 _bus.Publish(new PhaseStartedEvent(index, phase.Title, phase.DurationSeconds));
                 Debug.Log($"[TimelineService] Phase {index} started: {phase.Title} ({phase.DurationSeconds:0.#}s).");

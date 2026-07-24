@@ -66,7 +66,8 @@ _Project/
 | Взял карту / карта в лоток | `CardPickup` |
 | Успешный drop на здание | `CardDropOk` |
 | Производство выдало ресурс | `ResoursGold` |
-| Старт стройки (позже) | `BuildStart` |
+| Старт стройки (Constructing) | `BuildStart` |
+| Здание построено (Built) | `BuildComplete` (кандидат) |
 | Удар молнии | `Thunder` (`ThunderService`) |
 | Поражение (позже) | `Defeat` |
 
