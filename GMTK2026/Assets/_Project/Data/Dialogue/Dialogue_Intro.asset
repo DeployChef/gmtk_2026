@@ -15,8 +15,8 @@ MonoBehaviour:
   id: intro
   lines:
   - text: The gods are angry with us!
-    portrait: {fileID: -7900349967275961828, guid: 28ad4c5995e87314483908ce98e7431a, type: 3}
+    portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   - text: "They demand offerings \u2014 gifts for their altar."
-    portrait: {fileID: -7900349967275961828, guid: 28ad4c5995e87314483908ce98e7431a, type: 3}
+    portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   - text: Refuse them, and it is the end of the world!
-    portrait: {fileID: -7900349967275961828, guid: 28ad4c5995e87314483908ce98e7431a, type: 3}
+    portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}

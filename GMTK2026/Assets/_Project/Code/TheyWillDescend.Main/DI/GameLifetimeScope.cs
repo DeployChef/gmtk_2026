@@ -1,3 +1,4 @@
+using TheyWillDescend.Core;
 using TheyWillDescend.Core.Cheats;
 using TheyWillDescend.Core.Dialogue;
 using TheyWillDescend.Core.Hazards;
@@ -58,7 +59,8 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<TimelineHudView>();
             builder.RegisterComponentInHierarchy<CalendarSpinView>();
             builder.RegisterComponentInHierarchy<DialoguePanelView>().As<IDialogueService>();
-            builder.RegisterComponentInHierarchy<OpeningSequenceDriver>();
+            builder.RegisterComponentInHierarchy<OpeningSequenceDriver>().As<IOpeningSequence>();
+            builder.RegisterComponentInHierarchy<IntroCameraDirector>();
 
             builder.RegisterBuildCallback(resolver =>
             {

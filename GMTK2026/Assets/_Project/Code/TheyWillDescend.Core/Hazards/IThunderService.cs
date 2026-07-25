@@ -7,6 +7,8 @@ namespace TheyWillDescend.Core.Hazards
     /// </summary>
     public interface IThunderService
     {
+        void PlayThunderSfx();
+
         void ApplyStrike(GameObject houseRoot, float disableDuration);
     }
 }

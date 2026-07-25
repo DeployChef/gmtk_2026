@@ -21,6 +21,7 @@ namespace TheyWillDescend.Core.Audio
             public const string ResourceCorn = "ResourceCorn";
             public const string BuildStart = "BuildStart";
             public const string Thunder = "Thunder";
+            public const string Fire = "Fire";
             public const string Defeat = "Defeat";
             public const string Victory = "Victory";
         }
