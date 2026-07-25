@@ -1221,6 +1221,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -5
       objectReference: {fileID: 0}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: WELL
+      objectReference: {fileID: 0}
     - target: {fileID: 4538937260332610361, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1590,6 +1594,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: e11da5cca780d004495c5ff252288c40, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: OBSIDIANCAVE
+      objectReference: {fileID: 0}
     - target: {fileID: 3913662376715822783, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -2917,6 +2925,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: a9b8c7d6e5f40312213a4b5c6d7e8f01, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: LUMBER
+      objectReference: {fileID: 0}
     - target: {fileID: 4538937260332610361, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -5955,6 +5967,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: 68a4bb5694dbb8a46995ea25f3c3563d, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: HUMANFARM
+      objectReference: {fileID: 0}
     - target: {fileID: 3913662376715822783, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -7360,6 +7376,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: 276db31375c174d44baaaad7e715cdf6, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: FARM
+      objectReference: {fileID: 0}
     - target: {fileID: 4538937260332610361, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1

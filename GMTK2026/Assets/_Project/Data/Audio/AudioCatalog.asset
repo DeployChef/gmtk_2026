@@ -443,8 +443,8 @@ MonoBehaviour:
   - id: CardOverBuilding
     channel: 2
     clips:
-    - {fileID: 8300000, guid: 17e5e66067f7d884082dcbcfd2c62c5e, type: 3}
-    mixerGroup: {fileID: 5741455939906026773, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    - {fileID: 8300000, guid: bbb7d86e81b379943b603af5f9d0ad70, type: 3}
+    mixerGroup: {fileID: -3507460915224037756, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 10
     allowOverlap: 1
     cooldown: 0
