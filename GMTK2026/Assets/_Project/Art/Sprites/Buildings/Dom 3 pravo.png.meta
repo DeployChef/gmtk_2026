@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: d3f70323e88def340956bd512fd7da92
+guid: c46890c0e2020184ab7e5217218a4053
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8512150851031925732
-    second: Lesopilka2_0
+      213: 3859594409621313311
+    second: Dom 3 pravo_0
+  - first:
+      213: 2579575116549384241
+    second: Dom 3 pravo_1
+  - first:
+      213: 2326338601824368298
+    second: Dom 3 pravo_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +43,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -46,7 +52,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,7 +81,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Lesopilka2_0
+      name: Dom 3 pravo_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 138
-        width: 2090
-        height: 1693
+        x: 323
+        y: 796
+        width: 4113
+        height: 2283
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e30c46891c312670800000000000000
-      internalID: 8512150851031925732
+      spriteID: f17df82aaa8009530800000000000000
+      internalID: 3859594409621313311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dom 3 pravo_1
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 3047
+        width: 87
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 138ec5db6ed7cc320800000000000000
+      internalID: 2579575116549384241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dom 3 pravo_2
+      rect:
+        serializedVersion: 2
+        x: 941
+        y: 3077
+        width: 35
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa6350502a0d84020800000000000000
+      internalID: 2326338601824368298
       vertices: []
       indices: 
       edges: []
@@ -125,7 +175,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Lesopilka2_0: 8512150851031925732
+      Dom 3 pravo_0: 3859594409621313311
+      Dom 3 pravo_1: 2579575116549384241
+      Dom 3 pravo_2: 2326338601824368298
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

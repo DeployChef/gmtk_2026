@@ -440,10 +440,10 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 1
-  - id: CARD_HOVER_BUILDING
+  - id: CardOverBuilding
     channel: 2
     clips:
-    - {fileID: 8300000, guid: a6d1819615995a041b51b8f1523788ff, type: 3}
+    - {fileID: 8300000, guid: 17e5e66067f7d884082dcbcfd2c62c5e, type: 3}
     mixerGroup: {fileID: 5741455939906026773, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 10
     allowOverlap: 1
