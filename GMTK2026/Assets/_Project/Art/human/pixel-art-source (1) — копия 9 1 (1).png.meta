@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: 421bf959cbed0b54389e8268c1e0ac56
+guid: fcb755dd8e7b78b4eb69e09e52509e90
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7307704010461025870
-    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_0"
+      213: 7647860176000225097
+    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_0"
   - first:
-      213: 671089981083995495
-    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_1"
+      213: -3565472654321823016
+    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_1"
   - first:
-      213: -2137802966828700026
-    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_2"
+      213: 9130112780892397101
+    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_2"
   - first:
-      213: -1196394846487603680
-    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_3"
+      213: -8755166144897509032
+    second: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_3"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -55,7 +55,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -109,7 +109,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_0"
+      name: HUMAN SLICED
       rect:
         serializedVersion: 2
         x: 581
@@ -117,21 +117,21 @@ TextureImporter:
         width: 550
         height: 1262
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e461a33641e2a6560800000000000000
-      internalID: 7307704010461025870
+      spriteID: 94f895a5f48a22a60800000000000000
+      internalID: 7647860176000225097
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_1"
+      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_1"
       rect:
         serializedVersion: 2
         x: 1152
@@ -139,21 +139,21 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 76dc5de38c0305900800000000000000
-      internalID: 671089981083995495
+      spriteID: 8d257c6f285e48ec0800000000000000
+      internalID: -3565472654321823016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_2"
+      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_2"
       rect:
         serializedVersion: 2
         x: 569
@@ -161,21 +161,21 @@ TextureImporter:
         width: 13
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 68e266a378ff452e0800000000000000
-      internalID: -2137802966828700026
+      spriteID: d2e5858633da4be70800000000000000
+      internalID: 9130112780892397101
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_3"
+      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_3"
       rect:
         serializedVersion: 2
         x: 738
@@ -183,15 +183,81 @@ TextureImporter:
         width: 15
         height: 15
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0269ff3d93d856fe0800000000000000
-      internalID: -1196394846487603680
+      spriteID: 8599bdf27c66f7680800000000000000
+      internalID: -8755166144897509032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_4"
+      rect:
+        serializedVersion: 2
+        x: 1006
+        y: 628
+        width: 140
+        height: 463
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bf52e73cd3715d40afe84846cdbc949
+      internalID: -1245101211
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_5"
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 612
+        width: 176
+        height: 475
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae682c9597a466478b890604fe06722
+      internalID: 1071505760
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_6"
+      rect:
+        serializedVersion: 2
+        x: 626
+        y: 1122
+        width: 445
+        height: 398
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de3d64015f758da419260b1e67035048
+      internalID: 1561876943
       vertices: []
       indices: 
       edges: []
@@ -200,7 +266,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 66ecbaae7369f38449ceb39466593a00
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +276,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_0": 7307704010461025870
-      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_1": 671089981083995495
-      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_2": -2137802966828700026
-      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1_3": -1196394846487603680
+      HUMAN SLICED: 7647860176000225097
+      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_1": -3565472654321823016
+      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_2": 9130112780892397101
+      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_3": -8755166144897509032
+      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_4": -1245101211
+      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_5": 1071505760
+      "pixel-art-source (1)\_\u2014 \u043A\u043E\u043F\u0438\u044F 9 1 (1)_6": 1561876943
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
