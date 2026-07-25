@@ -30,6 +30,14 @@ namespace TheyWillDescend.Gameplay.Session
             PublishChanged();
         }
 
+        public void SetRemainingSeconds(float seconds)
+        {
+            _expiredPublished = false;
+            _remaining = Mathf.Max(0f, seconds);
+            PublishChanged();
+            CheckExpired();
+        }
+
         public void AddSeconds(float delta)
         {
             if (Mathf.Approximately(delta, 0f))

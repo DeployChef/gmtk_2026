@@ -11,10 +11,12 @@ namespace TheyWillDescend.Gameplay.Session
     public sealed class PhaseLoadoutApplier : IPhaseLoadoutApplier
     {
         private readonly IInventory _inventory;
+        private readonly IPyramidTimerService _pyramidTimer;
 
-        public PhaseLoadoutApplier(IInventory inventory)
+        public PhaseLoadoutApplier(IInventory inventory, IPyramidTimerService pyramidTimer)
         {
             _inventory = inventory;
+            _pyramidTimer = pyramidTimer;
         }
 
         public void ApplyRunStart(PhaseStartingCard[] cards, PhaseStartingBuilding[] buildings)
@@ -69,6 +71,10 @@ namespace TheyWillDescend.Gameplay.Session
                 ApplyCards(loadout.StartingCards);
             else
                 _inventory.Clear();
+
+            // DebugJump resets timer to baseline first; override per-phase if set.
+            if (loadout != null && loadout.HasStartingPyramidTimer && _pyramidTimer != null)
+                _pyramidTimer.SetRemainingSeconds(loadout.StartingPyramidTimerSeconds);
         }
 
         public void GrantAllCardsFromCatalog(CheatPanelConfig cheats)

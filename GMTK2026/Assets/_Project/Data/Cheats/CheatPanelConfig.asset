@@ -36,12 +36,13 @@ MonoBehaviour:
       workers: 0
     - buildingId: 2
       workers: 0
-  - label: Stone & Timber
+  - label: Drought Harvest (end P0)
+    startingPyramidTimerSeconds: 61
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 2
-    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 4
+    - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+      count: 3
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 4
     builtBuildings:
@@ -52,6 +53,7 @@ MonoBehaviour:
     - buildingId: 2
       workers: 0
   - label: Harvest Pressure
+    startingPyramidTimerSeconds: -1
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 3

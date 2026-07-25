@@ -241,13 +241,18 @@ namespace TheyWillDescend.Gameplay.Buildings
             }
 
             _producing = true;
-            _progress += Time.deltaTime * GetEraProductionSpeedMultiplier();
+            _progress += Time.deltaTime * GetProductionSpeedMultiplier();
             PublishProgress();
 
             if (_progress < definition.ProductionDurationSeconds)
                 return;
 
             CompleteProduction();
+        }
+
+        private float GetProductionSpeedMultiplier()
+        {
+            return GetEraProductionSpeedMultiplier() * GetWorkerSpeedMultiplier();
         }
 
         private float GetEraProductionSpeedMultiplier()
@@ -257,6 +262,23 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return 1f;
 
             return phase.GetProductionSpeedMultiplier(buildingId, definition.OutputResourceId);
+        }
+
+        /// <summary>
+        /// Extra workers beyond required: +0.5× each (1 / 1.5 / 2 for 1→2→3 when req=1).
+        /// WorkersRequired 0 (Home) → 1×.
+        /// </summary>
+        private float GetWorkerSpeedMultiplier()
+        {
+            if (definition == null)
+                return 1f;
+
+            var required = definition.WorkersRequired;
+            if (required <= 0)
+                return 1f;
+
+            var extra = Mathf.Max(0, _workers - required);
+            return 1f + 0.5f * extra;
         }
 
         public void DisableTemporarily(float seconds)

@@ -24,12 +24,17 @@ namespace TheyWillDescend.Core.Cheats
     {
         [Tooltip("Optional label in Inspector.")]
         [SerializeField] private string label = "";
+        [Tooltip("Doomsday timer on Jump. < 0 = keep baseline (99). Ideal end of phase 0 ≈ 61.")]
+        [SerializeField] private float startingPyramidTimerSeconds = -1f;
         [Tooltip("Cards granted on Jump when Grant All Cards On Jump is off.")]
         [SerializeField] private PhaseStartingCard[] startingCards = Array.Empty<PhaseStartingCard>();
         [Tooltip("These become Built (with workers). Every other building is Locked, then timeline unlocks 0..phase apply.")]
         [SerializeField] private CheatBuiltBuilding[] builtBuildings = Array.Empty<CheatBuiltBuilding>();
 
         public string Label => label;
+        /// <summary>Negative = use timeline baseline instead.</summary>
+        public float StartingPyramidTimerSeconds => startingPyramidTimerSeconds;
+        public bool HasStartingPyramidTimer => startingPyramidTimerSeconds >= 0f;
         public PhaseStartingCard[] StartingCards => startingCards ?? Array.Empty<PhaseStartingCard>();
         public CheatBuiltBuilding[] BuiltBuildings => builtBuildings ?? Array.Empty<CheatBuiltBuilding>();
     }

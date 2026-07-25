@@ -1131,14 +1131,14 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 181866189}
+  - {fileID: 1222073263}
   - {fileID: 291973022}
   - {fileID: 532496527}
   - {fileID: 1411238626}
-  - {fileID: 1222073263}
-  - {fileID: 1666545239}
-  - {fileID: 1331100933}
   - {fileID: 1316751214}
+  - {fileID: 1331100933}
   - {fileID: 575151837}
+  - {fileID: 1666545239}
   - {fileID: 814100282}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3057,7 +3057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51439b935055a3b41a505afbc924191f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Dialogue.OpeningSequenceDriver
-  skipIntro: 0
+  skipIntro: 1
   introDialogue: {fileID: 11400000, guid: d1a109ef1def002b3c4d5e6f708192a3, type: 2}
   produceOfferDialogue: {fileID: 11400000, guid: d1a109ef1def003c4d5e6f708192a4b5, type: 2}
   cameraDirector: {fileID: 931857947}
@@ -4198,6 +4198,10 @@ PrefabInstance:
     - target: {fileID: 3268765340733229993, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: buildingId
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: definition
@@ -6283,6 +6287,10 @@ PrefabInstance:
     - target: {fileID: 3268765340733229993, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: buildingId
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: definition
@@ -8727,7 +8735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: buildingId
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: definition
