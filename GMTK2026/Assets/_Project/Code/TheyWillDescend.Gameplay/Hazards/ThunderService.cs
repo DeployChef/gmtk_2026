@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TheyWillDescend.Gameplay.Hazards
 {
     /// <summary>
-    /// Plain DI: thunder SFX + temporary building disable.
+    /// Plain DI: thunder SFX + temporary building disable + kill one assigned worker.
     /// </summary>
     public sealed class ThunderService : IThunderService
     {
@@ -25,8 +25,11 @@ namespace TheyWillDescend.Gameplay.Hazards
                 return;
 
             var building = houseRoot.GetComponentInChildren<ProductionBuilding>();
-            if (building != null)
-                building.DisableTemporarily(disableDuration);
+            if (building == null)
+                return;
+
+            building.DisableTemporarily(disableDuration);
+            building.TryKillWorker();
         }
     }
 }
