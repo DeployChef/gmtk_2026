@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Cards.CardHangVisual
   visual: {fileID: 3227979236247950719}
-  followSmoothTime: 0.1
+  followSmoothTime: 0.07
   maxSwingDegrees: 80
   swingFromLag: 30
   swingRestore: 120
