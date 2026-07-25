@@ -23,5 +23,5 @@ MonoBehaviour:
       count: 1
   productionInputs: []
   outputResource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-  productionDurationSeconds: 50
+  productionDurationSeconds: 30
   workersRequired: 0

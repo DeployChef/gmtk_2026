@@ -72,9 +72,12 @@ MonoBehaviour:
     durationSeconds: 70
     color: {r: 0.35, g: 0.2, b: 0.55, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
-      count: 4
+    - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
+      count: 2
       secondsReward: 18
+    - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
+      count: 2
+      secondsReward: 30
     unlockBuildingIds: 05000000
     productionModifiers:
     - target: 1
