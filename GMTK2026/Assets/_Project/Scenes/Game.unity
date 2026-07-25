@@ -8128,8 +8128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Timeline.CalendarSpinView
   target: {fileID: 1448315526}
-  cruiseSpeed: 40
-  burstSpeed: 420
+  cruiseSpeed: 10
+  burstSpeed: 320
   spinUpDuration: 0.2
   settleDuration: 2.5
   spinUpEase: 6
