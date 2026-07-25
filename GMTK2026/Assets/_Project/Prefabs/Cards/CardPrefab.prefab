@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 7212072353480294420}
   - component: {fileID: 5798001370604511564}
   - component: {fileID: 6660872055299920470}
+  - component: {fileID: 8312758858762431214}
   m_Layer: 5
   m_Name: CardPrefab
   m_TagString: Untagged
@@ -335,6 +336,24 @@ MonoBehaviour:
   dissolveDuration: 0.5
   shrinkScale: {x: 0.3, y: 0.3, z: 1}
   returnHomeDuration: 0.25
+--- !u!114 &8312758858762431214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6465427307158818710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ad01e8fa0f3a547a9a751a802f27c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Cards.CardHangVisual
+  visual: {fileID: 3227979236247950719}
+  followSmoothTime: 0.1
+  maxSwingDegrees: 80
+  swingFromLag: 30
+  swingRestore: 120
+  swingDamping: 8
 --- !u!1 &6830006918936796920
 GameObject:
   m_ObjectHideFlags: 0

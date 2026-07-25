@@ -19,6 +19,9 @@ namespace TheyWillDescend.Core.Audio
         System.Collections.Generic.IEnumerable<AudioClip> EnumerateClips();
         void WarmupClip(AudioClip clip);
 
+        /// <summary>Instant music playback rate (1 = normal, 1.5 = +50%).</summary>
+        void SetMusicPitch(float pitch);
+
         void SetMusicVolume(float volume);
         void SetSfxVolume(float volume);
         float GetMusicVolume();

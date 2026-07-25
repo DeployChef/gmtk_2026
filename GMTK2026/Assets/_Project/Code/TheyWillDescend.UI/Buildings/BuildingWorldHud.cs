@@ -42,6 +42,8 @@ namespace TheyWillDescend.UI.Buildings
         private bool _popupRestCaptured;
         private readonly List<PyramidOfferIconView> _inputSlots = new();
         private bool _iconsBuilt;
+        private int _shownHireStep = -1;
+        private bool _showingHireOffer;
 
         [Inject]
         public void Construct(IGameEventBus bus)
@@ -122,6 +124,13 @@ namespace TheyWillDescend.UI.Buildings
 
                 if (showProgress)
                     progressFill.fillAmount = building.NormalizedProgress;
+            }
+
+            if (inputContainer != null && building.UsesHireOffers)
+            {
+                var showOffer = !showProgress;
+                if (inputContainer.gameObject.activeSelf != showOffer)
+                    inputContainer.gameObject.SetActive(showOffer);
             }
 
             RefreshInputCounts();
@@ -211,10 +220,22 @@ namespace TheyWillDescend.UI.Buildings
             if (!visible)
                 return;
 
-            if (workersLabel != null)
-                workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
-
             var definition = building.Definition;
+            var showWorkers = definition != null
+                              && !building.UsesHireOffers
+                              && definition.WorkersRequired > 0;
+
+            if (workersLabel != null)
+            {
+                workersLabel.gameObject.SetActive(showWorkers);
+                if (showWorkers)
+                    workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
+            }
+
+            if (addWorkerButton != null)
+                addWorkerButton.gameObject.SetActive(showWorkers);
+            if (removeWorkerButton != null)
+                removeWorkerButton.gameObject.SetActive(showWorkers);
 
             if (outputIcon != null)
             {
@@ -232,8 +253,10 @@ namespace TheyWillDescend.UI.Buildings
                 }
             }
 
-            if (!_iconsBuilt)
-                RebuildInputIcons();
+            EnsureInputIcons();
+
+            if (inputContainer != null && building.UsesHireOffers)
+                inputContainer.gameObject.SetActive(!building.IsProducing);
 
             // Force layout rebuild after visibility change / icon spawn
             // to prevent overlapping (HorizontalLayoutGroup + ContentSizeFitter).
@@ -249,6 +272,19 @@ namespace TheyWillDescend.UI.Buildings
 
             RefreshInputCounts();
             RefreshWorkerButtons();
+        }
+
+        private void EnsureInputIcons()
+        {
+            if (building.UsesHireOffers)
+            {
+                if (!_iconsBuilt || !_showingHireOffer || _shownHireStep != building.VillagersProduced)
+                    RebuildInputIcons();
+                return;
+            }
+
+            if (!_iconsBuilt || _showingHireOffer)
+                RebuildInputIcons();
         }
 
         private void SetHudVisible(bool visible)
@@ -270,18 +306,32 @@ namespace TheyWillDescend.UI.Buildings
                 Destroy(inputContainer.GetChild(i).gameObject);
             _inputSlots.Clear();
 
+            if (building.UsesHireOffers)
+            {
+                var costs = building.CurrentHireOfferCost;
+                for (var i = 0; i < costs.Length; i++)
+                {
+                    var item = costs[i];
+                    if (item?.Resource == null || item.Count <= 0)
+                        continue;
+                    SpawnInputSlot(item.Resource, building.GetStoredAmount(item.ResourceId), item.Count);
+                }
+
+                _showingHireOffer = true;
+                _shownHireStep = building.VillagersProduced;
+                _iconsBuilt = true;
+                return;
+            }
+
+            _showingHireOffer = false;
+            _shownHireStep = -1;
+
             var definition = building.Definition;
             if (definition != null && definition.RequiresInput)
             {
-                var inputs = definition.InputResources;
-                var amounts = definition.InputAmounts;
-                for (var i = 0; i < inputs.Length; i++)
+                for (var i = 0; i < definition.ProductionInputSlotCount; i++)
                 {
-                    var resource = inputs[i];
-                    if (resource == null)
-                        continue;
-                    var required = i < amounts.Length ? amounts[i] : 1;
-                    if (required <= 0)
+                    if (!definition.TryGetProductionInput(i, out var resource, out var required))
                         continue;
                     SpawnInputSlot(resource, building.GetStoredAmount(resource.Id), required);
                 }
@@ -316,23 +366,33 @@ namespace TheyWillDescend.UI.Buildings
             if (building == null || !building.IsBuilt || _inputSlots.Count == 0)
                 return;
 
+            if (building.UsesHireOffers)
+            {
+                var costs = building.CurrentHireOfferCost;
+                var idx = 0;
+                for (var i = 0; i < costs.Length && idx < _inputSlots.Count; i++)
+                {
+                    var item = costs[i];
+                    if (item?.Resource == null || item.Count <= 0)
+                        continue;
+                    _inputSlots[idx].SetCount(building.GetStoredAmount(item.ResourceId), item.Count);
+                    idx++;
+                }
+
+                return;
+            }
+
             var definition = building.Definition;
             if (definition == null || !definition.RequiresInput)
                 return;
 
-            var inputs = definition.InputResources;
-            var amounts = definition.InputAmounts;
-            var idx = 0;
-            for (var i = 0; i < inputs.Length && idx < _inputSlots.Count; i++)
+            var slot = 0;
+            for (var i = 0; i < definition.ProductionInputSlotCount && slot < _inputSlots.Count; i++)
             {
-                var resource = inputs[i];
-                if (resource == null)
+                if (!definition.TryGetProductionInput(i, out var resource, out var required))
                     continue;
-                var required = i < amounts.Length ? amounts[i] : 1;
-                if (required <= 0)
-                    continue;
-                _inputSlots[idx].SetCount(building.GetStoredAmount(resource.Id), required);
-                idx++;
+                _inputSlots[slot].SetCount(building.GetStoredAmount(resource.Id), required);
+                slot++;
             }
         }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace TheyWillDescend.Core.Hazards
 {
     /// <summary>
-    /// Strike effects: thunder SFX + building disable. VFX stays in DisasterManager.
+    /// Strike effects: thunder SFX + building disable + kill one worker. VFX stays in DisasterManager.
     /// </summary>
     public interface IThunderService
     {

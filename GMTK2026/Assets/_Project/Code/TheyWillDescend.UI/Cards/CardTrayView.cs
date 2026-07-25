@@ -8,7 +8,7 @@ using UnityEngine;
 namespace TheyWillDescend.UI.Cards
 {
     /// <summary>
-    /// One hand-placed tray. Stack is a queue: first card stays on top, new cards go under.
+    /// One hand-placed tray. Stack is a queue: oldest on top, new cards go under.
     /// </summary>
     public sealed class CardTrayView : MonoBehaviour
     {
@@ -16,8 +16,13 @@ namespace TheyWillDescend.UI.Cards
         [SerializeField] private Transform stackRoot;
         [SerializeField] private TMP_Text counterLabel;
 
+        private Vector2 _stackOffset = new(8f, -8f);
+        private float _insertRisePixels = 30f;
+        private float _insertDuration = 0.25f;
+
         public ResourceDefinition Resource => resource;
         public string ResourceId => resource != null ? resource.Id : string.Empty;
+        public Transform StackRoot => stackRoot != null ? stackRoot : transform;
 
         private void Awake()
         {
@@ -56,11 +61,13 @@ namespace TheyWillDescend.UI.Cards
             if (stackRoot == null || cardPrefab == null || resource == null)
                 return 0;
 
+            _stackOffset = stackOffset;
+            _insertRisePixels = insertRisePixels;
+            _insertDuration = insertDuration;
+
             var visible = count <= 0 ? 0 : Mathf.Clamp(count, 0, Mathf.Max(1, maxVisibleStack));
 
-            var cards = new List<Transform>(stackRoot.childCount);
-            for (var i = 0; i < stackRoot.childCount; i++)
-                cards.Add(stackRoot.GetChild(i));
+            var cards = CollectStackCards();
 
             while (cards.Count > visible)
             {
@@ -87,8 +94,44 @@ namespace TheyWillDescend.UI.Cards
                     added.Add(rt);
             }
 
-            Relayout(cards, stackOffset, added, insertRisePixels, insertDuration);
+            Relayout(cards, added, animateNew: true);
             return added.Count;
+        }
+
+        /// <summary>
+        /// Call after a card was reparented out of the stack for dragging.
+        /// </summary>
+        public void NotifyCardDetached()
+        {
+            Relayout(CollectStackCards(), animatedCards: null, animateNew: false);
+        }
+
+        /// <summary>
+        /// Rejected drop: card goes under the whole stack (newest / first sibling), then restack.
+        /// </summary>
+        public void ReturnCardUnderStack(Transform card, float moveDuration)
+        {
+            if (card == null || stackRoot == null)
+                return;
+
+            DOTween.Kill(card);
+            card.SetParent(stackRoot, worldPositionStays: true);
+            card.SetAsFirstSibling();
+
+            var cards = CollectStackCards();
+            var animate = card as RectTransform;
+            var animated = animate != null ? new List<RectTransform> { animate } : null;
+
+            // Snap layout targets; optionally tween the returned card from its world pose.
+            Relayout(cards, animated, animateNew: false, returningCard: animate, returnDuration: moveDuration);
+        }
+
+        private List<Transform> CollectStackCards()
+        {
+            var cards = new List<Transform>(stackRoot.childCount);
+            for (var i = 0; i < stackRoot.childCount; i++)
+                cards.Add(stackRoot.GetChild(i));
+            return cards;
         }
 
         private static void DestroyCard(Transform card)
@@ -101,12 +144,13 @@ namespace TheyWillDescend.UI.Cards
             Object.Destroy(card.gameObject);
         }
 
+        /// <param name="cardsBottomToTop">Index 0 = under (newest), last = top (oldest).</param>
         private void Relayout(
             List<Transform> cardsBottomToTop,
-            Vector2 stackOffset,
-            List<RectTransform> animatedNewCards,
-            float insertRisePixels,
-            float insertDuration)
+            List<RectTransform> animatedCards,
+            bool animateNew,
+            RectTransform returningCard = null,
+            float returnDuration = 0f)
         {
             var n = cardsBottomToTop.Count;
             for (var depth = 0; depth < n; depth++)
@@ -115,16 +159,25 @@ namespace TheyWillDescend.UI.Cards
                 if (child == null)
                     continue;
 
-                var target = stackOffset * depth;
-                var shouldAnimate = animatedNewCards != null && animatedNewCards.Contains(child);
-
+                var target = _stackOffset * depth;
                 DOTween.Kill(child);
 
-                if (shouldAnimate && insertDuration > 0f)
+                var isReturning = returningCard != null && child == returningCard && returnDuration > 0.01f;
+                var isNew = animateNew && animatedCards != null && animatedCards.Contains(child);
+
+                if (isReturning)
                 {
-                    child.anchoredPosition = target + Vector2.up * insertRisePixels;
                     DOTween
-                        .To(() => child.anchoredPosition, v => child.anchoredPosition = v, target, insertDuration)
+                        .To(() => child.anchoredPosition, v => child.anchoredPosition = v, target, returnDuration)
+                        .SetEase(Ease.OutCubic)
+                        .SetTarget(child)
+                        .SetLink(child.gameObject);
+                }
+                else if (isNew && _insertDuration > 0f)
+                {
+                    child.anchoredPosition = target + Vector2.up * _insertRisePixels;
+                    DOTween
+                        .To(() => child.anchoredPosition, v => child.anchoredPosition = v, target, _insertDuration)
                         .SetEase(Ease.OutCubic)
                         .SetTarget(child)
                         .SetLink(child.gameObject);

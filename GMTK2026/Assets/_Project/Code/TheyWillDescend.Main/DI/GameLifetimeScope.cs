@@ -42,6 +42,7 @@ namespace TheyWillDescend.Main.DI
             builder.Register<TimelineService>(Lifetime.Singleton).As<ITimelineService>();
             builder.RegisterEntryPoint<GameResultService>().As<IGameResultService>();
             builder.RegisterEntryPoint<TimelineSessionDriver>();
+            builder.RegisterEntryPoint<PyramidTimerMusicDriver>();
 
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
             builder.Register<GameStartState>(Lifetime.Singleton);
@@ -53,6 +54,7 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<PyramidTimerWorldHud>();
             builder.RegisterComponentInHierarchy<PyramidOfferWorldHud>();
             builder.RegisterComponentInHierarchy<TimelineHudView>();
+            builder.RegisterComponentInHierarchy<CalendarSpinView>();
 
             builder.RegisterBuildCallback(resolver =>
             {

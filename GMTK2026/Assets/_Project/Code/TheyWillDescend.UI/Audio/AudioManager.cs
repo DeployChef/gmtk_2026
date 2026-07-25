@@ -18,6 +18,8 @@ namespace TheyWillDescend.UI.Audio
         [SerializeField] private AudioCatalog config;
         [SerializeField] private AudioMixer mixer;
         [SerializeField] private bool enableFade = true;
+        [Tooltip("Smooth time for music pitch changes (pyramid timer bands).")]
+        [SerializeField] private float musicPitchSmoothTime = 0.85f;
 
         private AudioSource _musicSource;
         private AudioSource _ambientSource;
@@ -31,13 +33,8 @@ namespace TheyWillDescend.UI.Audio
         private bool _musicPaused;
         private CancellationTokenSource _musicFadeCts;
         private CancellationTokenSource _ambientFadeCts;
-
-        // BPM control — only for AudioChannel.Music
-        private float _bpmStart;
-        private float _bpmEnd;
-        private float _bpmDuration;
-        private float _bpmElapsed;
-        private bool _bpmActive;
+        private float _musicPitchTarget = 1f;
+        private float _musicPitchVelocity;
 
         public bool IsMusicPaused => _musicPaused;
         public bool HasMusicClip => _musicSource != null && _musicSource.clip != null;
@@ -58,17 +55,24 @@ namespace TheyWillDescend.UI.Audio
 
         private void Update()
         {
-            if (!_bpmActive || _musicSource == null || !_musicSource.isPlaying)
+            if (_musicSource == null || !HasMusicClip || _musicPaused)
                 return;
 
-            _bpmElapsed += Time.unscaledDeltaTime;
-            var t = Mathf.Clamp01(_bpmElapsed / _bpmDuration);
+            if (Mathf.Abs(_musicSource.pitch - _musicPitchTarget) < 0.0005f)
+            {
+                _musicSource.pitch = _musicPitchTarget;
+                _musicPitchVelocity = 0f;
+                return;
+            }
 
-            var currentBpm = Mathf.Lerp(_bpmStart, _bpmEnd, t);
-            _musicSource.pitch = currentBpm / _bpmStart;
-
-            if (t >= 1f)
-                _bpmActive = false;
+            var smooth = Mathf.Max(0.01f, musicPitchSmoothTime);
+            _musicSource.pitch = Mathf.SmoothDamp(
+                _musicSource.pitch,
+                _musicPitchTarget,
+                ref _musicPitchVelocity,
+                smooth,
+                Mathf.Infinity,
+                Time.unscaledDeltaTime);
         }
 
         private void OnDestroy()
@@ -132,8 +136,6 @@ namespace TheyWillDescend.UI.Audio
                 return;
 
             CancelMusicFade();
-            _bpmActive = false;
-            _bpmElapsed = 0f;
             _musicPaused = false;
 
             if (_musicSource.isPlaying && enableFade)
@@ -147,6 +149,9 @@ namespace TheyWillDescend.UI.Audio
             _musicSource.Stop();
             _musicSource.clip = null;
             _musicSource.volume = 0f;
+            _musicSource.pitch = 1f;
+            _musicPitchTarget = 1f;
+            _musicPitchVelocity = 0f;
             _musicSoundId = null;
         }
 
@@ -168,8 +173,6 @@ namespace TheyWillDescend.UI.Audio
                 }
             }
             _musicVolumeBeforePause = _musicSource.volume > 0f ? _musicSource.volume : 1f;
-            _bpmActive = false;
-            _bpmElapsed = 0f;
             _musicPaused = true;
             FadeOutAndPauseMusicAsync().Forget();
         }
@@ -277,20 +280,12 @@ namespace TheyWillDescend.UI.Audio
 
         public void WarmupClip(AudioClip clip) => config?.WarmupClip(clip);
 
-        /// <summary>
-        /// Smoothly ramps music pitch from startBpm to endBpm over durationSeconds.
-        /// Only affects AudioChannel.Music.
-        /// </summary>
-        public void SetMusicBpmRange(float startBpm, float endBpm, float durationSeconds)
+        public void SetMusicPitch(float pitch)
         {
-            if (durationSeconds <= 0f || _musicSource == null)
+            if (_musicSource == null)
                 return;
 
-            _bpmStart = Mathf.Max(startBpm, 1f);
-            _bpmEnd = Mathf.Max(endBpm, 1f);
-            _bpmDuration = durationSeconds;
-            _bpmElapsed = 0f;
-            _bpmActive = true;
+            _musicPitchTarget = Mathf.Clamp(pitch, 0.5f, 3f);
         }
 
         public void SetMusicVolume(float volume)
@@ -361,7 +356,10 @@ namespace TheyWillDescend.UI.Audio
             _musicSource.outputAudioMixerGroup = sound.MixerGroup;
             _musicSource.loop = sound.Loop;
             _musicSource.clip = clip;
-            _musicSource.pitch = ResolvePitch(sound, pitch, pitchRandomRange);
+            var resolvedPitch = ResolvePitch(sound, pitch, pitchRandomRange);
+            _musicSource.pitch = resolvedPitch;
+            _musicPitchTarget = resolvedPitch;
+            _musicPitchVelocity = 0f;
             _musicSoundId = sound.Id;
             _musicFadeDuration = sound.EnableFade ? sound.FadeDuration : 0f;
             _musicFadeCts = new CancellationTokenSource();
@@ -381,8 +379,7 @@ namespace TheyWillDescend.UI.Audio
             _musicPaused = false;
             _musicVolumeBeforePause = _musicSource.volume;
 
-            if (sound.BpmDuration > 0f)
-                SetMusicBpmRange(sound.BpmStart, sound.BpmEnd, sound.BpmDuration);
+            // Pitch is driven by pyramid timer (PyramidTimerMusicDriver), not SoundDefinition BPM ramp.
         }
 
         private SfxVoice AcquireVoiceForSound(SoundDefinition sound)
@@ -509,6 +506,8 @@ namespace TheyWillDescend.UI.Audio
                 _musicSource.Stop();
                 _musicSource.clip = null;
                 _musicSource.pitch = 1f;
+                _musicPitchTarget = 1f;
+                _musicPitchVelocity = 0f;
                 _musicPaused = false;
             }
             catch (System.OperationCanceledException)

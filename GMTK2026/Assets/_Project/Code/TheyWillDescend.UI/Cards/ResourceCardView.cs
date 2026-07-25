@@ -43,9 +43,9 @@ namespace TheyWillDescend.UI.Cards
 
         private RectTransform _rect;
         private Transform _homeParent;
-        private Vector3 _homePosition;
+        private CardTrayView _homeTray;
         private Canvas _canvas;
-private bool _consumed;
+        private bool _consumed;
         private bool _dragging;
         private ProductionBuilding _hoverBuilding;
         private ResourceKind _kind = ResourceKind.Resource;
@@ -120,15 +120,17 @@ private bool _consumed;
             if (_consumed)
                 return;
 
+            _homeTray = GetComponentInParent<CardTrayView>();
             _homeParent = transform.parent;
-            _homePosition = transform.position;
 
             if (_canvas != null)
                 transform.SetParent(_canvas.transform, true);
 
+            _homeTray?.NotifyCardDetached();
+
             canvasGroup.blocksRaycasts = false;
             transform.SetAsLastSibling();
-_dragging = true;
+            _dragging = true;
             _audio?.Play(AudioCatalog.Ids.CardPickup);
             ShowOutline(true, true);
         }
@@ -182,16 +184,15 @@ _dragging = true;
                     {
                         accepted = false;
                     }
+                    else if (building.CanAcceptWorkerCard)
+                    {
+                        // Worker assignment only — never also treat as production input in the same drop.
+                        accepted = building.TryAcceptVillagerCard();
+                    }
                     else
                     {
-                        var workersSatisfied = building.Definition != null
-                            && building.Workers >= building.Definition.WorkersRequired;
-
-                        accepted = workersSatisfied
-                            ? building.TryAcceptResource(ResourceIds.Villager)
-                              || building.TryAcceptVillagerCard()
-                            : building.TryAcceptVillagerCard()
-                              || building.TryAcceptResource(ResourceIds.Villager);
+                        // Workers full / not needed: allow Villager as production input (e.g. Altar).
+                        accepted = building.TryAcceptResource(ResourceIds.Villager);
                     }
                 }
                 else
@@ -244,10 +245,17 @@ if (accepted)
         private void ReturnHome()
         {
             ShowOutline(false);
+            _dragging = false;
+            canvasGroup.blocksRaycasts = true;
+
+            if (_homeTray != null)
+            {
+                _homeTray.ReturnCardUnderStack(transform, returnHomeDuration);
+                return;
+            }
+
             if (_homeParent != null)
                 transform.SetParent(_homeParent, true);
-
-            ReturnHomeAsync().Forget();
         }
 
         private void UpdateHoverVfx(PointerEventData eventData)
@@ -275,25 +283,7 @@ if (accepted)
             }
         }
 
-        private async UniTaskVoid ReturnHomeAsync()
-        {
-            var startPos = transform.position;
-            var elapsed = 0f;
-            var duration = Mathf.Max(0.01f, returnHomeDuration);
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.unscaledDeltaTime;
-                var t = Mathf.Clamp01(elapsed / duration);
-                t = 1f - (1f - t) * (1f - t); // ease-out
-                transform.position = Vector3.Lerp(startPos, _homePosition, t);
-                await UniTask.Yield(PlayerLoopTiming.Update);
-            }
-
-            transform.position = _homePosition;
-        }
-
-private void ShowOutline(bool show, bool isDragging = false)
+        private void ShowOutline(bool show, bool isDragging = false)
         {
             if (outlineImage == null)
                 return;
