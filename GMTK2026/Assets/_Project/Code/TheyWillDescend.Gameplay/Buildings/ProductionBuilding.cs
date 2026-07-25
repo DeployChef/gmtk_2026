@@ -323,6 +323,20 @@ namespace TheyWillDescend.Gameplay.Buildings
             PublishWorkers();
         }
 
+        /// <summary>
+        /// Hire-offer step index (villagers already produced by Home this run).
+        /// Used by cheat jump / grant so the next offer matches headcount.
+        /// </summary>
+        public void SetVillagersProduced(int count)
+        {
+            _villagersProduced = Mathf.Max(0, count);
+            _progress = 0f;
+            _producing = false;
+            _storedInputs.Clear();
+            PublishProgress();
+            StateChanged?.Invoke();
+        }
+
         /// <summary>Locked → Buildable (or skip to Constructing/Built if no cost).</summary>
         public bool TryUnlock()
         {

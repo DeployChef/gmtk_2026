@@ -23,6 +23,7 @@ namespace TheyWillDescend.Gameplay.Session
         {
             ApplyCards(cards);
             ApplyBuildings(buildings);
+            SyncHomeHireOfferToPopulation();
         }
 
         public void ApplyUnlocks(PhaseDefinition phase)
@@ -75,6 +76,8 @@ namespace TheyWillDescend.Gameplay.Session
             // DebugJump resets timer to baseline first; override per-phase if set.
             if (loadout != null && loadout.HasStartingPyramidTimer && _pyramidTimer != null)
                 _pyramidTimer.SetRemainingSeconds(loadout.StartingPyramidTimerSeconds);
+
+            SyncHomeHireOfferToPopulation();
         }
 
         public void GrantAllCardsFromCatalog(CheatPanelConfig cheats)
@@ -114,7 +117,35 @@ namespace TheyWillDescend.Gameplay.Session
                     GrantAmount(definition, cheats.UnlimitedGrantCount);
             }
 
+            SyncHomeHireOfferToPopulation();
             Debug.Log("[PhaseLoadout] Granted all cards from cheat catalog.");
+        }
+
+        /// <summary>
+        /// Run starts with 1 free villager; extras came from Home hires.
+        /// Next offer index = tray + assigned − 1.
+        /// </summary>
+        private void SyncHomeHireOfferToPopulation()
+        {
+            var buildings = Object.FindObjectsByType<ProductionBuilding>(
+                FindObjectsInactive.Include, FindObjectsSortMode.None);
+
+            var assigned = 0;
+            ProductionBuilding home = null;
+            for (var i = 0; i < buildings.Length; i++)
+            {
+                var building = buildings[i];
+                assigned += Mathf.Max(0, building.Workers);
+                if (building.UsesHireOffers)
+                    home = building;
+            }
+
+            if (home == null)
+                return;
+
+            var available = _inventory != null ? _inventory.GetCount(ResourceIds.Villager) : 0;
+            var produced = Mathf.Max(0, available + assigned - 1);
+            home.SetVillagersProduced(produced);
         }
 
         private void ResetBuildingsForCheatJump(CheatBuiltBuilding[] built)
