@@ -103,7 +103,7 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 4
-  - id: ResoursGold
+  - id: GOLDMINE
     channel: 1
     clips:
     - {fileID: 8300000, guid: 0edf6f4eb3219a74da07cb17a9c2fbf7, type: 3}
@@ -275,7 +275,7 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 4
-  - id: ResourceCorn
+  - id: FARM
     channel: 1
     clips:
     - {fileID: 8300000, guid: 4da6d67eb918bfc4499fc664a17b400f, type: 3}
@@ -297,7 +297,7 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 1
-  - id: ResourceWood
+  - id: LUMBER
     channel: 1
     clips:
     - {fileID: 8300000, guid: 2453ff3ad6b772549a1ec2cb15f9b48e, type: 3}
@@ -318,7 +318,7 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 1
-  - id: ResourceRock
+  - id: STONECAVE
     channel: 1
     clips:
     - {fileID: 8300000, guid: 78be9fba6d6017746bb53bdeba6dd215, type: 3}
@@ -339,7 +339,7 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 1
-  - id: ResourceBlood
+  - id: ALTAR
     channel: 1
     clips:
     - {fileID: 8300000, guid: 2943fff99e3f4354488aafe12286dd24, type: 3}
@@ -360,7 +360,7 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 1
-  - id: ResourceWater
+  - id: WELL
     channel: 1
     clips:
     - {fileID: 8300000, guid: ca5436ebca2b0284c9b32b142315abe3, type: 3}
@@ -386,6 +386,27 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 4e80b640e95442c46911bd79a7c334c7, type: 3}
     mixerGroup: {fileID: -3601496549395393649, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 10
+    allowOverlap: 1
+    cooldown: 0.26
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0.25
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 1
+  - id: OBSIDIANCAVE
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: f120a02401e9c5a4b80da4f48f642577, type: 3}
+    - {fileID: 8300000, guid: 8105b17d09b708c40a2c7b090f1810c2, type: 3}
+    - {fileID: 8300000, guid: a43eafbf5be75d2488f9d9cddbc590b6, type: 3}
+    mixerGroup: {fileID: -800339119527356397, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 10
     allowOverlap: 1
     cooldown: 0.26
