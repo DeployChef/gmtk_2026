@@ -19,8 +19,8 @@
 
 | Phase | Title (сейчас) | Feel | Diff | Slack (wall-time) | Intent |
 | --- | --- | --- | --- | --- | --- |
-| 0 | Dawn Offering | легко | 1 | 15..25s | Обучить DnD / оффер |
-| 1 | Stone & Timber | средне | 2 | 10..18s | Новый ресурс + лёгкий выбор работ |
+| 0 | Dawn Offering | легко | 1 | 15..25s | Water+Wood; научить DnD |
+| 1 | Drought Harvest | средне | 2 | 10..18s | Farm build; corn+water; −25% Water |
 | 2 | Harvest Pressure | сложнее | 3 | 5..12s | Давление corn; рычаг −% Farm |
 | 3 | Obsidian Idols | сложно | 4 | 3..8s | Obsidian на 3 workers — пик дефицита людей |
 | 4 | Mixed Tribute | **на пределе** | 5 | 0..5s | Параллельный оффер — всё не покрыть |
@@ -29,6 +29,44 @@
 | 7 | Final Propitiation | **очень сложно** | 5 | 0..5s | Финал; после последнего дара doomsday **5..15с** |
 
 Фаза **5 специально легче фазы 4** — контраст перед дугой 6→7. Если 5 ощущается так же жёстко, как 4 — кривая сломана.
+
+---
+
+## Building IDs (сцена Game, актуальные)
+
+Порядок ID = порядок прогрессии. Снято со сцены `Game.unity` (override `buildingId` + recipe).
+
+| Id | GO name | Recipe | Output |
+| --- | --- | --- | --- |
+| **0** | HumanFarm | Home (`Recipe_Human`) | Villager |
+| **1** | Well | Well (`Recipe_Well`) | Water |
+| **2** | Lumber | Lumber (`Recipe_Lumber`) | Wood |
+| **3** | Farm | Farm (`Recipe_Farm`) | Corn |
+| **4** | StoneCave | StoneCave (`Recipe_Stone`) | Stone |
+| **5** | ObsidianCave | Obsidian (`Recipe_Obsidian`) | Obsidian |
+| **6** | GoldMine | GoldCave (`Recipe_Gold`) | Gold |
+| **7** | Altar | Altar (`Recipe_Altar`) | Blood |
+
+### Что сейчас в timeline (проверить при балансе фазы 1)
+
+| Данные | Сейчас | Заметка |
+| --- | --- | --- |
+| `runStartBuildings` | 0, 1, 2 Built | Home, Well, Lumber |
+| Phase 0 `unlockBuildingIds` | 0, 1, 2, **3** | Home, Well, Lumber, **Farm** |
+| Phase 1 `unlockBuildingIds` | **4** (StoneCave) | камень |
+
+StoneCave = **4**, имеет смысл открывать на фазе 1 (Stone & Timber). Obsidian = **5** — позже.
+
+CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; для Jump на mid-game нужно будет обновить.
+
+### Playtest log — Phase 0 / 1
+
+- Phase 0: **3 Water + 3 Wood** @ +2s; duration **50s**. Wood **5с**, Water **3с**. 2nd villager: **3 Wood** + Home craft **15с**. 3rd: **4 Corn**. Farm unlock с старта (build 5W+3Water).
+- Phase 1: duration **90с**, Corn **+12** / Water **+6**. Cheat Jump: timer **61с** + 2p / 3 water / 4 wood; Built Home/Well/Lumber.
+- Phase 2: Cheat Jump: timer **42с** + 2p / 3 water / 2 wood; Built Home/Well/Lumber/Farm/Stone. Home hire (2p → оффер **4 Corn**).
+
+
+_(сюда твои мысли после прогона)_
 
 ---
 
@@ -104,7 +142,7 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 Цель: людей **меньше**, чем желаемых рабочих слотов → таскать между джобами или ставить двоих на одну ветку (ускорение ценой другой).
 
-> В коде сейчас workers = порог ON/OFF (`workersRequired`). Ускорение от 2+ workers — план, не факт.
+> Скорость крафта: **1 / 1.5 / 2** (+0.5× за каждого сверх `workersRequired`).
 
 Черновик hire-офферов и target headcount — лист `07_Villagers`.
 
@@ -144,10 +182,10 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 ## Gaps (закрыть до серьёзного баланса)
 
-1. **Нет производителя Stone** — фазы 1/4 требуют камень (модификатор −10% Stone пока «на будущее»).
-2. **Altar (id 4) нигде не unlock** — Blood недоступен в нормальном ране; логично открыть на фазе 5 (передышка/развитие).
-3. **Workers не ускоряют** — только порог.
-4. **Hire-оффер жителей** — вместо пассивного Home.
+1. **Нет / проверить unlock Stone (id 4)** на фазе 1 — сейчас в timeline unlock **5 (Obsidian)**.
+2. **Altar (id 7)** — когда unlock? Логично фаза 5 (передышка/Blood).
+3. ~~**Workers не ускоряют**~~ — сделано (**1 / 1.5 / 2**).
+4. **Hire-оффер жителей** — вместо пассивного Home (если ещё так).
 
 ---
 

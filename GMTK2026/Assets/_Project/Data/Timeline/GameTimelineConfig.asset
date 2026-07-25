@@ -30,34 +30,37 @@ MonoBehaviour:
     workers: 0
   phases:
   - title: Dawn Offering
-    tooltip: "First demand \u2014 feed the gods with corn."
-    durationSeconds: 60
+    tooltip: "First demand \u2014 water and wood for the gods."
+    durationSeconds: 50
     color: {r: 0.85, g: 0.65, b: 0.2, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 6
-      secondsReward: 8
+    - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+      count: 3
+      secondsReward: 2
+    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      count: 3
+      secondsReward: 2
     unlockBuildingIds: 00000000010000000200000003000000
     productionModifiers: []
-  - title: Stone & Timber
-    tooltip: "Raise the works \u2014 stone and wood."
+  - title: Drought Harvest
+    tooltip: "Drought \u2014 corn and water. The well runs slow."
     durationSeconds: 90
     color: {r: 0.55, g: 0.55, b: 0.6, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
-      count: 10
-      secondsReward: 6
-    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+      count: 5
+      secondsReward: 12
+    - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 3
-      secondsReward: 8
-    unlockBuildingIds: 05000000
+      secondsReward: 6
+    unlockBuildingIds: 04000000
     productionModifiers:
     - target: 1
-      resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
+      resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       buildingId: 0
-      speedPercent: -10
-      displayTitle: Heavy Stone
-      description: Stone comes slower this era. Stock early or fall behind the offer.
+      speedPercent: -25
+      displayTitle: Drought
+      description: Water production is 25% slower this era. The well struggles under the dry sun.
       icon: {fileID: 0}
   - title: Harvest Pressure
     tooltip: More corn. The calendar turns.
