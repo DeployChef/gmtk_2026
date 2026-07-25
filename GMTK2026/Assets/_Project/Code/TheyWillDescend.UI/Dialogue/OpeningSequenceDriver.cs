@@ -5,7 +5,6 @@ using TheyWillDescend.Core;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Dialogue;
 using TheyWillDescend.UI.Buildings;
-using TheyWillDescend.UI.Timeline;
 using UnityEngine;
 using VContainer;
 
@@ -26,7 +25,8 @@ namespace TheyWillDescend.UI.Dialogue
 
         [Header("Scene refs")]
         [SerializeField] private IntroCameraDirector cameraDirector;
-        [SerializeField] private PyramidTimerWorldHud pyramidTimerHud;
+        [Tooltip("CanvasGroup on the pyramid HUD canvas. Hidden until the storm beat.")]
+        [SerializeField] private CanvasGroup pyramidHudGroup;
         [SerializeField] private BottomBarSlabReveal bottomBarReveal;
         [SerializeField] private IntroGrassAnimator introGrass;
         [SerializeField] private IntroPyramidStrikeVfx pyramidStrikeVfx;
@@ -76,7 +76,7 @@ namespace TheyWillDescend.UI.Dialogue
 
             try
             {
-                pyramidTimerHud?.Hide();
+                SetPyramidHudVisible(false);
                 introGrass?.StartDrift();
 
                 if (cameraDirector != null)
@@ -103,7 +103,7 @@ namespace TheyWillDescend.UI.Dialogue
                 await PlayStormSfxAsync(cancellationToken);
                 await DelayUnscaled(afterStormPause, cancellationToken);
 
-                pyramidTimerHud?.Show();
+                SetPyramidHudVisible(true);
 
                 if (cameraDirector != null)
                     await cameraDirector.TransitionToPyramidAsync(pyramidSnapWait)
@@ -141,9 +141,19 @@ namespace TheyWillDescend.UI.Dialogue
             cameraDirector?.SnapToPlay();
             introGrass?.SnapHidden();
             pyramidStrikeVfx?.Hide();
-            pyramidTimerHud?.Show();
+            SetPyramidHudVisible(true);
             bottomBarReveal?.SnapRevealed();
             SetBuildingHudsSuppressed(false);
+        }
+
+        private void SetPyramidHudVisible(bool visible)
+        {
+            if (pyramidHudGroup == null)
+                return;
+
+            pyramidHudGroup.alpha = visible ? 1f : 0f;
+            pyramidHudGroup.interactable = visible;
+            pyramidHudGroup.blocksRaycasts = visible;
         }
 
         private async UniTask PlayStormSfxAsync(CancellationToken cancellationToken)

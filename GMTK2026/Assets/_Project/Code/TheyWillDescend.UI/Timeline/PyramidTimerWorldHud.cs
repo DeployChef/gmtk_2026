@@ -38,7 +38,6 @@ namespace TheyWillDescend.UI.Timeline
         private Tween _punchTween;
         private Tween _colorTween;
         private bool _baseCaptured;
-        private bool _visible = true;
 
         [Inject]
         public void Construct(IGameEventBus bus)
@@ -50,11 +49,7 @@ namespace TheyWillDescend.UI.Timeline
             CaptureBase();
         }
 
-        private void Awake()
-        {
-            CaptureBase();
-            Hide();
-        }
+        private void Awake() => CaptureBase();
 
         private void OnDestroy()
         {
@@ -64,30 +59,8 @@ namespace TheyWillDescend.UI.Timeline
             _expiredSub?.Dispose();
         }
 
-        public void Show()
-        {
-            _visible = true;
-            SetHudActive(true);
-        }
-
-        public void Hide()
-        {
-            _visible = false;
-            SetHudActive(false);
-        }
-
-        private void SetHudActive(bool active)
-        {
-            if (timerLabel != null)
-                timerLabel.gameObject.SetActive(active);
-            else
-                gameObject.SetActive(active);
-        }
-
         private void LateUpdate()
         {
-            if (!_visible)
-                return;
             AnimateGlyphWave();
         }
 
