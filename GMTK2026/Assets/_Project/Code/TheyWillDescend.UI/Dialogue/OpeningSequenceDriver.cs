@@ -49,6 +49,10 @@ namespace TheyWillDescend.UI.Dialogue
         [Header("Bottom bar SFX")]
         [SerializeField] private string bottomBarRevealSoundId = AudioCatalog.Ids.Century;
 
+        [Header("Extra objects to hide during intro")]
+        [Tooltip("GameObjects hidden during the intro and re-enabled after.")]
+        [SerializeField] private GameObject[] hideDuringIntro;
+
         private IDialogueService _dialogue;
         private IAudioManager _audio;
         private bool _playing;
@@ -73,6 +77,7 @@ namespace TheyWillDescend.UI.Dialogue
 
             _playing = true;
             SetBuildingHudsSuppressed(true);
+            SetExtraObjectsVisible(false);
 
             try
             {
@@ -132,6 +137,7 @@ namespace TheyWillDescend.UI.Dialogue
                 introGrass?.SnapHidden();
                 pyramidStrikeVfx?.Hide();
                 SetBuildingHudsSuppressed(false);
+                SetExtraObjectsVisible(true);
                 _playing = false;
             }
         }
@@ -144,6 +150,7 @@ namespace TheyWillDescend.UI.Dialogue
             SetPyramidHudVisible(true);
             bottomBarReveal?.SnapRevealed();
             SetBuildingHudsSuppressed(false);
+            SetExtraObjectsVisible(true);
         }
 
         private void SetPyramidHudVisible(bool visible)
@@ -205,6 +212,18 @@ namespace TheyWillDescend.UI.Dialogue
                 TimeSpan.FromSeconds(seconds),
                 DelayType.UnscaledDeltaTime,
                 cancellationToken: cancellationToken);
+        }
+
+        private void SetExtraObjectsVisible(bool visible)
+        {
+            if (hideDuringIntro == null)
+                return;
+
+            foreach (var go in hideDuringIntro)
+            {
+                if (go != null)
+                    go.SetActive(visible);
+            }
         }
 
         private static void SetBuildingHudsSuppressed(bool suppressed)

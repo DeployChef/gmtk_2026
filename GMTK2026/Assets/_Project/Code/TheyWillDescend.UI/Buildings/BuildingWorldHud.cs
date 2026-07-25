@@ -26,6 +26,8 @@ namespace TheyWillDescend.UI.Buildings
         [SerializeField] private Button addWorkerButton;
         [SerializeField] private Button removeWorkerButton;
         [SerializeField] private TMP_Text workersLabel;
+        [Tooltip("Parent object for all worker UI elements. Deactivated when building needs no workers.")]
+        [SerializeField] private GameObject workersRoot;
         [SerializeField] private Transform inputContainer;
         [SerializeField] private Image outputIcon;
         [SerializeField] private GameObject inputIconPrefab;
@@ -235,9 +237,11 @@ namespace TheyWillDescend.UI.Buildings
                               && !building.UsesHireOffers
                               && definition.WorkersRequired > 0;
 
+            if (workersRoot != null)
+                workersRoot.SetActive(showWorkers);
+
             if (workersLabel != null)
             {
-                workersLabel.gameObject.SetActive(showWorkers);
                 if (showWorkers)
                     workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
             }
@@ -246,6 +250,9 @@ namespace TheyWillDescend.UI.Buildings
                 addWorkerButton.gameObject.SetActive(showWorkers);
             if (removeWorkerButton != null)
                 removeWorkerButton.gameObject.SetActive(showWorkers);
+
+            // Force layout rebuild so ContentSizeFitter shrinks when workers elements are hidden
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
 
             if (outputIcon != null)
             {

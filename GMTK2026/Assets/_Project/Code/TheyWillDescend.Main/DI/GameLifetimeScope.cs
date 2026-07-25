@@ -13,6 +13,7 @@ using TheyWillDescend.Main.GameAppStates;
 using TheyWillDescend.UI.Buildings;
 using TheyWillDescend.UI.Cards;
 using TheyWillDescend.UI.Dialogue;
+using TheyWillDescend.UI.Session;
 using TheyWillDescend.UI.Timeline;
 using UnityEngine;
 using VContainer;
@@ -62,6 +63,7 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<DialoguePanelView>().As<IDialogueService>();
             builder.RegisterComponentInHierarchy<OpeningSequenceDriver>().As<IOpeningSequence>();
             builder.RegisterComponentInHierarchy<IntroCameraDirector>();
+            builder.RegisterComponentInHierarchy<ResultScreenController>();
 
             builder.RegisterBuildCallback(resolver =>
             {
