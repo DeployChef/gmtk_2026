@@ -22,7 +22,7 @@
 | 0 | Dawn Offering | легко | 1 | 15..25s | Water+Wood; научить DnD |
 | 1 | Drought Harvest | средне | 2 | 10..18s | Farm build; corn+water; −25% Water |
 | 2 | Harvest Pressure | сложнее | 3 | 5..12s | Давление corn; рычаг −% Farm |
-| 3 | Obsidian Idols | **на пределе** | 5 | 0..5s | Obsidian на 3 workers — пик дефицита людей |
+| 3 | Obsidian Idols | **на пределе** | 5 | 0..5s | Obsidian+Stone+Wood оффер; −15% Obsidian |
 | 4 | Breathing Room | **легко / передышка** | 2 | 15..30s | Unlock Altar; освоить Blood |
 | 5 | Blood and Grain | средне | 3 | 8..15s | Blood + Corn |
 | 6 | Final Propitiation | **очень сложно** | 5 | 0..5s | Gold + Obsidian + Blood; людей в кровь; landing **5..15с** |
@@ -64,10 +64,10 @@ CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; дл
 
 ### Playtest log — Phase 0 / 1
 
-- Phase 0: **3 Water + 3 Wood** @ +2s; duration **50s**. Wood **5с**, Water **3с**. 2nd villager: **3 Wood** + Home craft **15с**. 3rd: **4 Corn**. Farm unlock с старта (build 5W+3Water).
+- Phase 0: **3 Water + 3 Wood** @ +2s; duration **50s**. Wood **5с**, Water **3с**. Hire: 2nd **3 Wood**, 3rd **4 Corn**, 4th **3 Stone**, 5th **2 Obsidian + 2 Corn**. Home craft **15с**. Farm unlock с старта (build 5W+3Water).
 - Phase 1: duration **90с**, Corn **+12** / Water **+6**. Cheat Jump: timer **61с** + 2p / 3 water / 4 wood; Built Home/Well/Lumber.
 - Phase 2: offer **10 Corn** @ **+8s**. Ideal end ≈ **32с** (`42 − 90 + 80`). Cheat Jump: timer **42с** + 2p / 3 water / 2 wood; Built Home/Well/Lumber/Farm/Stone. Home hire (2p → оффер **4 Corn**).
-- Phase 3: Cheat Jump: timer **38с** + 3p / 1 water / 2 wood / 1 corn; Built Home/Well/Lumber/Farm/Stone; unlock **Obsidian (5) + Gold (6)**. Offer now: **4 Obsidian** @ **+18s**, duration **100с**, −15% Obsidian. Ideal end ≈ `38 − 100 + 72 = **10с**` (если оффер полный).
+- Phase 3: duration **120с**. Offer **3 Obsidian** @ +8 / **4 Stone** @ +3 / **6 Wood** @ +11 (gain **102с**). Ideal end ≈ `38 − 120 + 102 = **20с**`. Cheat Jump: timer **38с** + 3p / 1 water / 2 wood / 1 corn; Built Home/Well/Lumber/Farm/Stone; unlock **Obsidian (5) + Gold (6)**. −15% Obsidian.
 - Phase 4 **Breathing Room**: unlock Altar; **2 Blood** @ +20; +5% All / +10% Blood. (loadout TBD после плейтеста P3)
 - Phase 5 **Blood and Grain**: **3 Blood** @ +22 + **8 Corn** @ +6. (loadout TBD)
 - Phase 6 **Final**: **3 Gold** @ +18 + **3 Obsidian** @ +18 + **4 Blood** @ +20; −15% All; landing **5..15с**; людей → алтарь.
@@ -185,7 +185,7 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 1. ~~**unlock Stone / Obsidian / Gold / Altar**~~ — P1=4, P3=5+6, P4=7.
 2. Loadouts фаз **4–6** после плейтеста P3.
 3. ~~**Workers не ускоряют**~~ — сделано (**1 / 1.5 / 2**).
-4. Hire-офферы 4-го+ жителя (сейчас clamp на 4 Corn).
+4. Hire-офферы 6-го+ жителя (сейчас clamp на **2 Obsidian + 2 Corn**).
 
 ---
 

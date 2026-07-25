@@ -21,7 +21,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         [FormerlySerializedAs("recipe")]
         [SerializeField] private BuildingDefinition definition;
         [SerializeField] private BuildingSlotState initialState = BuildingSlotState.Built;
-        [SerializeField] private int minWorkers;
+        [SerializeField] private int minWorkers; // unused floor; kept for scene serialization
         [SerializeField] private int maxWorkers = 3;
         [SerializeField] private int startingWorkers;
         [Tooltip("AudioCatalog id played when craft completes. Empty = silent.")]
@@ -56,7 +56,8 @@ namespace TheyWillDescend.Gameplay.Buildings
         public bool IsBuildable => _slotState == BuildingSlotState.Buildable;
         public bool IsLocked => _slotState == BuildingSlotState.Locked;
         public int Workers => _workers;
-        public int MinWorkers => minWorkers;
+        /// <summary>Unassign floor. Always 0 — craft simply pauses below WorkersRequired.</summary>
+        public int MinWorkers => 0;
         public int MaxWorkers => maxWorkers;
         /// <summary>Villagers produced by this building this run (start inventory villager is not counted).</summary>
         public int VillagersProduced => _villagersProduced;
@@ -317,7 +318,7 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return;
             }
 
-            _workers = Mathf.Clamp(workers, minWorkers, maxWorkers);
+            _workers = Mathf.Clamp(workers, 0, maxWorkers);
             SetSlotState(BuildingSlotState.Built);
             PublishProgress();
             PublishWorkers();
@@ -413,7 +414,7 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryRemoveWorker()
         {
-            if (_slotState != BuildingSlotState.Built || _workers <= minWorkers || _inventory == null)
+            if (_slotState != BuildingSlotState.Built || _workers <= 0 || _inventory == null)
                 return false;
 
             var villager = _inventory.GetDefinition(ResourceIds.Villager);
