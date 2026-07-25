@@ -63,6 +63,8 @@ Constructing tick
 `IDisasterManager.TryStrikeRandomHouse` выбирает только слоты в **`Built`**.  
 Locked / Buildable / Constructing — вне пула целей.
 
+Удар: VFX + disable здания на время пожара. **Workers остаются** на здании и снова работают после окончания disable.
+
 ## UI
 
 | Состояние | View |

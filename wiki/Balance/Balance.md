@@ -9,7 +9,7 @@
 
 ## Зачем так
 
-Баланс — **борьба со временем и жёсткой нехваткой** (ресурсы + люди). Сразу крутить все 8 фаз бессмысленно: слишком много степеней свободы.
+Баланс — **борьба со временем и жёсткой нехваткой** (ресурсы + люди). Сразу крутить все **7** фаз бессмысленно: слишком много степеней свободы.
 
 **Метод:** этап за этапом через Cheat Panel (Jump to phase) → зафиксировать исход → это стартовые данные следующей фазы. Когда линейка стабильна — склеивать **пары** фаз, чтобы таймер ходил «параболой» (непонятно, выигрываешь или нет).
 
@@ -17,18 +17,19 @@
 
 ## Кривая feel
 
-| Phase | Title (сейчас) | Feel | Diff | Slack (wall-time) | Intent |
+| Phase | Title | Feel | Diff | Slack (wall-time) | Intent |
 | --- | --- | --- | --- | --- | --- |
 | 0 | Dawn Offering | легко | 1 | 15..25s | Water+Wood; научить DnD |
 | 1 | Drought Harvest | средне | 2 | 10..18s | Farm build; corn+water; −25% Water |
 | 2 | Harvest Pressure | сложнее | 3 | 5..12s | Давление corn; рычаг −% Farm |
-| 3 | Obsidian Idols | сложно | 4 | 3..8s | Obsidian на 3 workers — пик дефицита людей |
-| 4 | Mixed Tribute | **на пределе** | 5 | 0..5s | Параллельный оффер — всё не покрыть |
-| 5 | First Blood | **легко / развитие** | 2 | 15..30s | Передышка: освоить Blood/Altar, накопить |
-| 6 | Twin Demands | сложно | 4 | 3..8s | Twin; подготовить StartTimer для финала |
-| 7 | Final Propitiation | **очень сложно** | 5 | 0..5s | Финал; после последнего дара doomsday **5..15с** |
+| 3 | Obsidian Idols | **на пределе** | 5 | 0..5s | Obsidian на 3 workers — пик дефицита людей |
+| 4 | Breathing Room | **легко / передышка** | 2 | 15..30s | Unlock Altar; освоить Blood |
+| 5 | Blood and Grain | средне | 3 | 8..15s | Blood + Corn |
+| 6 | Final Propitiation | **очень сложно** | 5 | 0..5s | Gold + Obsidian + Blood; людей в кровь; landing **5..15с** |
 
-Фаза **5 специально легче фазы 4** — контраст перед дугой 6→7. Если 5 ощущается так же жёстко, как 4 — кривая сломана.
+**7 фаз (0..6).** Пик середины = **3**. Передышка = **4**. Финал = **6** (золото + идолы + кровь; все рабочие → алтарь если надо).
+
+Убраны: Mixed Tribute, Twin Demands (слиты в новую дугу 4→5→6).
 
 ---
 
@@ -54,8 +55,10 @@
 | `runStartBuildings` | 0, 1, 2 Built | Home, Well, Lumber |
 | Phase 0 `unlockBuildingIds` | 0, 1, 2, **3** | Home, Well, Lumber, **Farm** |
 | Phase 1 `unlockBuildingIds` | **4** (StoneCave) | камень |
+| Phase 3 `unlockBuildingIds` | **5, 6** | Obsidian + Gold |
+| Phase 4 `unlockBuildingIds` | **7** (Altar) | Blood |
 
-StoneCave = **4**, имеет смысл открывать на фазе 1 (Stone & Timber). Obsidian = **5** — позже.
+StoneCave = **4** на фазе 1. Obsidian + Gold = **5, 6** на фазе 3. Altar = **7** на фазе 4.
 
 CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; для Jump на mid-game нужно будет обновить.
 
@@ -64,6 +67,10 @@ CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; дл
 - Phase 0: **3 Water + 3 Wood** @ +2s; duration **50s**. Wood **5с**, Water **3с**. 2nd villager: **3 Wood** + Home craft **15с**. 3rd: **4 Corn**. Farm unlock с старта (build 5W+3Water).
 - Phase 1: duration **90с**, Corn **+12** / Water **+6**. Cheat Jump: timer **61с** + 2p / 3 water / 4 wood; Built Home/Well/Lumber.
 - Phase 2: offer **10 Corn** @ **+8s**. Ideal end ≈ **32с** (`42 − 90 + 80`). Cheat Jump: timer **42с** + 2p / 3 water / 2 wood; Built Home/Well/Lumber/Farm/Stone. Home hire (2p → оффер **4 Corn**).
+- Phase 3: Cheat Jump: timer **38с** + 3p / 1 water / 2 wood / 1 corn; Built Home/Well/Lumber/Farm/Stone; unlock **Obsidian (5) + Gold (6)**. Offer now: **4 Obsidian** @ **+18s**, duration **100с**, −15% Obsidian. Ideal end ≈ `38 − 100 + 72 = **10с**` (если оффер полный).
+- Phase 4 **Breathing Room**: unlock Altar; **2 Blood** @ +20; +5% All / +10% Blood. (loadout TBD после плейтеста P3)
+- Phase 5 **Blood and Grain**: **3 Blood** @ +22 + **8 Corn** @ +6. (loadout TBD)
+- Phase 6 **Final**: **3 Gold** @ +18 + **3 Obsidian** @ +18 + **4 Blood** @ +20; −15% All; landing **5..15с**; людей → алтарь.
 
 
 _(сюда твои мысли после прогона)_
@@ -91,13 +98,12 @@ _(сюда твои мысли после прогона)_
 | Phase | Draft modifier |
 | --- | --- |
 | 0 | нет |
-| 1 | −10% Stone |
+| 1 | **−25% Water** |
 | 2 | **−20% Corn** |
-| 3 | −15% Obsidian |
-| 4 | −10% All |
-| 5 | **+5% All** + **+10% Blood** (передышка) |
-| 6 | −20% Obsidian, −10% Blood |
-| 7 | −15% All |
+| 3 | **−15% Obsidian** (пик) |
+| 4 | **+5% All** + **+10% Blood** (передышка) |
+| 5 | нет |
+| 6 | **−15% All** (финал) |
 
 Подробные title/description правятся в Inspector на каждом модификаторе.
 
@@ -114,7 +120,7 @@ _(сюда твои мысли после прогона)_
 
 ---
 
-## Финальная посадка (фаза 7)
+## Финальная посадка (фаза 6)
 
 После **последней** сданной карты оффера на doomsday должно остаться **5–15 секунд**.
 
@@ -124,15 +130,9 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 Цель: `5 ≤ Landing ≤ 15`.
 
-**Проблема текущих цифр:** maxGain фазы 7 = `5×22 + 4×15 + 10×3 = 200`. При Elapsed ≈ 110–120 окно недостижимо при разумном StartTimer.
+Оффер финала: **Gold + Obsidian + Blood**. Intent: нехватка людей → жертвовать рабочих на алтарь.
 
-Практичный коридор:
-
-- MaxGain фазы 7 ≈ **40..80**
-- StartTimer с фазы 6 ≈ **50..90**
-- Elapsed закрытия ≈ **100..120**
-
-Крутить: резать `secondsReward` на 7, душить таймер на 5–6, усложнять крафт (modifiers / люди).
+Крутить: `secondsReward` / count на 6, StartTimer с фазы 5, craft / modifiers.
 
 ---
 
@@ -182,10 +182,10 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 ## Gaps (закрыть до серьёзного баланса)
 
-1. **Нет / проверить unlock Stone (id 4)** на фазе 1 — сейчас в timeline unlock **5 (Obsidian)**.
-2. **Altar (id 7)** — когда unlock? Логично фаза 5 (передышка/Blood).
+1. ~~**unlock Stone / Obsidian / Gold / Altar**~~ — P1=4, P3=5+6, P4=7.
+2. Loadouts фаз **4–6** после плейтеста P3.
 3. ~~**Workers не ускоряют**~~ — сделано (**1 / 1.5 / 2**).
-4. **Hire-оффер жителей** — вместо пассивного Home (если ещё так).
+4. Hire-офферы 4-го+ жителя (сейчас clamp на 4 Corn).
 
 ---
 

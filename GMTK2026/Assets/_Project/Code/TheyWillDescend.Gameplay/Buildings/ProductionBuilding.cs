@@ -433,20 +433,6 @@ namespace TheyWillDescend.Gameplay.Buildings
             return true;
         }
 
-        /// <summary>
-        /// Removes one assigned worker permanently (no return to inventory). Used by lightning strikes.
-        /// </summary>
-        public bool TryKillWorker()
-        {
-            if (_slotState != BuildingSlotState.Built || _workers <= 0)
-                return false;
-
-            _workers--;
-            PublishWorkers();
-            StateChanged?.Invoke();
-            return true;
-        }
-
         public bool TryAcceptResource(string resourceId)
         {
             if (string.IsNullOrEmpty(resourceId))
