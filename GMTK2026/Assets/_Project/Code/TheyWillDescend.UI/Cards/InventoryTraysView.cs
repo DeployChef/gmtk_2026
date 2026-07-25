@@ -30,7 +30,6 @@ namespace TheyWillDescend.UI.Cards
         private IDisposable _clearedSub;
         private IDisposable _workersSub;
         private readonly Dictionary<string, CardTrayView> _byId = new();
-        private readonly Dictionary<int, int> _workersByBuilding = new();
         private bool _suppressGainSfx;
 
         public ResourceDefinition FindVillagerResource()
@@ -61,8 +60,7 @@ namespace TheyWillDescend.UI.Cards
             RebuildLookup();
             _changedSub = bus.Subscribe<InventoryChangedEvent>(OnInventoryChanged);
             _clearedSub = bus.Subscribe<InventoryClearedEvent>(_ => ClearAllVisuals());
-            _workersSub = bus.Subscribe<BuildingWorkersChangedEvent>(OnWorkersChanged);
-            CaptureInitialWorkers();
+            _workersSub = bus.Subscribe<BuildingWorkersChangedEvent>(_ => RefreshVillagerCounterOnly());
             _suppressGainSfx = true;
             SyncAllFromInventory();
             _suppressGainSfx = false;
@@ -127,12 +125,6 @@ namespace TheyWillDescend.UI.Cards
                 _audio?.Play(AudioCatalog.Ids.CardPickup);
         }
 
-        private void OnWorkersChanged(BuildingWorkersChangedEvent e)
-        {
-            _workersByBuilding[e.BuildingId] = e.Workers;
-            RefreshVillagerCounterOnly();
-        }
-
         private void SyncAllFromInventory()
         {
             if (_inventory == null || trays == null)
@@ -164,9 +156,6 @@ namespace TheyWillDescend.UI.Cards
             if (trays == null)
                 return;
 
-            // Buildings may still have workers until phase loadout applies; refresh from scene.
-            CaptureInitialWorkers();
-
             for (var i = 0; i < trays.Length; i++)
             {
                 var tray = trays[i];
@@ -184,9 +173,10 @@ namespace TheyWillDescend.UI.Cards
             if (tray == null || tray.Resource == null)
                 return;
 
-            if (tray.Resource.Kind == ResourceKind.Villager)
+            if (tray.Resource.Kind == ResourceKind.Villager
+                || tray.Resource.Id == ResourceIds.Villager)
             {
-                var total = count + AssignedVillagers;
+                var total = count + CountAssignedVillagers();
                 tray.SetCounterText($"{count}/{total}");
                 return;
             }
@@ -202,7 +192,10 @@ namespace TheyWillDescend.UI.Cards
             for (var i = 0; i < trays.Length; i++)
             {
                 var tray = trays[i];
-                if (tray?.Resource == null || tray.Resource.Kind != ResourceKind.Villager)
+                if (tray?.Resource == null)
+                    continue;
+                if (tray.Resource.Kind != ResourceKind.Villager
+                    && tray.Resource.Id != ResourceIds.Villager)
                     continue;
 
                 var count = _inventory.GetCount(tray.Resource);
@@ -211,28 +204,20 @@ namespace TheyWillDescend.UI.Cards
             }
         }
 
-        private void CaptureInitialWorkers()
+        private static int CountAssignedVillagers()
         {
-            _workersByBuilding.Clear();
+            var sum = 0;
             var buildings = FindObjectsByType<ProductionBuilding>(
                 FindObjectsInactive.Include, FindObjectsSortMode.None);
             for (var i = 0; i < buildings.Length; i++)
             {
                 var b = buildings[i];
-                if (b != null)
-                    _workersByBuilding[b.BuildingId] = b.Workers;
+                if (b == null || !b.IsBuilt)
+                    continue;
+                sum += Mathf.Max(0, b.Workers);
             }
-        }
 
-        private int AssignedVillagers
-        {
-            get
-            {
-                var sum = 0;
-                foreach (var pair in _workersByBuilding)
-                    sum += pair.Value;
-                return sum;
-            }
+            return sum;
         }
     }
 }

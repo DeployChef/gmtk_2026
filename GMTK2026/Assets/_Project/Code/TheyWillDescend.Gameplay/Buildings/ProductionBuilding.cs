@@ -115,6 +115,14 @@ namespace TheyWillDescend.Gameplay.Buildings
             && _inventory != null
             && _inventory.GetCount(ResourceIds.Villager) > 0;
 
+        /// <summary>True when a villager card should assign as a worker (not as production input).</summary>
+        public bool CanAcceptWorkerCard =>
+            _slotState == BuildingSlotState.Built
+            && !UsesHireOffers
+            && definition != null
+            && definition.WorkersRequired > 0
+            && _workers < maxWorkers;
+
         public event System.Action StateChanged;
 
         [Inject]
@@ -133,8 +141,9 @@ namespace TheyWillDescend.Gameplay.Buildings
         private void Awake()
         {
             _slotState = initialState;
+            // Do not inflate to minWorkers for free — that desyncs available/assigned totals.
             _workers = _slotState == BuildingSlotState.Built
-                ? Mathf.Clamp(startingWorkers, minWorkers, maxWorkers)
+                ? Mathf.Clamp(startingWorkers, 0, maxWorkers)
                 : 0;
         }
 
@@ -612,7 +621,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         {
             _buildProgress = 0f;
             _storedBuildCosts.Clear();
-            _workers = Mathf.Clamp(_workers, minWorkers, maxWorkers);
+            _workers = 0;
             SetSlotState(BuildingSlotState.Built);
             _bus?.Publish(new BuildingConstructedEvent(buildingId));
             PublishProgress();
