@@ -1,0 +1,5 @@
+# Published WebGL player for GitHub Pages.
+# Do not commit Unity debug leftovers.
+GMTK2026_BurstDebugInformation_DoNotShip/
+*_BurstDebugInformation_DoNotShip/
+**/DoNotShip/
