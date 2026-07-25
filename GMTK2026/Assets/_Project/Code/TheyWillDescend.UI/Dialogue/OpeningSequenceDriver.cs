@@ -12,8 +12,7 @@ using VContainer;
 namespace TheyWillDescend.UI.Dialogue
 {
     /// <summary>
-    /// Opening: hold intro + grass drift → approach Play + grass exit → storm → pyramid → dialogue →
-    /// pull to Play → bottom bar.
+    /// Opening: approach → storm → pyramid → intro dialogue → play cam → produce dialogue → bottom bar.
     /// </summary>
     public sealed class OpeningSequenceDriver : MonoBehaviour, IOpeningSequence
     {
@@ -23,14 +22,16 @@ namespace TheyWillDescend.UI.Dialogue
 
         [Header("Content")]
         [SerializeField] private DialogueDefinition introDialogue;
+        [SerializeField] private DialogueDefinition produceOfferDialogue;
 
         [Header("Scene refs")]
         [SerializeField] private IntroCameraDirector cameraDirector;
         [SerializeField] private PyramidTimerWorldHud pyramidTimerHud;
         [SerializeField] private BottomBarSlabReveal bottomBarReveal;
         [SerializeField] private IntroGrassAnimator introGrass;
+        [SerializeField] private IntroPyramidStrikeVfx pyramidStrikeVfx;
 
-        [Header("Storm SFX (no VFX)")]
+        [Header("Storm (SFX + pyramid VFX)")]
         [SerializeField] private string thunderSoundId = AudioCatalog.Ids.Thunder;
         [SerializeField] private string fireSoundId = AudioCatalog.Ids.Fire;
         [SerializeField] private int stormBurstCount = 3;
@@ -44,7 +45,9 @@ namespace TheyWillDescend.UI.Dialogue
         [SerializeField] private float approachWait = 10f;
         [SerializeField] private float pyramidSnapWait = 3f;
         [SerializeField] private float returnToPlayWait = 5f;
-        [SerializeField] private float bottomBarDelay = 1f;
+
+        [Header("Bottom bar SFX")]
+        [SerializeField] private string bottomBarRevealSoundId = AudioCatalog.Ids.Century;
 
         private IDialogueService _dialogue;
         private IAudioManager _audio;
@@ -76,7 +79,6 @@ namespace TheyWillDescend.UI.Dialogue
                 pyramidTimerHud?.Hide();
                 introGrass?.StartDrift();
 
-                // Force IntroStart first, hold, then blend to Play with grass exit in parallel.
                 if (cameraDirector != null)
                 {
                     cameraDirector.SnapToIntroStart();
@@ -97,6 +99,7 @@ namespace TheyWillDescend.UI.Dialogue
                         await introGrass.PlayExitAsync(approachWait, cancellationToken);
                 }
 
+                pyramidStrikeVfx?.Play();
                 await PlayStormSfxAsync(cancellationToken);
                 await DelayUnscaled(afterStormPause, cancellationToken);
 
@@ -106,13 +109,16 @@ namespace TheyWillDescend.UI.Dialogue
                     await cameraDirector.TransitionToPyramidAsync(pyramidSnapWait)
                         .AttachExternalCancellation(cancellationToken);
 
-                await PlayIntroDialogueAsync(cancellationToken);
+                await PlayDialogueAsync(introDialogue, cancellationToken);
 
                 if (cameraDirector != null)
                     await cameraDirector.TransitionToPlayAsync(returnToPlayWait)
                         .AttachExternalCancellation(cancellationToken);
 
-                await DelayUnscaled(bottomBarDelay, cancellationToken);
+                await PlayDialogueAsync(produceOfferDialogue, cancellationToken);
+
+                if (!string.IsNullOrEmpty(bottomBarRevealSoundId))
+                    _audio?.Play(bottomBarRevealSoundId);
 
                 if (bottomBarReveal != null)
                     await bottomBarReveal.RevealAsync(cancellationToken);
@@ -124,6 +130,7 @@ namespace TheyWillDescend.UI.Dialogue
             finally
             {
                 introGrass?.SnapHidden();
+                pyramidStrikeVfx?.Hide();
                 SetBuildingHudsSuppressed(false);
                 _playing = false;
             }
@@ -133,6 +140,7 @@ namespace TheyWillDescend.UI.Dialogue
         {
             cameraDirector?.SnapToPlay();
             introGrass?.SnapHidden();
+            pyramidStrikeVfx?.Hide();
             pyramidTimerHud?.Show();
             bottomBarReveal?.SnapRevealed();
             SetBuildingHudsSuppressed(false);
@@ -159,15 +167,17 @@ namespace TheyWillDescend.UI.Dialogue
             }
         }
 
-        private async UniTask PlayIntroDialogueAsync(CancellationToken cancellationToken)
+        private async UniTask PlayDialogueAsync(
+            DialogueDefinition definition,
+            CancellationToken cancellationToken)
         {
-            if (introDialogue == null || _dialogue == null)
+            if (definition == null || _dialogue == null)
                 return;
 
             var tcs = new UniTaskCompletionSource();
             using var reg = cancellationToken.Register(() => tcs.TrySetCanceled(cancellationToken));
 
-            if (!_dialogue.TryPlay(introDialogue, () => tcs.TrySetResult()))
+            if (!_dialogue.TryPlay(definition, () => tcs.TrySetResult()))
             {
                 tcs.TrySetResult();
                 return;

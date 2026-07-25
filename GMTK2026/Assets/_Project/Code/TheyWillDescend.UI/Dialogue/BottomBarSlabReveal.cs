@@ -13,9 +13,9 @@ namespace TheyWillDescend.UI.Dialogue
         [SerializeField] private RectTransform bar;
         [SerializeField] private float targetY = 171f;
         [SerializeField] private float hiddenY = -280f;
-        [SerializeField] private float duration = 1.35f;
+        [SerializeField] private float duration = 2.7f;
         [SerializeField] private float overshoot = 14f;
-        [SerializeField] private float settleDuration = 0.32f;
+        [SerializeField] private float settleDuration = 0.64f;
         [SerializeField] private Vector2 shakeStrength = new(16f, 6f);
         [SerializeField] private float shakeFrequency = 22f;
 

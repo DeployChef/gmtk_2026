@@ -46,6 +46,7 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterEntryPoint<GameResultService>().As<IGameResultService>();
             builder.RegisterEntryPoint<TimelineSessionDriver>();
             builder.RegisterEntryPoint<PyramidTimerMusicDriver>();
+            builder.RegisterEntryPoint<PhaseCenturySfxDriver>();
 
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
             builder.Register<GameStartState>(Lifetime.Singleton);
