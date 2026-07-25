@@ -132,8 +132,9 @@ MonoBehaviour:
   maxWorkers: 3
   startingWorkers: 0
   produceSoundId: 
-  dropVfxPrefab: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
+  dropVfxPrefab: {fileID: 1590415177872986601, guid: acdb90624a404aa438447006f1026065, type: 3}
   vfxSpawnPoint: {fileID: 0}
+  vfxOffset: {x: 0, y: 0, z: 0}
 --- !u!61 &5820530651410868446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -141,7 +142,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1607465504822827287}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}

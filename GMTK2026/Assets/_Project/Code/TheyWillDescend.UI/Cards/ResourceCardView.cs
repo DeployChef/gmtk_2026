@@ -40,6 +40,8 @@ namespace TheyWillDescend.UI.Cards
         [SerializeField] private float dissolveDuration = 0.5f;
         [SerializeField] private Vector3 shrinkScale = new Vector3(0.5f, 0.5f, 1f);
         [SerializeField] private float returnHomeDuration = 0.25f;
+        [Tooltip("Card transparency when hovering over a building during drag (0=invisible, 1=opaque).")]
+        [SerializeField] private float hoverBuildingAlpha = 0.5f;
 
         private RectTransform _rect;
         private Transform _homeParent;
@@ -272,6 +274,8 @@ if (accepted)
                 _hoverBuilding = building;
                 _hoverBuilding.ShowDropIndicator(true);
                 _audio?.Play(AudioCatalog.Ids.CardOverBuilding);
+                if (canvasGroup != null)
+                    canvasGroup.alpha = hoverBuildingAlpha;
             }
         }
 
@@ -281,6 +285,8 @@ if (accepted)
             {
                 _hoverBuilding.ShowDropIndicator(false);
                 _hoverBuilding = null;
+                if (canvasGroup != null)
+                    canvasGroup.alpha = 1f;
             }
         }
 
