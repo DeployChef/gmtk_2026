@@ -55,20 +55,20 @@
 | `runStartBuildings` | 0, 1, 2 Built | Home, Well, Lumber |
 | Phase 0 `unlockBuildingIds` | 0, 1, 2, **3** | Home, Well, Lumber, **Farm** |
 | Phase 1 `unlockBuildingIds` | **4** (StoneCave) | камень |
-| Phase 3 `unlockBuildingIds` | **5, 6** | Obsidian + Gold |
-| Phase 4 `unlockBuildingIds` | **7** (Altar) | Blood |
+| Phase 3 `unlockBuildingIds` | **5** | Obsidian |
+| Phase 4 `unlockBuildingIds` | **6, 7** | Gold + Altar |
 
-StoneCave = **4** на фазе 1. Obsidian + Gold = **5, 6** на фазе 3. Altar = **7** на фазе 4.
+StoneCave = **4** на фазе 1. Obsidian = **5** на фазе 3. Gold + Altar = **6, 7** на фазе 4.
 
 CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; для Jump на mid-game нужно будет обновить.
 
 ### Playtest log — Phase 0 / 1
 
-- Phase 0: **3 Water + 3 Wood** @ +2s; duration **50s**. Wood **5с**, Water **3с**. Hire: 2nd **3 Wood**, 3rd **4 Corn**, 4th **3 Stone**, 5th **2 Obsidian + 2 Corn**. Home craft **15с**. Farm unlock с старта (build 5W+3Water).
-- Phase 1: duration **90с**, Corn **+12** / Water **+6**. Cheat Jump: timer **61с** + 2p / 3 water / 4 wood; Built Home/Well/Lumber.
-- Phase 2: offer **10 Corn** @ **+8s**. Ideal end ≈ **32с** (`42 − 90 + 80`). Cheat Jump: timer **42с** + 2p / 3 water / 2 wood; Built Home/Well/Lumber/Farm/Stone. Home hire (2p → оффер **4 Corn**).
-- Phase 3: duration **120с**. Offer **3 Obsidian** @ +8 / **4 Stone** @ +3 / **6 Wood** @ +11 (gain **102с**). Ideal end ≈ `38 − 120 + 102 = **20с**`. Cheat Jump: timer **38с** + 3p / 1 water / 2 wood / 1 corn; Built Home/Well/Lumber/Farm/Stone; unlock **Obsidian (5) + Gold (6)**. −15% Obsidian.
-- Phase 4 **Breathing Room**: unlock Altar; **2 Blood** @ +20; +5% All / +10% Blood. (loadout TBD после плейтеста P3)
+- Phase 0: cards Water/Wood **+1**; offer-complete **+6**. Total gain same **12с**.
+- Phase 1: Corn **+11** / Water **+5**; complete **+8**. Total same **78с**.
+- Phase 2: Corn **+7**; complete **+10**. Total same **80с**.
+- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **6 Wood @ +12** (= **107с**); complete **+55** → ideal end ~**80с** (`38 − 120 + 162`). Cheat Jump P4: timer **60с** (можно подтянуть после плейтеста).
+- Phase 4 **Breathing Room**: unlock **Gold (6) + Altar (7)**; **2 Blood** @ +20; +5% All / +10% Blood. Cheat Jump: timer **60с**.
 - Phase 5 **Blood and Grain**: **3 Blood** @ +22 + **8 Corn** @ +6. (loadout TBD)
 - Phase 6 **Final**: **3 Gold** @ +18 + **3 Obsidian** @ +18 + **4 Blood** @ +20; −15% All; landing **5..15с**; людей → алтарь.
 
@@ -120,7 +120,12 @@ _(сюда твои мысли после прогона)_
 
 ---
 
-## Финальная посадка (фаза 6)
+## Offer complete bonus
+
+На `PhaseDefinition.offerCompleteBonusSeconds`: один раз при сдаче **последней** карты оффера.
+
+Ideal end = `Start − Duration + Σ(cardRewards) + completeBonus`.
+
 
 После **последней** сданной карты оффера на doomsday должно остаться **5–15 секунд**.
 
@@ -142,7 +147,7 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 Цель: людей **меньше**, чем желаемых рабочих слотов → таскать между джобами или ставить двоих на одну ветку (ускорение ценой другой).
 
-> Скорость крафта: **1 / 1.5 / 2** (+0.5× за каждого сверх `workersRequired`).
+> Скорость крафта: **1 / 1.75 / 2.5** (+0.75× за каждого сверх `workersRequired`).
 
 Черновик hire-офферов и target headcount — лист `07_Villagers`.
 
@@ -182,9 +187,9 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 
 ## Gaps (закрыть до серьёзного баланса)
 
-1. ~~**unlock Stone / Obsidian / Gold / Altar**~~ — P1=4, P3=5+6, P4=7.
+1. ~~**unlock Stone / Obsidian / Gold / Altar**~~ — P1=4, P3=5, P4=6+7.
 2. Loadouts фаз **4–6** после плейтеста P3.
-3. ~~**Workers не ускоряют**~~ — сделано (**1 / 1.5 / 2**).
+3. ~~**Workers не ускоряют**~~ — сделано (**1 / 1.75 / 2.5**).
 4. Hire-офферы 6-го+ жителя (сейчас clamp на **2 Obsidian + 2 Corn**).
 
 ---

@@ -53,8 +53,8 @@ PHASES = [
     (0, "Dawn Offering", 50, [("Water", 3, 2), ("Wood", 3, 2)], [0, 1, 2, 3], "Tutorial"),
     (1, "Drought Harvest", 90, [("Corn", 5, 12), ("Water", 3, 6)], [4], "Stone unlock"),
     (2, "Harvest Pressure", 90, [("Corn", 10, 8)], [], "Farm online"),
-    (3, "Obsidian Idols", 100, [("Obsidian", 4, 18)], [5, 6], "Peak — Obsidian+Gold unlock"),
-    (4, "Breathing Room", 100, [("Blood", 2, 20)], [7], "Altar unlock / soft"),
+    (3, "Obsidian Idols", 100, [("Obsidian", 4, 18)], [5], "Peak — Obsidian unlock"),
+    (4, "Breathing Room", 100, [("Blood", 2, 20)], [6, 7], "Gold + Altar unlock / soft"),
     (5, "Blood and Grain", 110, [("Blood", 3, 22), ("Corn", 8, 6)], [], "Blood + food"),
     (6, "Final Propitiation", 120, [("Gold", 3, 18), ("Obsidian", 3, 18), ("Blood", 4, 20)], [], "TARGET remaining 5-15s"),
 ]

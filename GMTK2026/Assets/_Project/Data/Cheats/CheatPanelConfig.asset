@@ -94,8 +94,8 @@ MonoBehaviour:
       workers: 0
     - buildingId: 4
       workers: 0
-  - label: Breathing Room
-    startingPyramidTimerSeconds: -1
+  - label: Breathing Room (end P3)
+    startingPyramidTimerSeconds: 60
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 3

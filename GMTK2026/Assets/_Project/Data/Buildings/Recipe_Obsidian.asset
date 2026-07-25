@@ -21,6 +21,8 @@ MonoBehaviour:
   buildDurationSeconds: 5
   hireOffers: []
   productionInputs:
+  - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+    count: 1
   - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
     count: 2
   outputResource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}

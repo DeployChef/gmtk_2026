@@ -21,6 +21,7 @@ namespace TheyWillDescend.Gameplay.Session
         private float _lastPublishedYears = -1f;
         private bool _running;
         private bool _runFinished;
+        private bool _offerCompleteBonusGranted;
 
         public TimelineService(
             GameTimelineConfig config,
@@ -197,7 +198,25 @@ namespace TheyWillDescend.Gameplay.Session
                 reqs[matchIndex].Resource,
                 reward,
                 CurrentPhaseIndex));
+
+            TryGrantOfferCompleteBonus(phase);
             return true;
+        }
+
+        private void TryGrantOfferCompleteBonus(PhaseDefinition phase)
+        {
+            if (_offerCompleteBonusGranted || phase == null || !IsCurrentOfferComplete)
+                return;
+
+            var bonus = phase.OfferCompleteBonusSeconds;
+            _offerCompleteBonusGranted = true;
+            if (bonus <= 0f)
+                return;
+
+            _pyramidTimer.AddSeconds(bonus);
+            _bus.Publish(new OfferCompleteBonusEvent(CurrentPhaseIndex, bonus));
+            Debug.Log(
+                $"[TimelineService] Offer complete bonus +{bonus:0.#}s (phase {CurrentPhaseIndex}).");
         }
 
         public void DebugJumpToPhase(int phaseIndex)
@@ -249,6 +268,7 @@ namespace TheyWillDescend.Gameplay.Session
         {
             CurrentPhaseIndex = index;
             _phaseElapsed = 0f;
+            _offerCompleteBonusGranted = false;
             var phase = CurrentPhase;
             var reqCount = phase != null ? phase.Requirements.Length : 0;
             _delivered = new int[reqCount];

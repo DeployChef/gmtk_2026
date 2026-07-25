@@ -103,7 +103,13 @@ namespace TheyWillDescend.Gameplay.Hazards
             SpawnVfx(tertiaryVfxPrefab, basePos + tertiaryVfxOffset, tertiaryVfxLifetime);
 
             if (applyGameplayEffects)
-                _thunder?.ApplyStrike(target, disableDuration);
+            {
+                // Match disable to fire VFX so production resumes when the flames go out.
+                var disableSecs = tertiaryVfxPrefab != null && tertiaryVfxLifetime > 0f
+                    ? tertiaryVfxLifetime
+                    : disableDuration;
+                _thunder?.ApplyStrike(target, disableSecs);
+            }
             else
                 _thunder?.PlayThunderSfx();
         }

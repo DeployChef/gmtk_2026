@@ -211,21 +211,21 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (IsDisabled)
             {
                 _disabledTimer -= Time.deltaTime;
-
-                if (_producing || _progress > 0f)
+                if (_disabledTimer > 0f)
                 {
-                    _producing = false;
-                    _progress = 0f;
-                    PublishProgress();
+                    // Pause only — keep buffered inputs and craft progress for resume.
+                    if (_producing)
+                    {
+                        _producing = false;
+                        StateChanged?.Invoke();
+                    }
+
+                    return;
                 }
 
-                if (_disabledTimer <= 0f)
-                {
-                    _disabledTimer = 0f;
-                    StateChanged?.Invoke();
-                }
-
-                return;
+                _disabledTimer = 0f;
+                StateChanged?.Invoke();
+                // Fall through to resume production this frame.
             }
 
             if (!CanProduce)
@@ -241,7 +241,11 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return;
             }
 
+            var wasProducing = _producing;
             _producing = true;
+            if (!wasProducing)
+                StateChanged?.Invoke();
+
             _progress += Time.deltaTime * GetProductionSpeedMultiplier();
             PublishProgress();
 
@@ -266,7 +270,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         }
 
         /// <summary>
-        /// Extra workers beyond required: +0.5× each (1 / 1.5 / 2 for 1→2→3 when req=1).
+        /// Extra workers beyond required: +0.75× each (1 / 1.75 / 2.5 for 1→2→3 when req=1).
         /// WorkersRequired 0 (Home) → 1×.
         /// </summary>
         private float GetWorkerSpeedMultiplier()
@@ -279,7 +283,7 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return 1f;
 
             var extra = Mathf.Max(0, _workers - required);
-            return 1f + 0.5f * extra;
+            return 1f + 0.75f * extra;
         }
 
         public void DisableTemporarily(float seconds)
@@ -288,10 +292,14 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return;
 
             _disabledTimer = Mathf.Max(0.01f, seconds);
-            _producing = false;
-            _progress = 0f;
+            // Pause craft; keep progress + stored inputs so production resumes after the fire.
+            if (_producing)
+            {
+                _producing = false;
+                StateChanged?.Invoke();
+            }
+
             PublishProgress();
-            StateChanged?.Invoke();
         }
 
         /// <summary>

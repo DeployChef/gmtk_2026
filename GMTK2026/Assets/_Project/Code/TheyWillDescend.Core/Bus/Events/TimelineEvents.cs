@@ -82,6 +82,19 @@ namespace TheyWillDescend.Core.Bus.Events
         }
     }
 
+    /// <summary>Fired once when the current phase offer is fully delivered.</summary>
+    public readonly struct OfferCompleteBonusEvent
+    {
+        public readonly int PhaseIndex;
+        public readonly float SecondsAdded;
+
+        public OfferCompleteBonusEvent(int phaseIndex, float secondsAdded)
+        {
+            PhaseIndex = phaseIndex;
+            SecondsAdded = secondsAdded;
+        }
+    }
+
     public readonly struct PyramidTimerChangedEvent
     {
         public readonly float RemainingSeconds;

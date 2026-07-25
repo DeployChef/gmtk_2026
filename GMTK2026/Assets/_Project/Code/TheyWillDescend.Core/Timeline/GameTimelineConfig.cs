@@ -50,6 +50,8 @@ namespace TheyWillDescend.Core.Timeline
         [SerializeField] private float durationSeconds = 90f;
         [SerializeField] private Color color = Color.gray;
         [SerializeField] private PhaseOfferItem[] requirements = Array.Empty<PhaseOfferItem>();
+        [Tooltip("Seconds added once when the full offer is completed (last required card).")]
+        [SerializeField] private float offerCompleteBonusSeconds;
 
         [Header("Construction unlock (every PhaseStarted, including normal advance)")]
         [Tooltip("BuildingIds that transition Locked → Buildable when this phase starts.")]
@@ -64,6 +66,7 @@ namespace TheyWillDescend.Core.Timeline
         public float DurationSeconds => Mathf.Max(0.1f, durationSeconds);
         public Color Color => color;
         public PhaseOfferItem[] Requirements => requirements ?? Array.Empty<PhaseOfferItem>();
+        public float OfferCompleteBonusSeconds => Mathf.Max(0f, offerCompleteBonusSeconds);
         public int[] UnlockBuildingIds => unlockBuildingIds ?? Array.Empty<int>();
         public PhaseProductionModifier[] ProductionModifiers =>
             productionModifiers ?? Array.Empty<PhaseProductionModifier>();

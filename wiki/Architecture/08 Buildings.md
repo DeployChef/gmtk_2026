@@ -34,7 +34,7 @@ BuildingDefinition (SO)
   workersRequired
 ```
 
-Скорость крафта: `dt × eraMul × (1 + 0.5 × (workers − workersRequired))` → **1 / 1.5 / 2**.  
+Скорость крафта: `dt × eraMul × (1 + 0.75 × (workers − workersRequired))` → **1 / 1.75 / 2.5**.  
 `workersRequired == 0` (Home) → worker-mul = 1. Порог `CanProduce`: `workers >= workersRequired`.
 
 Сейчас в коде: `BuildingDefinition` (бывший `BuildingRecipe`) — build cost + production на одном SO.

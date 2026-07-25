@@ -36,10 +36,11 @@ MonoBehaviour:
     requirements:
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 3
-      secondsReward: 2
+      secondsReward: 1
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 3
-      secondsReward: 2
+      secondsReward: 1
+    offerCompleteBonusSeconds: 6
     unlockBuildingIds: 00000000010000000200000003000000
     productionModifiers: []
   - title: Drought Harvest
@@ -49,10 +50,11 @@ MonoBehaviour:
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 5
-      secondsReward: 12
+      secondsReward: 11
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 3
-      secondsReward: 6
+      secondsReward: 5
+    offerCompleteBonusSeconds: 8
     unlockBuildingIds: 04000000
     productionModifiers:
     - target: 1
@@ -69,7 +71,8 @@ MonoBehaviour:
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 10
-      secondsReward: 8
+      secondsReward: 7
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 
     productionModifiers:
     - target: 1
@@ -86,14 +89,15 @@ MonoBehaviour:
     requirements:
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
       count: 3
-      secondsReward: 8
+      secondsReward: 5
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
       count: 4
-      secondsReward: 3
+      secondsReward: 5
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 6
-      secondsReward: 11
-    unlockBuildingIds: 0500000006000000
+      secondsReward: 12
+    offerCompleteBonusSeconds: 55
+    unlockBuildingIds: 05000000
     productionModifiers:
     - target: 1
       resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
@@ -110,7 +114,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       count: 2
       secondsReward: 20
-    unlockBuildingIds: 07000000
+    unlockBuildingIds: 0600000007000000
     productionModifiers:
     - target: 0
       resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
