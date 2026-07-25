@@ -53,6 +53,7 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<PyramidTimerWorldHud>();
             builder.RegisterComponentInHierarchy<PyramidOfferWorldHud>();
             builder.RegisterComponentInHierarchy<TimelineHudView>();
+            builder.RegisterComponentInHierarchy<CalendarSpinView>();
 
             builder.RegisterBuildCallback(resolver =>
             {

@@ -1,6 +1,4 @@
 using System;
-using Cysharp.Threading.Tasks;
-using DG.Tweening;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Timeline;
@@ -13,6 +11,7 @@ namespace TheyWillDescend.UI.Timeline
     /// <summary>
     /// TopBar timeline: hand-placed phase segments + years label.
     /// Era modifiers live on each <see cref="TimelinePhaseSegmentView"/> (revealed when era starts).
+    /// Calendar spin lives on <see cref="CalendarSpinView"/> — do not DORotate the same RectTransform here.
     /// </summary>
     public sealed class TimelineHudView : MonoBehaviour
     {
@@ -21,16 +20,11 @@ namespace TheyWillDescend.UI.Timeline
         [SerializeField] private string yearsFormat = "{0:0} yr";
         [Tooltip("If true, applies phase colors/titles from GameTimelineConfig onto hand-placed segments.")]
         [SerializeField] private bool applyPhaseVisualsFromConfig = true;
-        [Tooltip("Era disc RectTransform. Rotates by 'discStepDegrees' on each phase start.")]
-        [SerializeField] private RectTransform discRect;
-        [SerializeField] private float discStepDegrees = 120f;
-        [SerializeField] private float discRotateDuration = 0.6f;
 
         private ITimelineService _timeline;
         private IDisposable _yearsSub;
         private IDisposable _phaseStartedSub;
         private bool _visualsApplied;
-        private Tween _discTween;
 
         [Inject]
         public void Construct(ITimelineService timeline, IGameEventBus bus)
@@ -52,7 +46,6 @@ namespace TheyWillDescend.UI.Timeline
 
         private void OnDestroy()
         {
-            _discTween?.Kill();
             _yearsSub?.Dispose();
             _phaseStartedSub?.Dispose();
         }
@@ -68,15 +61,6 @@ namespace TheyWillDescend.UI.Timeline
         {
             ApplyVisualsOnce();
             RefreshModifierReveal();
-
-            if (discRect != null)
-            {
-                _discTween?.Kill();
-                var target = discRect.eulerAngles.z + discStepDegrees;
-                _discTween = discRect
-                    .DORotate(new Vector3(0, 0, target), discRotateDuration)
-                    .SetEase(Ease.OutCubic);
-            }
         }
 
         private void ApplyVisualsOnce()
