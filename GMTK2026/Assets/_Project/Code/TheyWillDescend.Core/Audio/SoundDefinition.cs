@@ -23,6 +23,7 @@ namespace TheyWillDescend.Core.Audio
         [SerializeField] private float bpmStart;
         [SerializeField] private float bpmEnd;
         [SerializeField] private float bpmDuration;
+        [SerializeField] private int maxVoices = 1;
 
         public string Id => id;
         public AudioChannel Channel => channel;
@@ -41,5 +42,6 @@ namespace TheyWillDescend.Core.Audio
         public float BpmStart => bpmStart;
         public float BpmEnd => bpmEnd;
         public float BpmDuration => bpmDuration;
+        public int MaxVoices => maxVoices;
     }
 }
