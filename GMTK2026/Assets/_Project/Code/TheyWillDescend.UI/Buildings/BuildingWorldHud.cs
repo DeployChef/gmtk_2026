@@ -44,12 +44,22 @@ namespace TheyWillDescend.UI.Buildings
         private bool _iconsBuilt;
         private int _shownHireStep = -1;
         private bool _showingHireOffer;
+        private bool _suppressed;
 
         [Inject]
         public void Construct(IGameEventBus bus)
         {
             _producedSub?.Dispose();
             _producedSub = bus.Subscribe<ResourceProducedEvent>(OnResourceProduced);
+        }
+
+        /// <summary>Force-hide during opening cinematic; gameplay visibility resumes after.</summary>
+        public void SetSuppressed(bool suppressed)
+        {
+            if (_suppressed == suppressed)
+                return;
+            _suppressed = suppressed;
+            Refresh();
         }
 
         private void Awake()
@@ -104,7 +114,7 @@ namespace TheyWillDescend.UI.Buildings
 
         private void LateUpdate()
         {
-            if (building == null || !building.IsBuilt)
+            if (_suppressed || building == null || !building.IsBuilt)
                 return;
 
             var showProgress = building.IsProducing;
@@ -215,7 +225,7 @@ namespace TheyWillDescend.UI.Buildings
             if (building == null)
                 return;
 
-            var visible = building.IsBuilt;
+            var visible = !_suppressed && building.IsBuilt;
             SetHudVisible(visible);
             if (!visible)
                 return;

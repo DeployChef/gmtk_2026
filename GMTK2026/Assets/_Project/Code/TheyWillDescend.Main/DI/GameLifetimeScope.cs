@@ -1,4 +1,6 @@
+using TheyWillDescend.Core;
 using TheyWillDescend.Core.Cheats;
+using TheyWillDescend.Core.Dialogue;
 using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.Core.Session;
@@ -10,6 +12,7 @@ using TheyWillDescend.Gameplay.Session;
 using TheyWillDescend.Main.GameAppStates;
 using TheyWillDescend.UI.Buildings;
 using TheyWillDescend.UI.Cards;
+using TheyWillDescend.UI.Dialogue;
 using TheyWillDescend.UI.Timeline;
 using UnityEngine;
 using VContainer;
@@ -43,6 +46,7 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterEntryPoint<GameResultService>().As<IGameResultService>();
             builder.RegisterEntryPoint<TimelineSessionDriver>();
             builder.RegisterEntryPoint<PyramidTimerMusicDriver>();
+            builder.RegisterEntryPoint<PhaseCenturySfxDriver>();
 
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
             builder.Register<GameStartState>(Lifetime.Singleton);
@@ -55,6 +59,9 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<PyramidOfferWorldHud>();
             builder.RegisterComponentInHierarchy<TimelineHudView>();
             builder.RegisterComponentInHierarchy<CalendarSpinView>();
+            builder.RegisterComponentInHierarchy<DialoguePanelView>().As<IDialogueService>();
+            builder.RegisterComponentInHierarchy<OpeningSequenceDriver>().As<IOpeningSequence>();
+            builder.RegisterComponentInHierarchy<IntroCameraDirector>();
 
             builder.RegisterBuildCallback(resolver =>
             {

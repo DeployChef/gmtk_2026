@@ -24,6 +24,7 @@ namespace TheyWillDescend.UI.Buildings
 
         private readonly List<ResourceIconScript> _slots = new();
         private bool _iconsBuilt;
+        private bool _suppressed;
 
         private void Awake()
         {
@@ -34,6 +35,15 @@ namespace TheyWillDescend.UI.Buildings
                 canvasGroup = GetComponent<CanvasGroup>();
             if (canvasGroup == null)
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
+        }
+
+        /// <summary>Force-hide during opening cinematic; gameplay visibility resumes after.</summary>
+        public void SetSuppressed(bool suppressed)
+        {
+            if (_suppressed == suppressed)
+                return;
+            _suppressed = suppressed;
+            Refresh();
         }
 
         private void OnEnable()
@@ -51,7 +61,7 @@ namespace TheyWillDescend.UI.Buildings
 
         private void LateUpdate()
         {
-            if (building == null || !IsConstructionVisible(building.SlotState))
+            if (_suppressed || building == null || !IsConstructionVisible(building.SlotState))
                 return;
 
             RefreshProgress();
@@ -64,7 +74,7 @@ namespace TheyWillDescend.UI.Buildings
                 return;
 
             var state = building.SlotState;
-            var visible = IsConstructionVisible(state);
+            var visible = !_suppressed && IsConstructionVisible(state);
             SetHudVisible(visible);
 
             if (!visible)

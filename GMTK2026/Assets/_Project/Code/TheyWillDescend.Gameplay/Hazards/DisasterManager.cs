@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using TheyWillDescend.Core.Buildings;
 using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Gameplay.Buildings;
@@ -55,14 +57,55 @@ namespace TheyWillDescend.Gameplay.Hazards
             }
 
             var target = _builtHouses[Random.Range(0, _builtHouses.Count)];
-            var basePos = target.transform.position;
+            StrikeHouse(target, applyGameplayEffects: true);
+            return true;
+        }
 
+        public async UniTask PlayCinematicStrikesAsync(
+            float staggerSeconds,
+            CancellationToken cancellationToken = default)
+        {
+            if (lightningPrefab == null)
+            {
+                Debug.LogWarning("[DisasterManager] Lightning prefab is not assigned.");
+                return;
+            }
+
+            CollectBuiltHouses();
+            if (_builtHouses.Count == 0)
+            {
+                Debug.LogWarning("[DisasterManager] No Built houses with tag 'House' found.");
+                return;
+            }
+
+            var stagger = Mathf.Max(0f, staggerSeconds);
+            for (var i = 0; i < _builtHouses.Count; i++)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                StrikeHouse(_builtHouses[i], applyGameplayEffects: false);
+
+                if (i < _builtHouses.Count - 1 && stagger > 0f)
+                    await UniTask.Delay(
+                        System.TimeSpan.FromSeconds(stagger),
+                        DelayType.UnscaledDeltaTime,
+                        cancellationToken: cancellationToken);
+            }
+        }
+
+        private void StrikeHouse(GameObject target, bool applyGameplayEffects)
+        {
+            if (target == null)
+                return;
+
+            var basePos = target.transform.position;
             SpawnVfx(lightningPrefab, basePos + lightningOffset, lightningLifetime);
             SpawnVfx(secondaryVfxPrefab, basePos + secondaryVfxOffset, secondaryVfxLifetime);
             SpawnVfx(tertiaryVfxPrefab, basePos + tertiaryVfxOffset, tertiaryVfxLifetime);
 
-            _thunder?.ApplyStrike(target, disableDuration);
-            return true;
+            if (applyGameplayEffects)
+                _thunder?.ApplyStrike(target, disableDuration);
+            else
+                _thunder?.PlayThunderSfx();
         }
 
         private void CollectBuiltHouses()

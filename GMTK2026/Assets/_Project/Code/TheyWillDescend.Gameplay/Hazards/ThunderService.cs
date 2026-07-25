@@ -17,9 +17,14 @@ namespace TheyWillDescend.Gameplay.Hazards
             _audio = audio;
         }
 
-        public void ApplyStrike(GameObject houseRoot, float disableDuration)
+        public void PlayThunderSfx()
         {
             _audio?.Play(AudioCatalog.Ids.Thunder);
+        }
+
+        public void ApplyStrike(GameObject houseRoot, float disableDuration)
+        {
+            PlayThunderSfx();
 
             if (houseRoot == null)
                 return;
