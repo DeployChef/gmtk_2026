@@ -197,7 +197,7 @@ MonoBehaviour:
     mixerGroup: {fileID: -4555793842941107206, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 15
     allowOverlap: 1
-    cooldown: 0
+    cooldown: 0.18
     loop: 0
     enableFade: 0
     fadeDuration: 0.3
@@ -307,6 +307,88 @@ MonoBehaviour:
     priority: 50
     allowOverlap: 0
     cooldown: 0.54
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0.25
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 1
+  - id: ResourceRock
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: 78be9fba6d6017746bb53bdeba6dd215, type: 3}
+    - {fileID: 8300000, guid: b63423a12757aae46b11e2067843ea90, type: 3}
+    - {fileID: 8300000, guid: a31a8b4d74ca1e748bbff1fcb81c5313, type: 3}
+    mixerGroup: {fileID: 7437964421907669773, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 50
+    allowOverlap: 0
+    cooldown: 0.26
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0.25
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 1
+  - id: ResourceBlood
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: 2943fff99e3f4354488aafe12286dd24, type: 3}
+    - {fileID: 8300000, guid: 4c1904a8ab9bfd246a3cda103ee245cc, type: 3}
+    - {fileID: 8300000, guid: eb8e5babd42081a4d8adb0a6cad92de7, type: 3}
+    mixerGroup: {fileID: 6009509082854136789, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 50
+    allowOverlap: 0
+    cooldown: 0.26
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0.25
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 1
+  - id: ResourceWater
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: ca5436ebca2b0284c9b32b142315abe3, type: 3}
+    - {fileID: 8300000, guid: 3705c6ddff506644d9b37c6278403291, type: 3}
+    - {fileID: 8300000, guid: 17e5e66067f7d884082dcbcfd2c62c5e, type: 3}
+    mixerGroup: {fileID: -2733942738616706954, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 50
+    allowOverlap: 0
+    cooldown: 0.26
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0.25
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 1
+  - id: Century
+    channel: 1
+    clips:
+    - {fileID: 8300000, guid: 4e80b640e95442c46911bd79a7c334c7, type: 3}
+    mixerGroup: {fileID: -3601496549395393649, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 10
+    allowOverlap: 1
+    cooldown: 0.26
     loop: 0
     enableFade: 0
     fadeDuration: 1
