@@ -17,6 +17,7 @@ namespace TheyWillDescend.Main.DI
         {
             builder.Register<GameDirector>(Lifetime.Singleton).As<IGameDirector>();
             builder.Register<IGameEventBus, GameEventBus>(Lifetime.Singleton);
+            builder.Register<IGameplayTimePause, GameplayTimePause>(Lifetime.Singleton);
             builder.RegisterComponentInHierarchy<AudioManager>().As<IAudioManager>();
             builder.RegisterComponentInHierarchy<PauseMenuController>();
         }

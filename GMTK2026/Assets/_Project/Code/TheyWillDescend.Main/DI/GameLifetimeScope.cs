@@ -1,4 +1,5 @@
 using TheyWillDescend.Core.Cheats;
+using TheyWillDescend.Core.Dialogue;
 using TheyWillDescend.Core.Hazards;
 using TheyWillDescend.Core.Inventory;
 using TheyWillDescend.Core.Session;
@@ -10,6 +11,7 @@ using TheyWillDescend.Gameplay.Session;
 using TheyWillDescend.Main.GameAppStates;
 using TheyWillDescend.UI.Buildings;
 using TheyWillDescend.UI.Cards;
+using TheyWillDescend.UI.Dialogue;
 using TheyWillDescend.UI.Timeline;
 using UnityEngine;
 using VContainer;
@@ -55,6 +57,8 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<PyramidOfferWorldHud>();
             builder.RegisterComponentInHierarchy<TimelineHudView>();
             builder.RegisterComponentInHierarchy<CalendarSpinView>();
+            builder.RegisterComponentInHierarchy<DialoguePanelView>().As<IDialogueService>();
+            builder.RegisterComponentInHierarchy<OpeningSequenceDriver>();
 
             builder.RegisterBuildCallback(resolver =>
             {

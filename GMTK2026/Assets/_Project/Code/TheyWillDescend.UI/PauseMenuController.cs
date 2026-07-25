@@ -23,14 +23,16 @@ namespace TheyWillDescend.UI
 
         private IGameDirector _director;
         private IAudioManager _audio;
+        private IGameplayTimePause _timePause;
         private bool _paused;
         private bool _restarting;
 
         [Inject]
-        public void Construct(IGameDirector director, IAudioManager audio)
+        public void Construct(IGameDirector director, IAudioManager audio, IGameplayTimePause timePause)
         {
             _director = director;
             _audio = audio;
+            _timePause = timePause;
         }
 
         private void Awake()
@@ -94,7 +96,7 @@ namespace TheyWillDescend.UI
         private void Pause()
         {
             _paused = true;
-            Time.timeScale = 0f;
+            _timePause?.Acquire(this);
             SetVisible(true);
 
             if (_audio != null)
@@ -104,7 +106,7 @@ namespace TheyWillDescend.UI
         private void Resume()
         {
             _paused = false;
-            Time.timeScale = 1f;
+            _timePause?.Release(this);
             SetVisible(false);
 
             if (_audio != null)
