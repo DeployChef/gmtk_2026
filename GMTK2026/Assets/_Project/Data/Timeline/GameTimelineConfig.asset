@@ -17,8 +17,10 @@ MonoBehaviour:
   yearsPerRealtimeSecond: 1
   runStartCards:
   - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-    count: 1
+    count: 2
   - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+    count: 1
+  - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
     count: 1
   runStartBuildings:
   - buildingId: 0
@@ -33,20 +35,20 @@ MonoBehaviour:
   phases:
   - title: Dawn Offering
     tooltip: "First demand \u2014 water and wood for the gods."
-    durationSeconds: 60
+    durationSeconds: 70
     color: {r: 0.85, g: 0.65, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
       count: 3
-      secondsReward: 5
+      secondsReward: 10
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 2
-      secondsReward: 2
+      secondsReward: 4
     unlockBuildingIds: 00000000010000000300000004000000
     productionModifiers: []
   - title: Drought Harvest
     tooltip: "Drought \u2014 corn and water. The well runs slow."
-    durationSeconds: 65
+    durationSeconds: 70
     color: {r: 0.55, g: 0.55, b: 0.6, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
@@ -54,7 +56,7 @@ MonoBehaviour:
       secondsReward: 12
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
       count: 3
-      secondsReward: 6
+      secondsReward: 12
     unlockBuildingIds: 02000000
     productionModifiers:
     - target: 1

@@ -20,7 +20,7 @@ MonoBehaviour:
     count: 1
   - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
     count: 2
-  buildDurationSeconds: 5
+  buildDurationSeconds: 3
   hireOffers: []
   productionInputs:
   - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
