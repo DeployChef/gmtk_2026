@@ -282,7 +282,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: bb5db3e183bdfcf40ad03c66b7f3c2f7, type: 3}
     - {fileID: 8300000, guid: 0c48700377fbe62488f10fdc84489ba5, type: 3}
     - {fileID: 8300000, guid: 92a618c3d426eb8459b81e7646770f72, type: 3}
-    mixerGroup: {fileID: -523454908963569033, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    mixerGroup: {fileID: -7838995552067337778, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 50
     allowOverlap: 0
     cooldown: 0.54
@@ -369,7 +369,7 @@ MonoBehaviour:
     mixerGroup: {fileID: -2733942738616706954, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
     priority: 50
     allowOverlap: 0
-    cooldown: 0.26
+    cooldown: 4
     loop: 0
     enableFade: 0
     fadeDuration: 1
