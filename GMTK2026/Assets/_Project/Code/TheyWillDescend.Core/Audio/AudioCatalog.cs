@@ -16,6 +16,7 @@ namespace TheyWillDescend.Core.Audio
             public const string CardDropOk = "CardDropOk";
             public const string CardDropReject = "CardDropReject";
             public const string CardHover = "CardHover";
+            public const string CardOverBuilding = "CardOverBuilding";
             public const string CardRemove = "CardRemove";
             public const string ResourceGold = "ResoursGold";
             public const string ResourceCorn = "ResourceCorn";

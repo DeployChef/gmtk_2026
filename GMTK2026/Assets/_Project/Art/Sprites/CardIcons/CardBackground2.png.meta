@@ -1,0 +1,533 @@
+fileFormatVersion: 2
+guid: 6ebec2bb1abbcef449a66fc89b29cefc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -3609800220606282849
+    second: CardBackground2_0
+  - first:
+      213: -6348612758308063144
+    second: CardBackground2_1
+  - first:
+      213: -2453892734975229730
+    second: CardBackground2_2
+  - first:
+      213: 8040678008093421705
+    second: CardBackground2_3
+  - first:
+      213: 6047620759188405802
+    second: CardBackground2_4
+  - first:
+      213: 2112913103841479476
+    second: CardBackground2_5
+  - first:
+      213: -166630308738602994
+    second: CardBackground2_6
+  - first:
+      213: -8233387997402971189
+    second: CardBackground2_7
+  - first:
+      213: 2037584325351707108
+    second: CardBackground2_8
+  - first:
+      213: -640650896172000933
+    second: CardBackground2_9
+  - first:
+      213: 3179350181679862547
+    second: CardBackground2_10
+  - first:
+      213: 589437099303107919
+    second: CardBackground2_11
+  - first:
+      213: -2230236896642325637
+    second: CardBackground2_12
+  - first:
+      213: 251334710923865352
+    second: CardBackground2_13
+  - first:
+      213: -4861352717043644561
+    second: CardBackground2_14
+  - first:
+      213: -1912724500576581015
+    second: CardBackground2_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: CardBackground2_0
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 102
+        width: 7105
+        height: 10738
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f93c2ac23d967edc0800000000000000
+      internalID: -3609800220606282849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_1
+      rect:
+        serializedVersion: 2
+        x: 6749
+        y: 10838
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 858f88c255235e7a0800000000000000
+      internalID: -6348612758308063144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_2
+      rect:
+        serializedVersion: 2
+        x: 7208
+        y: 10338
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ed0c3ee0f8502fdd0800000000000000
+      internalID: -2453892734975229730
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_3
+      rect:
+        serializedVersion: 2
+        x: 7207
+        y: 10206
+        width: 16
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 98034b90c0a369f60800000000000000
+      internalID: 8040678008093421705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_4
+      rect:
+        serializedVersion: 2
+        x: 7207
+        y: 9857
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a2ef3bfe9077de350800000000000000
+      internalID: 6047620759188405802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_5
+      rect:
+        serializedVersion: 2
+        x: 7209
+        y: 9614
+        width: 11
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43b4db3f543925d10800000000000000
+      internalID: 2112913103841479476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_6
+      rect:
+        serializedVersion: 2
+        x: 7207
+        y: 9332
+        width: 17
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0862d6fd9200bdf0800000000000000
+      internalID: -166630308738602994
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_7
+      rect:
+        serializedVersion: 2
+        x: 7208
+        y: 9134
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc3c4dc1d312dbd80800000000000000
+      internalID: -8233387997402971189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_8
+      rect:
+        serializedVersion: 2
+        x: 7208
+        y: 3463
+        width: 13
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4e11e78f524f64c10800000000000000
+      internalID: 2037584325351707108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_9
+      rect:
+        serializedVersion: 2
+        x: 7207
+        y: 3327
+        width: 17
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b59d1ac7763fb17f0800000000000000
+      internalID: -640650896172000933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_10
+      rect:
+        serializedVersion: 2
+        x: 7207
+        y: 3077
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3131a9335225f1c20800000000000000
+      internalID: 3179350181679862547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_11
+      rect:
+        serializedVersion: 2
+        x: 7208
+        y: 2160
+        width: 14
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f4df5693be91e2800800000000000000
+      internalID: 589437099303107919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_12
+      rect:
+        serializedVersion: 2
+        x: 7206
+        y: 2072
+        width: 19
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b732aaadb5b9c01e0800000000000000
+      internalID: -2230236896642325637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_13
+      rect:
+        serializedVersion: 2
+        x: 7207
+        y: 1885
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80da754869bec7300800000000000000
+      internalID: 251334710923865352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_14
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 1725
+        width: 8
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f67cbbcd571098cb0800000000000000
+      internalID: -4861352717043644561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CardBackground2_15
+      rect:
+        serializedVersion: 2
+        x: 7210
+        y: 1599
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 96a42f56333a475e0800000000000000
+      internalID: -1912724500576581015
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      CardBackground2_0: -3609800220606282849
+      CardBackground2_1: -6348612758308063144
+      CardBackground2_10: 3179350181679862547
+      CardBackground2_11: 589437099303107919
+      CardBackground2_12: -2230236896642325637
+      CardBackground2_13: 251334710923865352
+      CardBackground2_14: -4861352717043644561
+      CardBackground2_15: -1912724500576581015
+      CardBackground2_2: -2453892734975229730
+      CardBackground2_3: 8040678008093421705
+      CardBackground2_4: 6047620759188405802
+      CardBackground2_5: 2112913103841479476
+      CardBackground2_6: -166630308738602994
+      CardBackground2_7: -8233387997402971189
+      CardBackground2_8: 2037584325351707108
+      CardBackground2_9: -640650896172000933
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
