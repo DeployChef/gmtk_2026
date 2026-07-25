@@ -1,5 +1,6 @@
 using System;
 using TheyWillDescend.Core;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using UnityEngine;
@@ -18,20 +19,30 @@ namespace TheyWillDescend.UI.Session
         [SerializeField] private UnityEngine.UI.Button loseRestartButton;
 
         private IGameEventBus _bus;
+        private IAudioManager _audio;
         private IDisposable _wonSub;
         private IDisposable _lostSub;
         private IDisposable _runStartedSub;
 
         [Inject]
-        public void Construct(IGameEventBus bus, IGameDirector director)
+        public void Construct(IGameEventBus bus, IGameDirector director, IAudioManager audio)
         {
             _bus = bus;
+            _audio = audio;
 
             if (winRestartButton != null)
-                winRestartButton.onClick.AddListener(() => director.RestartAsync());
+                winRestartButton.onClick.AddListener(() =>
+                {
+                    _audio?.Stop(AudioCatalog.Ids.Victory);
+                    director.RestartAsync();
+                });
 
             if (loseRestartButton != null)
-                loseRestartButton.onClick.AddListener(() => director.RestartAsync());
+                loseRestartButton.onClick.AddListener(() =>
+                {
+                    _audio?.Stop(AudioCatalog.Ids.Defeat);
+                    director.RestartAsync();
+                });
 
             _wonSub = _bus.Subscribe<GameWonEvent>(_ => Show(winCanvas));
             _lostSub = _bus.Subscribe<GameLostEvent>(_ => Show(loseCanvas));
