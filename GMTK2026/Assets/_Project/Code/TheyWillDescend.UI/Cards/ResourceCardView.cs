@@ -271,6 +271,7 @@ if (accepted)
             {
                 _hoverBuilding = building;
                 _hoverBuilding.ShowDropIndicator(true);
+                _audio?.Play(AudioCatalog.Ids.CardHover);
             }
         }
 
