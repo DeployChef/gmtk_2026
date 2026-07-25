@@ -68,8 +68,8 @@ MonoBehaviour:
     color: {r: 0.7, g: 0.45, b: 0.15, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 12
-      secondsReward: 5
+      count: 10
+      secondsReward: 8
     unlockBuildingIds: 
     productionModifiers:
     - target: 1
