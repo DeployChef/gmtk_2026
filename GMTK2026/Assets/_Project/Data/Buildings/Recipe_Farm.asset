@@ -22,5 +22,5 @@ MonoBehaviour:
   hireOffers: []
   productionInputs: []
   outputResource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-  productionDurationSeconds: 3
+  productionDurationSeconds: 5
   workersRequired: 1
