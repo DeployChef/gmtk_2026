@@ -26,6 +26,7 @@ MonoBehaviour:
   unlimitedGrantCount: 20
   phaseLoadouts:
   - label: Dawn Offering
+    startingPyramidTimerSeconds: -1
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 1
@@ -73,6 +74,7 @@ MonoBehaviour:
     - buildingId: 4
       workers: 0
   - label: Obsidian Idols
+    startingPyramidTimerSeconds: -1
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 3
@@ -88,6 +90,7 @@ MonoBehaviour:
     - buildingId: 2
       workers: 0
   - label: Mixed Tribute
+    startingPyramidTimerSeconds: -1
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 4
@@ -99,7 +102,18 @@ MonoBehaviour:
     - buildingId: 2
       workers: 0
   - label: First Blood
+    startingPyramidTimerSeconds: -1
     startingCards:
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 5
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 5
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 5
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 5
+    - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+      count: 5
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 5
     builtBuildings:
@@ -110,6 +124,7 @@ MonoBehaviour:
     - buildingId: 2
       workers: 0
   - label: Twin Demands
+    startingPyramidTimerSeconds: -1
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 6
@@ -121,6 +136,7 @@ MonoBehaviour:
     - buildingId: 2
       workers: 0
   - label: Final Propitiation
+    startingPyramidTimerSeconds: -1
     startingCards:
     - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
       count: 8

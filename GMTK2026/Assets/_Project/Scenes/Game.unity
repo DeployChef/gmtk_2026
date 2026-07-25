@@ -3490,6 +3490,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: 5fd546ec8f05095448ca92920f1bad01, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: GOLDMINE
+      objectReference: {fileID: 0}
     - target: {fileID: 4538937260332610361, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -6422,6 +6426,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: d1111c285f3839844ad2a3ee5aaac560, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: STONECAVE
+      objectReference: {fileID: 0}
     - target: {fileID: 4538937260332610361, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -8608,6 +8616,10 @@ PrefabInstance:
       propertyPath: definition
       value: 
       objectReference: {fileID: 11400000, guid: bcf7c0702d9de55409c426fe07d514f3, type: 2}
+    - target: {fileID: 3716275199819708608, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
+      propertyPath: produceSoundId
+      value: ALTAR
+      objectReference: {fileID: 0}
     - target: {fileID: 4538937260332610361, guid: c21a10a95d665cf409b3816befebf59c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
