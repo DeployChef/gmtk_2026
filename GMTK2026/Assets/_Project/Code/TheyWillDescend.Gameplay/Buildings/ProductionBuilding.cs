@@ -43,6 +43,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         private bool _producing;
         private float _buildProgress;
         private float _disabledTimer;
+        private int _villagersProduced;
         private GameObject _activeDropVfx;
 
         public int BuildingId => buildingId;
@@ -57,6 +58,13 @@ namespace TheyWillDescend.Gameplay.Buildings
         public int Workers => _workers;
         public int MinWorkers => minWorkers;
         public int MaxWorkers => maxWorkers;
+        /// <summary>Villagers produced by this building this run (start inventory villager is not counted).</summary>
+        public int VillagersProduced => _villagersProduced;
+        public bool UsesHireOffers => definition != null && definition.HasHireOffers;
+        public BuildCostItem[] CurrentHireOfferCost =>
+            definition != null
+                ? definition.GetHireOfferCost(_villagersProduced)
+                : System.Array.Empty<BuildCostItem>();
         public int StoredInput =>
             definition != null && _storedInputs.TryGetValue(definition.InputResourceId, out var stored)
                 ? stored
@@ -94,10 +102,15 @@ namespace TheyWillDescend.Gameplay.Buildings
             && definition != null
             && !IsDisabled
             && _workers >= definition.WorkersRequired
-            && (!definition.RequiresInput || AllInputsFulfilled());
+            && (UsesHireOffers
+                ? AllHireCostsFulfilled()
+                : (!definition.RequiresInput || AllInputsFulfilled()));
 
         public bool CanHireWorker =>
             _slotState == BuildingSlotState.Built
+            && !UsesHireOffers
+            && definition != null
+            && definition.WorkersRequired > 0
             && _workers < maxWorkers
             && _inventory != null
             && _inventory.GetCount(ResourceIds.Villager) > 0;
@@ -260,6 +273,7 @@ namespace TheyWillDescend.Gameplay.Buildings
             _producing = false;
             _buildProgress = 0f;
             _disabledTimer = 0f;
+            _villagersProduced = 0;
             _storedInputs.Clear();
             _storedBuildCosts.Clear();
 
@@ -314,6 +328,9 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryAddWorker()
         {
+            if (UsesHireOffers)
+                return false;
+
             if (_slotState != BuildingSlotState.Built || _workers >= maxWorkers)
                 return false;
 
@@ -329,6 +346,9 @@ namespace TheyWillDescend.Gameplay.Buildings
         public bool TryAcceptVillagerCard()
         {
             if (_slotState != BuildingSlotState.Built)
+                return false;
+
+            if (UsesHireOffers)
                 return false;
 
             if (definition != null && definition.WorkersRequired <= 0)
@@ -379,7 +399,13 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (_slotState != BuildingSlotState.Built)
                 return false;
 
-            if (definition == null || !definition.RequiresInput)
+            if (definition == null)
+                return false;
+
+            if (UsesHireOffers)
+                return TryAcceptHireResource(resourceId);
+
+            if (!definition.RequiresInput)
                 return false;
 
             var inputIndex = -1;
@@ -401,6 +427,41 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (required <= 0)
                 return false;
 
+            _storedInputs.TryGetValue(resourceId, out var stored);
+            if (stored >= required)
+                return false;
+
+            if (_inventory == null || !_inventory.TryRemove(resourceId))
+                return false;
+
+            _storedInputs[resourceId] = stored + 1;
+            PublishInput();
+            StateChanged?.Invoke();
+            return true;
+        }
+
+        private bool TryAcceptHireResource(string resourceId)
+        {
+            if (IsDisabled || _producing)
+                return false;
+
+            var costs = CurrentHireOfferCost;
+            var costIndex = -1;
+            for (var i = 0; i < costs.Length; i++)
+            {
+                var item = costs[i];
+                if (item?.Resource == null || item.Count <= 0)
+                    continue;
+                if (item.ResourceId != resourceId)
+                    continue;
+                costIndex = i;
+                break;
+            }
+
+            if (costIndex < 0)
+                return false;
+
+            var required = costs[costIndex].Count;
             _storedInputs.TryGetValue(resourceId, out var stored);
             if (stored >= required)
                 return false;
@@ -494,6 +555,23 @@ namespace TheyWillDescend.Gameplay.Buildings
             return true;
         }
 
+        private bool AllHireCostsFulfilled()
+        {
+            var costs = CurrentHireOfferCost;
+            for (var i = 0; i < costs.Length; i++)
+            {
+                var item = costs[i];
+                if (item?.Resource == null || item.Count <= 0)
+                    continue;
+
+                if (!_storedInputs.TryGetValue(item.ResourceId, out var stored) || stored < item.Count)
+                    return false;
+            }
+
+            // Empty step = free hire (timer only).
+            return true;
+        }
+
         private void TickConstruction()
         {
             var duration = definition != null ? definition.BuildDurationSeconds : 0f;
@@ -540,7 +618,12 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private void CompleteProduction()
         {
-            if (definition.RequiresInput)
+            if (UsesHireOffers)
+            {
+                _storedInputs.Clear();
+                _villagersProduced++;
+            }
+            else if (definition.RequiresInput)
             {
                 var inputs = definition.InputResources;
                 var amounts = definition.InputAmounts;
@@ -560,7 +643,7 @@ namespace TheyWillDescend.Gameplay.Buildings
             }
 
             _progress = 0f;
-            _producing = CanProduce;
+            _producing = false;
 
             PublishInput();
             PublishProgress();
@@ -574,6 +657,8 @@ namespace TheyWillDescend.Gameplay.Buildings
             else
                 Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
 
+            // Re-evaluate after consume / hire step advance (StateChanged after so HUD sees new offer).
+            _producing = CanProduce;
             StateChanged?.Invoke();
         }
 
