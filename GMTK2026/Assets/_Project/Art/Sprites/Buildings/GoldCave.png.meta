@@ -1,34 +1,28 @@
 fileFormatVersion: 2
-guid: 48f5f94891884e74186655ddc3aa133f
+guid: 7d6db7b09c87c76468927a48c22d5551
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7886631795410796208
-    second: Settings_0
+      213: 3180223971400159908
+    second: GoldCave_0
   - first:
-      213: 2060365850352298717
-    second: Settings_1
+      213: -2204004729552508458
+    second: GoldCave_1
   - first:
-      213: -5339635570483323969
-    second: Settings_2
+      213: 6887122567976241077
+    second: GoldCave_2
   - first:
-      213: -2495782739550021130
-    second: Settings_3
+      213: 9081739430534134961
+    second: GoldCave_3
   - first:
-      213: 8154524474551060708
-    second: Settings_4
+      213: 6679821332448011144
+    second: GoldCave_4
   - first:
-      213: -2226280032217487599
-    second: Settings_5
+      213: -1211920775385124561
+    second: GoldCave_5
   - first:
-      213: -8712572062712792050
-    second: Settings_6
-  - first:
-      213: 5928216156305086978
-    second: Settings_7
-  - first:
-      213: 3401984468843792782
-    second: Settings_8
+      213: -2028128331545537348
+    second: GoldCave_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -99,7 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,13 +118,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Settings_0
+      name: GoldCave_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 35
-        width: 94
-        height: 130
+        x: 1436
+        y: 2546
+        width: 27
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +133,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0bef2cf25d1f27d60800000000000000
-      internalID: 7886631795410796208
+      spriteID: 4a21d793adc622c20800000000000000
+      internalID: 3180223971400159908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_1
+      name: GoldCave_1
       rect:
         serializedVersion: 2
-        x: 227
-        y: 35
-        width: 114
-        height: 130
+        x: 1613
+        y: 2520
+        width: 53
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dda289913d3e79c10800000000000000
-      internalID: 2060365850352298717
+      spriteID: 6d9edb3306dc961e0800000000000000
+      internalID: -2204004729552508458
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_2
+      name: GoldCave_2
       rect:
         serializedVersion: 2
-        x: 348
-        y: 35
-        width: 114
-        height: 130
+        x: 1714
+        y: 2546
+        width: 27
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fbb1d4f3dbdc5e5b0800000000000000
-      internalID: -5339635570483323969
+      spriteID: 5b7cccc6c79f39f50800000000000000
+      internalID: 6887122567976241077
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_3
+      name: GoldCave_3
       rect:
         serializedVersion: 2
-        x: 483
-        y: 143
-        width: 23
-        height: 22
+        x: 1890
+        y: 2521
+        width: 27
+        height: 27
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +199,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f9d19452d23d5dd0800000000000000
-      internalID: -2495782739550021130
+      spriteID: 1bc35ab15e1d80e70800000000000000
+      internalID: 9081739430534134961
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_4
+      name: GoldCave_4
       rect:
         serializedVersion: 2
-        x: 110
-        y: 35
-        width: 95
-        height: 95
+        x: 449
+        y: 856
+        width: 2554
+        height: 1645
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,20 +221,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e848d91ec0ba2170800000000000000
-      internalID: 8154524474551060708
+      spriteID: 883e3a35c1e73bc50800000000000000
+      internalID: 6679821332448011144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_5
+      name: GoldCave_5
       rect:
         serializedVersion: 2
-        x: 483
-        y: 35
-        width: 23
-        height: 95
+        x: 1915
+        y: 2495
+        width: 27
+        height: 28
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -249,20 +243,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 117a1252b1aaa11e0800000000000000
-      internalID: -2226280032217487599
+      spriteID: f21f04fc9746e2fe0800000000000000
+      internalID: -1211920775385124561
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_6
+      name: GoldCave_6
       rect:
         serializedVersion: 2
-        x: 523
-        y: 35
-        width: 96
-        height: 95
+        x: 1410
+        y: 855
+        width: 105
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,52 +265,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0cf202ced9b61780800000000000000
-      internalID: -8712572062712792050
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Settings_7
-      rect:
-        serializedVersion: 2
-        x: 637
-        y: 0
-        width: 95
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 20adb446f21454250800000000000000
-      internalID: 5928216156305086978
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Settings_8
-      rect:
-        serializedVersion: 2
-        x: 750
-        y: 35
-        width: 94
-        height: 95
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e8984d499d6463f20800000000000000
-      internalID: 3401984468843792782
+      spriteID: cb492572704aad3e0800000000000000
+      internalID: -2028128331545537348
       vertices: []
       indices: 
       edges: []
@@ -335,15 +285,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Settings_0: 7886631795410796208
-      Settings_1: 2060365850352298717
-      Settings_2: -5339635570483323969
-      Settings_3: -2495782739550021130
-      Settings_4: 8154524474551060708
-      Settings_5: -2226280032217487599
-      Settings_6: -8712572062712792050
-      Settings_7: 5928216156305086978
-      Settings_8: 3401984468843792782
+      GoldCave_0: 3180223971400159908
+      GoldCave_1: -2204004729552508458
+      GoldCave_2: 6887122567976241077
+      GoldCave_3: 9081739430534134961
+      GoldCave_4: 6679821332448011144
+      GoldCave_5: -1211920775385124561
+      GoldCave_6: -2028128331545537348
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

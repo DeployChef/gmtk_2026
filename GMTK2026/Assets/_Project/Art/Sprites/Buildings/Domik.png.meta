@@ -1,34 +1,34 @@
 fileFormatVersion: 2
-guid: 48f5f94891884e74186655ddc3aa133f
+guid: 681a2415ee3322549aa79f0d8ca53494
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7886631795410796208
-    second: Settings_0
+      213: -3689817526142170833
+    second: Domik_0
   - first:
-      213: 2060365850352298717
-    second: Settings_1
+      213: 1463467798369665813
+    second: Domik_1
   - first:
-      213: -5339635570483323969
-    second: Settings_2
+      213: -8288451597089710151
+    second: Domik_2
   - first:
-      213: -2495782739550021130
-    second: Settings_3
+      213: 1004909960352566957
+    second: Domik_3
   - first:
-      213: 8154524474551060708
-    second: Settings_4
+      213: -7450535715661860786
+    second: Domik_4
   - first:
-      213: -2226280032217487599
-    second: Settings_5
+      213: -454953801425446302
+    second: Domik_5
   - first:
-      213: -8712572062712792050
-    second: Settings_6
+      213: -8585390493289911968
+    second: Domik_6
   - first:
-      213: 5928216156305086978
-    second: Settings_7
+      213: 6882903823050377798
+    second: Domik_7
   - first:
-      213: 3401984468843792782
-    second: Settings_8
+      213: 2153089727889610451
+    second: Domik_8
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -70,7 +70,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -99,7 +99,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,13 +124,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Settings_0
+      name: Domik_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 35
-        width: 94
-        height: 130
+        x: 586
+        y: 1010
+        width: 2690
+        height: 1872
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +139,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0bef2cf25d1f27d60800000000000000
-      internalID: 7886631795410796208
+      spriteID: f29094c62822bccc0800000000000000
+      internalID: -3689817526142170833
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_1
+      name: Domik_1
       rect:
         serializedVersion: 2
-        x: 227
-        y: 35
-        width: 114
-        height: 130
+        x: 2622
+        y: 2852
+        width: 59
+        height: 55
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +161,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dda289913d3e79c10800000000000000
-      internalID: 2060365850352298717
+      spriteID: 5130c0675384f4410800000000000000
+      internalID: 1463467798369665813
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_2
+      name: Domik_2
       rect:
         serializedVersion: 2
-        x: 348
-        y: 35
-        width: 114
-        height: 130
+        x: 535
+        y: 1494
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +183,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fbb1d4f3dbdc5e5b0800000000000000
-      internalID: -5339635570483323969
+      spriteID: 9bfd271cf2189fc80800000000000000
+      internalID: -8288451597089710151
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_3
+      name: Domik_3
       rect:
         serializedVersion: 2
-        x: 483
-        y: 143
-        width: 23
-        height: 22
+        x: 422
+        y: 1409
+        width: 58
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +205,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 6f9d19452d23d5dd0800000000000000
-      internalID: -2495782739550021130
+      spriteID: dae0112e84822fd00800000000000000
+      internalID: 1004909960352566957
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_4
+      name: Domik_4
       rect:
         serializedVersion: 2
-        x: 110
-        y: 35
-        width: 95
-        height: 95
+        x: 507
+        y: 1381
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,20 +227,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4e848d91ec0ba2170800000000000000
-      internalID: 8154524474551060708
+      spriteID: e403d91cd316a9890800000000000000
+      internalID: -7450535715661860786
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_5
+      name: Domik_5
       rect:
         serializedVersion: 2
-        x: 483
-        y: 35
-        width: 23
-        height: 95
+        x: 562
+        y: 1352
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -249,20 +249,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 117a1252b1aaa11e0800000000000000
-      internalID: -2226280032217487599
+      spriteID: 26a92d49dedafa9f0800000000000000
+      internalID: -454953801425446302
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_6
+      name: Domik_6
       rect:
         serializedVersion: 2
-        x: 523
-        y: 35
-        width: 96
-        height: 95
+        x: 422
+        y: 1296
+        width: 30
+        height: 31
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,20 +271,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e0cf202ced9b61780800000000000000
-      internalID: -8712572062712792050
+      spriteID: 069607d65d09ad880800000000000000
+      internalID: -8585390493289911968
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_7
+      name: Domik_7
       rect:
         serializedVersion: 2
-        x: 637
-        y: 0
-        width: 95
-        height: 130
+        x: 505
+        y: 928
+        width: 33
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -293,20 +293,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 20adb446f21454250800000000000000
-      internalID: 5928216156305086978
+      spriteID: 64a88145f8cf48f50800000000000000
+      internalID: 6882903823050377798
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Settings_8
+      name: Domik_8
       rect:
         serializedVersion: 2
-        x: 750
-        y: 35
-        width: 94
-        height: 95
+        x: 1296
+        y: 817
+        width: 30
+        height: 30
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,8 +315,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e8984d499d6463f20800000000000000
-      internalID: 3401984468843792782
+      spriteID: 3d6176033bf41ed10800000000000000
+      internalID: 2153089727889610451
       vertices: []
       indices: 
       edges: []
@@ -325,7 +325,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -335,15 +335,15 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Settings_0: 7886631795410796208
-      Settings_1: 2060365850352298717
-      Settings_2: -5339635570483323969
-      Settings_3: -2495782739550021130
-      Settings_4: 8154524474551060708
-      Settings_5: -2226280032217487599
-      Settings_6: -8712572062712792050
-      Settings_7: 5928216156305086978
-      Settings_8: 3401984468843792782
+      Domik_0: -3689817526142170833
+      Domik_1: 1463467798369665813
+      Domik_2: -8288451597089710151
+      Domik_3: 1004909960352566957
+      Domik_4: -7450535715661860786
+      Domik_5: -454953801425446302
+      Domik_6: -8585390493289911968
+      Domik_7: 6882903823050377798
+      Domik_8: 2153089727889610451
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
