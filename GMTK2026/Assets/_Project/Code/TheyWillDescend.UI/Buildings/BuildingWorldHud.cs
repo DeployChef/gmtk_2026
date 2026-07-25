@@ -329,15 +329,9 @@ namespace TheyWillDescend.UI.Buildings
             var definition = building.Definition;
             if (definition != null && definition.RequiresInput)
             {
-                var inputs = definition.InputResources;
-                var amounts = definition.InputAmounts;
-                for (var i = 0; i < inputs.Length; i++)
+                for (var i = 0; i < definition.ProductionInputSlotCount; i++)
                 {
-                    var resource = inputs[i];
-                    if (resource == null)
-                        continue;
-                    var required = i < amounts.Length ? amounts[i] : 1;
-                    if (required <= 0)
+                    if (!definition.TryGetProductionInput(i, out var resource, out var required))
                         continue;
                     SpawnInputSlot(resource, building.GetStoredAmount(resource.Id), required);
                 }
@@ -392,16 +386,10 @@ namespace TheyWillDescend.UI.Buildings
             if (definition == null || !definition.RequiresInput)
                 return;
 
-            var inputs = definition.InputResources;
-            var amounts = definition.InputAmounts;
             var slot = 0;
-            for (var i = 0; i < inputs.Length && slot < _inputSlots.Count; i++)
+            for (var i = 0; i < definition.ProductionInputSlotCount && slot < _inputSlots.Count; i++)
             {
-                var resource = inputs[i];
-                if (resource == null)
-                    continue;
-                var required = i < amounts.Length ? amounts[i] : 1;
-                if (required <= 0)
+                if (!definition.TryGetProductionInput(i, out var resource, out var required))
                     continue;
                 _inputSlots[slot].SetCount(building.GetStoredAmount(resource.Id), required);
                 slot++;

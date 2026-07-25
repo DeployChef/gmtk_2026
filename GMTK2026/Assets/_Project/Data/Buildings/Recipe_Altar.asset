@@ -21,9 +21,10 @@ MonoBehaviour:
   - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
     count: 2
   buildDurationSeconds: 6
-  inputResources:
-  - {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
-  inputAmountsRequired: 
+  hireOffers: []
+  productionInputs:
+  - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+    count: 1
   outputResource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
   productionDurationSeconds: 3
   workersRequired: 1

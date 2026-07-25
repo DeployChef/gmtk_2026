@@ -69,10 +69,10 @@ namespace TheyWillDescend.Gameplay.Buildings
             definition != null && _storedInputs.TryGetValue(definition.InputResourceId, out var stored)
                 ? stored
                 : 0;
-        public int InputRequired => definition != null && definition.InputResources.Length > 0
-                                    && definition.InputAmounts.Length > 0
-            ? Mathf.Max(0, definition.InputAmounts[0])
-            : 0;
+        public int InputRequired =>
+            definition != null && definition.TryGetProductionInput(0, out _, out var required)
+                ? required
+                : 0;
 
         public float NormalizedProgress
         {
@@ -422,36 +422,38 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (!definition.RequiresInput)
                 return false;
 
-            var inputIndex = -1;
-            var inputs = definition.InputResources;
-            for (var i = 0; i < inputs.Length; i++)
-            {
-                if (inputs[i] != null && inputs[i].Id == resourceId)
-                {
-                    inputIndex = i;
-                    break;
-                }
-            }
-
-            if (inputIndex < 0)
+            if (!TryFindProductionInput(resourceId, out var required) || required <= 0)
                 return false;
 
-            var amounts = definition.InputAmounts;
-            var required = inputIndex < amounts.Length ? amounts[inputIndex] : 1;
-            if (required <= 0)
-                return false;
-
-            _storedInputs.TryGetValue(resourceId, out var stored);
-            if (stored >= required)
-                return false;
-
+            // Buffer allowed: dump more than one craft's worth; extras stay for the next craft.
             if (_inventory == null || !_inventory.TryRemove(resourceId))
                 return false;
 
+            _storedInputs.TryGetValue(resourceId, out var stored);
             _storedInputs[resourceId] = stored + 1;
             PublishInput();
             StateChanged?.Invoke();
             return true;
+        }
+
+        private bool TryFindProductionInput(string resourceId, out int required)
+        {
+            required = 0;
+            if (definition == null)
+                return false;
+
+            for (var i = 0; i < definition.ProductionInputSlotCount; i++)
+            {
+                if (!definition.TryGetProductionInput(i, out var resource, out var amount))
+                    continue;
+                if (resource.Id != resourceId)
+                    continue;
+
+                required = amount;
+                return true;
+            }
+
+            return false;
         }
 
         private bool TryAcceptHireResource(string resourceId)
@@ -550,16 +552,9 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private bool AllInputsFulfilled()
         {
-            var inputs = definition.InputResources;
-            var amounts = definition.InputAmounts;
-            for (var i = 0; i < inputs.Length; i++)
+            for (var i = 0; i < definition.ProductionInputSlotCount; i++)
             {
-                var card = inputs[i];
-                if (card == null)
-                    continue;
-
-                var required = i < amounts.Length ? amounts[i] : 1;
-                if (required <= 0)
+                if (!definition.TryGetProductionInput(i, out var card, out var required))
                     continue;
 
                 if (!_storedInputs.TryGetValue(card.Id, out var stored) || stored < required)
@@ -639,20 +634,19 @@ namespace TheyWillDescend.Gameplay.Buildings
             }
             else if (definition.RequiresInput)
             {
-                var inputs = definition.InputResources;
-                var amounts = definition.InputAmounts;
-                for (var i = 0; i < inputs.Length; i++)
+                for (var i = 0; i < definition.ProductionInputSlotCount; i++)
                 {
-                    var card = inputs[i];
-                    if (card == null)
+                    if (!definition.TryGetProductionInput(i, out var card, out var required))
                         continue;
 
-                    var required = i < amounts.Length ? amounts[i] : 1;
-                    if (required <= 0)
+                    if (!_storedInputs.TryGetValue(card.Id, out var stored))
                         continue;
 
-                    if (_storedInputs.TryGetValue(card.Id, out var stored))
-                        _storedInputs[card.Id] = stored - required;
+                    stored -= required;
+                    if (stored <= 0)
+                        _storedInputs.Remove(card.Id);
+                    else
+                        _storedInputs[card.Id] = stored;
                 }
             }
 

@@ -47,10 +47,11 @@ namespace TheyWillDescend.Core.Economy
         [SerializeField] private HireOfferStep[] hireOffers = Array.Empty<HireOfferStep>();
 
         [Header("Production")]
-        [Tooltip("Resources required for production (empty = passive). Ignored when Hire Offers are set.")]
-        [SerializeField] private ResourceDefinition[] inputResources;
-        [Tooltip("Amounts required per input Resource (must match inputResources length).")]
-        [SerializeField] private int[] inputAmountsRequired;
+        [Tooltip(
+            "Inputs consumed per craft (same format as Build Cost). " +
+            "Empty = passive. Player may dump more than required; extras buffer the next craft. " +
+            "Ignored when Hire Offers are set.")]
+        [SerializeField] private BuildCostItem[] productionInputs = Array.Empty<BuildCostItem>();
         [SerializeField] private ResourceDefinition outputResource;
         [SerializeField] private float productionDurationSeconds = 3f;
         [SerializeField] private int workersRequired = 1;
@@ -104,23 +105,64 @@ namespace TheyWillDescend.Core.Economy
             return false;
         }
 
-        public ResourceDefinition[] InputResources => inputResources ?? Array.Empty<ResourceDefinition>();
+        public BuildCostItem[] ProductionInputs => productionInputs ?? Array.Empty<BuildCostItem>();
         public ResourceDefinition OutputResource => outputResource;
-        public int[] InputAmounts => inputAmountsRequired ?? Array.Empty<int>();
+
+        public int ProductionInputSlotCount => ProductionInputs.Length;
+
+        public bool TryGetProductionInput(int index, out ResourceDefinition resource, out int required)
+        {
+            resource = null;
+            required = 0;
+
+            var inputs = ProductionInputs;
+            if (index < 0 || index >= inputs.Length)
+                return false;
+
+            var item = inputs[index];
+            if (item?.Resource == null || item.Count <= 0)
+                return false;
+
+            resource = item.Resource;
+            required = item.Count;
+            return true;
+        }
 
         /// <summary>First input resource id (for backward compat with events).</summary>
-        public string InputResourceId =>
-            InputResources.Length > 0 && InputResources[0] != null ? InputResources[0].Id : "";
+        public string InputResourceId
+        {
+            get
+            {
+                if (TryGetProductionInput(0, out var resource, out _))
+                    return resource.Id;
+                return string.Empty;
+            }
+        }
 
         public string OutputResourceId =>
             outputResource != null ? outputResource.Id : "";
 
         public int InputAmountRequired =>
-            InputAmounts.Length > 0 ? Mathf.Max(0, InputAmounts[0]) : 0;
+            TryGetProductionInput(0, out _, out var required) ? required : 0;
 
         public float ProductionDurationSeconds => Mathf.Max(0.01f, productionDurationSeconds);
         public int WorkersRequired => Mathf.Max(0, workersRequired);
 
-        public bool RequiresInput => !HasHireOffers && InputResources.Length > 0;
+        public bool RequiresInput
+        {
+            get
+            {
+                if (HasHireOffers)
+                    return false;
+
+                for (var i = 0; i < ProductionInputSlotCount; i++)
+                {
+                    if (TryGetProductionInput(i, out _, out _))
+                        return true;
+                }
+
+                return false;
+            }
+        }
     }
 }
