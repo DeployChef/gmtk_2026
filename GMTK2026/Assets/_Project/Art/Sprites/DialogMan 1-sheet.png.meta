@@ -1,34 +1,40 @@
 fileFormatVersion: 2
-guid: f374c91587ad58c40900579f11a88f95
+guid: f142ec2422b2b0643a8f1f4bf540c988
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2056126039432432040
-    second: Group 18_0
+      213: 5753126861200081121
+    second: DialogMan 1-sheet_0
   - first:
-      213: 3939024567600316905
-    second: Group 18_1
+      213: -1835067879579451169
+    second: DialogMan 1-sheet_1
   - first:
-      213: 7766315694682136954
-    second: Group 18_2
+      213: 679919206550141176
+    second: DialogMan 1-sheet_2
   - first:
-      213: 3154926658090593411
-    second: Group 18_3
+      213: -1392965882917470642
+    second: DialogMan 1-sheet_3
   - first:
-      213: 3803275129838173369
-    second: Group 18_4
+      213: -5326713289755110616
+    second: DialogMan 1-sheet_4
   - first:
-      213: -5251853205622357874
-    second: Group 18_5
+      213: -7466311060237898118
+    second: DialogMan 1-sheet_5
   - first:
-      213: 567567356788652823
-    second: Group 18_6
+      213: 7072954778045106684
+    second: DialogMan 1-sheet_6
   - first:
-      213: -2944633954394630870
-    second: Group 18_7
+      213: -2734762073548877774
+    second: DialogMan 1-sheet_7
   - first:
-      213: 4514422770957449346
-    second: Group 18_8
+      213: 2808630007432031997
+    second: DialogMan 1-sheet_8
+  - first:
+      213: -1801995641710467937
+    second: DialogMan 1-sheet_9
+  - first:
+      213: 8319211650221067394
+    second: DialogMan 1-sheet_10
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -61,7 +67,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -99,7 +105,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -124,13 +130,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 18_0
+      name: DialogMan 1-sheet_0
       rect:
         serializedVersion: 2
-        x: 570
-        y: 269
-        width: 560
-        height: 1264
+        x: 1446
+        y: 684
+        width: 1611
+        height: 3571
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 856f23ec24c2773e0800000000000000
-      internalID: -2056126039432432040
+      spriteID: 1e0c69d166637df40800000000000000
+      internalID: 5753126861200081121
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_1
+      name: DialogMan 1-sheet_1
       rect:
         serializedVersion: 2
-        x: 1153
-        y: 843
-        width: 13
-        height: 13
+        x: 4977
+        y: 4196
+        width: 49
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +167,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e18a5179f93aa630800000000000000
-      internalID: 3939024567600316905
+      spriteID: fd000f27c778886e0800000000000000
+      internalID: -1835067879579451169
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_2
+      name: DialogMan 1-sheet_2
       rect:
         serializedVersion: 2
-        x: 2086
-        y: 324
-        width: 599
-        height: 1176
+        x: 5126
+        y: 4196
+        width: 42
+        height: 19
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +189,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a71e1130afe77cb60800000000000000
-      internalID: 7766315694682136954
+      spriteID: 8f8f26e7aee8f6900800000000000000
+      internalID: 679919206550141176
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_3
+      name: DialogMan 1-sheet_3
       rect:
         serializedVersion: 2
-        x: 3848
-        y: 272
-        width: 521
-        height: 1215
+        x: 5196
+        y: 4196
+        width: 85
+        height: 59
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +211,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38c66eb741d88cb20800000000000000
-      internalID: 3154926658090593411
+      spriteID: e4e3774e8e03bace0800000000000000
+      internalID: -1392965882917470642
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_4
+      name: DialogMan 1-sheet_4
       rect:
         serializedVersion: 2
-        x: 5509
-        y: 295
-        width: 596
-        height: 1189
+        x: 5340
+        y: 4196
+        width: 49
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,86 +233,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9bcf4197492f7c430800000000000000
-      internalID: 3803275129838173369
+      spriteID: 8235bcf2c76b316b0800000000000000
+      internalID: -5326713289755110616
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_5
+      name: DialogMan 1-sheet_5
       rect:
         serializedVersion: 2
-        x: 4369
-        y: 753
-        width: 12
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e800262c55bad17b0800000000000000
-      internalID: -5251853205622357874
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Group 18_6
-      rect:
-        serializedVersion: 2
-        x: 569
-        y: 699
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 71bbe7ff08760e700800000000000000
-      internalID: 567567356788652823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Group 18_7
-      rect:
-        serializedVersion: 2
-        x: 2683
-        y: 426
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2511c2150f8227d0800000000000000
-      internalID: -2944633954394630870
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Group 18_8
-      rect:
-        serializedVersion: 2
-        x: 738
-        y: 207
-        width: 13
-        height: 13
+        x: 5449
+        y: 4196
+        width: 49
+        height: 22
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,8 +255,118 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2887adc779376ae30800000000000000
-      internalID: 4514422770957449346
+      spriteID: a7e23ff16a5526890800000000000000
+      internalID: -7466311060237898118
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DialogMan 1-sheet_6
+      rect:
+        serializedVersion: 2
+        x: 1415
+        y: 1778
+        width: 33
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf9c7c185ee282260800000000000000
+      internalID: 7072954778045106684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DialogMan 1-sheet_7
+      rect:
+        serializedVersion: 2
+        x: 4474
+        y: 1778
+        width: 33
+        height: 39
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 23098ec226c2c0ad0800000000000000
+      internalID: -2734762073548877774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DialogMan 1-sheet_8
+      rect:
+        serializedVersion: 2
+        x: 4505
+        y: 684
+        width: 1611
+        height: 3490
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfe2d7a6c124af620800000000000000
+      internalID: 2808630007432031997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DialogMan 1-sheet_9
+      rect:
+        serializedVersion: 2
+        x: 1850
+        y: 506
+        width: 40
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f94ab01e2860ef6e0800000000000000
+      internalID: -1801995641710467937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: DialogMan 1-sheet_10
+      rect:
+        serializedVersion: 2
+        x: 4909
+        y: 506
+        width: 40
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 28cc7b63be6c37370800000000000000
+      internalID: 8319211650221067394
       vertices: []
       indices: 
       edges: []
@@ -325,7 +375,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3b2c989e40dada246bc93f622518ec82
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -333,19 +383,19 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":0,"pivotUnitMode":1,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      Group 18_0: -2056126039432432040
-      Group 18_1: 3939024567600316905
-      Group 18_2: 7766315694682136954
-      Group 18_3: 3154926658090593411
-      Group 18_4: 3803275129838173369
-      Group 18_5: -5251853205622357874
-      Group 18_6: 567567356788652823
-      Group 18_7: -2944633954394630870
-      Group 18_8: 4514422770957449346
+      DialogMan 1-sheet_0: 5753126861200081121
+      DialogMan 1-sheet_1: -1835067879579451169
+      DialogMan 1-sheet_10: 8319211650221067394
+      DialogMan 1-sheet_2: 679919206550141176
+      DialogMan 1-sheet_3: -1392965882917470642
+      DialogMan 1-sheet_4: -5326713289755110616
+      DialogMan 1-sheet_5: -7466311060237898118
+      DialogMan 1-sheet_6: 7072954778045106684
+      DialogMan 1-sheet_7: -2734762073548877774
+      DialogMan 1-sheet_8: 2808630007432031997
+      DialogMan 1-sheet_9: -1801995641710467937
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
