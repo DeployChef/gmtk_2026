@@ -15,16 +15,14 @@ MonoBehaviour:
   buildingName: Farm
   buildCost:
   - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
-    count: 3
+    count: 5
   - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
-    count: 2
+    count: 3
   buildDurationSeconds: 6
   hireOffers: []
   productionInputs:
-  - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
-    count: 2
   - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
-    count: 1
+    count: 2
   outputResource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
   productionDurationSeconds: 3
   workersRequired: 1
