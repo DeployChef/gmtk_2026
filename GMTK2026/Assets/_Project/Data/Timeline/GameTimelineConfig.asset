@@ -32,7 +32,7 @@ MonoBehaviour:
   phases:
   - title: Dawn Offering
     tooltip: "First demand \u2014 water and wood for the gods."
-    durationSeconds: 50
+    durationSeconds: 60
     color: {r: 0.85, g: 0.65, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
@@ -41,12 +41,12 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 3
       secondsReward: 1
-    offerCompleteBonusSeconds: 6
+    offerCompleteBonusSeconds: 16
     unlockBuildingIds: 00000000010000000200000003000000
     productionModifiers: []
   - title: Drought Harvest
     tooltip: "Drought \u2014 corn and water. The well runs slow."
-    durationSeconds: 90
+    durationSeconds: 100
     color: {r: 0.55, g: 0.55, b: 0.6, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
@@ -55,7 +55,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 3
       secondsReward: 5
-    offerCompleteBonusSeconds: 8
+    offerCompleteBonusSeconds: 18
     unlockBuildingIds: 04000000
     productionModifiers:
     - target: 1
@@ -67,13 +67,13 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Harvest Pressure
     tooltip: More corn. The calendar turns.
-    durationSeconds: 90
+    durationSeconds: 100
     color: {r: 0.7, g: 0.45, b: 0.15, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 10
       secondsReward: 7
-    offerCompleteBonusSeconds: 10
+    offerCompleteBonusSeconds: 20
     unlockBuildingIds: 
     productionModifiers:
     - target: 1
@@ -85,7 +85,7 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Obsidian Idols
     tooltip: Craft idols for the temple steps.
-    durationSeconds: 120
+    durationSeconds: 130
     color: {r: 0.35, g: 0.2, b: 0.55, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
@@ -97,7 +97,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 6
       secondsReward: 12
-    offerCompleteBonusSeconds: 55
+    offerCompleteBonusSeconds: 65
     unlockBuildingIds: 05000000
     productionModifiers:
     - target: 1
@@ -109,7 +109,7 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Breathing Room
     tooltip: "Mercy after the idols \u2014 fill the granary. Water and corn for the gods."
-    durationSeconds: 160
+    durationSeconds: 170
     color: {r: 0.45, g: 0.55, b: 0.4, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
@@ -118,7 +118,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 8
       secondsReward: 7
-    offerCompleteBonusSeconds: 35
+    offerCompleteBonusSeconds: 45
     unlockBuildingIds: 06000000
     productionModifiers:
     - target: 1
@@ -137,13 +137,13 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: First Blood
     tooltip: "Raise the Altar \u2014 one blood for the gods. Learn sacrifice."
-    durationSeconds: 90
+    durationSeconds: 100
     color: {r: 0.65, g: 0.15, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       count: 1
       secondsReward: 50
-    offerCompleteBonusSeconds: 20
+    offerCompleteBonusSeconds: 30
     unlockBuildingIds: 07000000
     productionModifiers:
     - target: 1
@@ -155,7 +155,7 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Final Propitiation
     tooltip: "Last era \u2014 gold, idols, and blood. Sacrifice everyone if you must."
-    durationSeconds: 100
+    durationSeconds: 110
     color: {r: 0.15, g: 0.05, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
@@ -167,7 +167,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       count: 6
       secondsReward: 2
-    offerCompleteBonusSeconds: 16
+    offerCompleteBonusSeconds: 26
     unlockBuildingIds: 
     productionModifiers:
     - target: 0

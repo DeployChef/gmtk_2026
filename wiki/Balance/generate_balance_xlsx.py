@@ -52,13 +52,13 @@ MODIFIER_DRAFT = {
 }
 
 PHASES = [
-    (0, "Dawn Offering", 50, [("Water", 3, 1), ("Wood", 3, 1)], [0, 1, 2, 3], "Tutorial"),
-    (1, "Drought Harvest", 90, [("Corn", 5, 11), ("Water", 3, 5)], [4], "Stone unlock"),
-    (2, "Harvest Pressure", 90, [("Corn", 10, 7)], [], "Farm online"),
-    (3, "Obsidian Idols", 120, [("Obsidian", 3, 5), ("Stone", 4, 5), ("Wood", 6, 12)], [5], "Peak — Obsidian unlock"),
-    (4, "Breathing Room", 160, [("Water", 12, 7), ("Corn", 8, 7)], [6], "Gold unlock / soft → land ~90s"),
-    (5, "First Blood", 90, [("Blood", 1, 50)], [7], "Altar unlock; −10% Wood → land ~70s"),
-    (6, "Final Propitiation", 100, [("Gold", 5, 2), ("Obsidian", 3, 4), ("Blood", 6, 2)], [], "−15% All −10% Gold → land ~20s"),
+    (0, "Dawn Offering", 60, [("Water", 3, 1), ("Wood", 3, 1)], [0, 1, 2, 3], "Tutorial"),
+    (1, "Drought Harvest", 100, [("Corn", 5, 11), ("Water", 3, 5)], [4], "Stone unlock"),
+    (2, "Harvest Pressure", 100, [("Corn", 10, 7)], [], "Farm online"),
+    (3, "Obsidian Idols", 130, [("Obsidian", 3, 5), ("Stone", 4, 5), ("Wood", 6, 12)], [5], "Peak — Obsidian unlock"),
+    (4, "Breathing Room", 170, [("Water", 12, 7), ("Corn", 8, 7)], [6], "Gold unlock / soft → land ~90s"),
+    (5, "First Blood", 100, [("Blood", 1, 50)], [7], "Altar unlock; −10% Wood → land ~70s"),
+    (6, "Final Propitiation", 110, [("Gold", 5, 2), ("Obsidian", 3, 4), ("Blood", 6, 2)], [], "−15% All −10% Gold → land ~20s"),
 ]
 
 CHEAT_LOADOUTS = {

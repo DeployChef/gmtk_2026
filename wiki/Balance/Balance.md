@@ -65,13 +65,13 @@ CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; дл
 
 ### Playtest log — Phase 0 / 1
 
-- Phase 0: cards Water/Wood **+1**; offer-complete **+6**. Total gain same **12с**.
-- Phase 1: Corn **+11** / Water **+5**; complete **+8**. Total same **78с**.
-- Phase 2: Corn **+7**; complete **+10**. Total same **80с**.
-- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **6 Wood @ +12** (= **107с**); complete **+55** → ideal end ~**80с** (`38 − 120 + 162`). Cheat Jump P4: timer **75с**.
-- Phase 4 **Breathing Room**: start **75с**, duration **160с**; offer **12 Water @ +7** + **8 Corn @ +7**; complete **+35** (= **175с** gain) → ideal end **90с** (`75 − 160 + 175`). **+10% Water / +10% Wood**. Gold build **8 Corn + 6 Stone**, craft **30с**. 6th hire = **3 Gold**.
-- Phase 5 **First Blood**: start **90с**, duration **90с**; …; **−10% Wood**. Altar **3 Stone + 3 Wood + 3 Gold + 2 Obs**; Blood **7.333с**. 7th hire = **6 Gold**.
-- Phase 6 **Final**: start **70с**, duration **100с**; offer **5 Gold @ +2** + **3 Obs @ +4** + **6 Blood @ +2**; complete **+16** (= **50с** gain) → ideal end **20с** (`70 − 100 + 50`). **−15% All except Blood** + **−10% Gold**. Blood **7.333с**.
+- Phase 0: cards Water/Wood **+1**; offer-complete **+16**; duration **60с**. Total gain **22с**.
+- Phase 1: Corn **+11** / Water **+5**; complete **+18**; duration **100с**.
+- Phase 2: Corn **+7**; complete **+20**; duration **100с**.
+- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **6 Wood @ +12**; complete **+65**; duration **130с**. Cheat Jump P4: timer **75с**.
+- Phase 4 **Breathing Room**: start **75с**, duration **170с**; offer **12 Water @ +7** + **8 Corn @ +7**; complete **+45** (= **185с** gain) → ideal end **90с** (`75 − 170 + 185`). **+10% Water / +10% Wood**. Gold build **8 Corn + 6 Stone**, craft **30с**. 6th hire = **3 Gold**.
+- Phase 5 **First Blood**: start **90с**, duration **100с**; …; complete **+30**; **−10% Wood**. Altar **3 Stone + 3 Wood + 3 Gold + 2 Obs**; Blood **7.333с**. 7th hire = **6 Gold**.
+- Phase 6 **Final**: start **70с**, duration **110с**; offer **5 Gold @ +2** + **3 Obs @ +4** + **6 Blood @ +2**; complete **+26** (= **60с** gain) → ideal end **20с** (`70 − 110 + 60`). **−15% All except Blood** + **−10% Gold**. Blood **7.333с**.
 
 
 _(сюда твои мысли после прогона)_
