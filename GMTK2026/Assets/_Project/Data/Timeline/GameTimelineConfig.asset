@@ -35,7 +35,7 @@ MonoBehaviour:
   phases:
   - title: Dawn Offering
     tooltip: "First demand \u2014 water and wood for the gods."
-    durationSeconds: 65
+    durationSeconds: 75
     color: {r: 0.85, g: 0.65, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
@@ -44,11 +44,12 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 2
       secondsReward: 4
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 00000000010000000300000004000000
     productionModifiers: []
   - title: Drought Harvest
     tooltip: "Drought \u2014 corn and water. The well runs slow."
-    durationSeconds: 65
+    durationSeconds: 75
     color: {r: 0.55, g: 0.55, b: 0.6, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
@@ -57,6 +58,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
       count: 3
       secondsReward: 6
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 02000000
     productionModifiers:
     - target: 1
@@ -69,7 +71,7 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Obsidian Idols
     tooltip: Craft idols for the temple steps.
-    durationSeconds: 55
+    durationSeconds: 65
     color: {r: 0.35, g: 0.2, b: 0.55, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
@@ -78,6 +80,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
       count: 1
       secondsReward: 60
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 05000000
     productionModifiers:
     - target: 1
@@ -90,12 +93,13 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: ' easy very  easy'
     tooltip: Wood, stone, and corn together.
-    durationSeconds: 60
+    durationSeconds: 70
     color: {r: 0.25, g: 0.5, b: 0.45, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
       count: 1
       secondsReward: 70
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 06000000
     productionModifiers:
     - target: 0
@@ -108,12 +112,13 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: First Blood
     tooltip: "The altar answers \u2014 blood for the pyramid."
-    durationSeconds: 90
+    durationSeconds: 100
     color: {r: 0.65, g: 0.1, b: 0.15, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       count: 2
       secondsReward: 40
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 07000000
     productionModifiers:
     - target: 0
@@ -133,7 +138,7 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Final Propitiation
     tooltip: "Last era \u2014 satisfy the gods or fall."
-    durationSeconds: 100
+    durationSeconds: 110
     color: {r: 0.15, g: 0.05, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
@@ -148,6 +153,7 @@ MonoBehaviour:
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 1
       secondsReward: 10
+    offerCompleteBonusSeconds: 10
     unlockBuildingIds: 
     productionModifiers:
     - target: 0
