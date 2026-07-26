@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1a109ef1def001a2b3c4d5e6f708192, type: 3}
-  m_Name: Dialogue_Intro
+  m_Name: Dialogue_Phase1_Drought
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Dialogue.DialogueDefinition
-  id: intro
+  id: phase1_drought
   defaultPortrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   lines:
-  - text: The gods are angry with us!
+  - text: Drought has come. Water runs 25% slower.
     portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
-  - text: "They demand offerings \u2014 gifts for their altar."
-    portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
-  - text: Refuse them, and it is the end of the world!
+  - text: Stone Cave is ready to build.
     portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}

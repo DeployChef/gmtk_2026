@@ -537,6 +537,7 @@ MonoBehaviour:
   autoRun: 0
   autoInjectGameObjects: []
   timelineConfig: {fileID: 11400000, guid: b5c6d7e8f9a0412345c6d7e8f901a2bc, type: 2}
+  phaseDialogueCatalog: {fileID: 11400000, guid: 635f5ed51036765c997a6ddee406fd9c, type: 2}
 --- !u!1 &94283131
 GameObject:
   m_ObjectHideFlags: 0
@@ -4464,8 +4465,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -227.36, y: -510}
-  m_SizeDelta: {x: 267.8987, y: 44.172}
+  m_AnchoredPosition: {x: -227.36, y: -488.3}
+  m_SizeDelta: {x: 339.15, y: 44.172}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &803528852
 MonoBehaviour:
@@ -4487,7 +4488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: click for skip
+  m_text: click to continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e3203ab5e462f0449b9251fa8da63502, type: 2}
   m_sharedMaterial: {fileID: -8015731534401977804, guid: e3203ab5e462f0449b9251fa8da63502, type: 2}
@@ -7689,6 +7690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Dialogue.DialoguePanelView
   panelGroup: {fileID: 1377513039}
   portraitImage: {fileID: 1012037062}
+  defaultPortrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   bodyText: {fileID: 1205780643}
   advanceButton: {fileID: 1377513038}
   charsPerSecond: 40

@@ -7,9 +7,12 @@ namespace TheyWillDescend.Core.Dialogue
     public sealed class DialogueDefinition : ScriptableObject
     {
         [SerializeField] private string id = "dialogue";
+        [Tooltip("Used when a line has no portrait of its own.")]
+        [SerializeField] private Sprite defaultPortrait;
         [SerializeField] private DialogueLine[] lines = Array.Empty<DialogueLine>();
 
         public string Id => string.IsNullOrEmpty(id) ? name : id;
+        public Sprite DefaultPortrait => defaultPortrait;
         public DialogueLine[] Lines => lines ?? Array.Empty<DialogueLine>();
     }
 }

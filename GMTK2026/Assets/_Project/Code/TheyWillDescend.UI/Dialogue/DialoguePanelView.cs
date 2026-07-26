@@ -21,6 +21,8 @@ namespace TheyWillDescend.UI.Dialogue
 
         [SerializeField] private CanvasGroup panelGroup;
         [SerializeField] private Image portraitImage;
+        [Tooltip("Fallback when a dialogue line has no portrait (same as Intro: DialogMan).")]
+        [SerializeField] private Sprite defaultPortrait;
         [SerializeField] private TMP_Text bodyText;
         [Tooltip("Click target for skip / advance (usually the whole dialogue box).")]
         [SerializeField] private Button advanceButton;
@@ -127,10 +129,19 @@ namespace TheyWillDescend.UI.Dialogue
             _charAccumulator = 0f;
             _lineComplete = string.IsNullOrEmpty(_lineText);
 
-            if (line.Portrait != null && portraitImage != null)
+            if (portraitImage != null)
             {
-                portraitImage.sprite = line.Portrait;
-                portraitImage.enabled = true;
+                var sprite = line.Portrait != null
+                    ? line.Portrait
+                    : _current != null && _current.DefaultPortrait != null
+                        ? _current.DefaultPortrait
+                        : defaultPortrait;
+
+                if (sprite != null)
+                {
+                    portraitImage.sprite = sprite;
+                    portraitImage.enabled = true;
+                }
             }
 
             if (bodyText != null)

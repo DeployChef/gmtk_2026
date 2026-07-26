@@ -456,6 +456,8 @@ namespace TheyWillDescend.UI.Buildings
 
             if (workersRoot != null && workersRoot.activeSelf != showWorkers)
                 workersRoot.SetActive(showWorkers);
+            if (workersLabel != null && workersLabel.gameObject.activeSelf != showWorkers)
+                workersLabel.gameObject.SetActive(showWorkers);
             if (addWorkerButton != null && addWorkerButton.gameObject.activeSelf != showWorkers)
                 addWorkerButton.gameObject.SetActive(showWorkers);
             if (removeWorkerButton != null && removeWorkerButton.gameObject.activeSelf != showWorkers)

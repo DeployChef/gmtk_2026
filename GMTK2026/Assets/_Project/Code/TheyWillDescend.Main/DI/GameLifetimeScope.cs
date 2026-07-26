@@ -28,6 +28,7 @@ namespace TheyWillDescend.Main.DI
     public sealed class GameLifetimeScope : LifetimeScope
     {
         [SerializeField] private GameTimelineConfig timelineConfig;
+        [SerializeField] private PhaseDialogueCatalog phaseDialogueCatalog;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -41,6 +42,17 @@ namespace TheyWillDescend.Main.DI
             }
 
             builder.RegisterInstance(config);
+
+            var dialogues = phaseDialogueCatalog;
+            if (dialogues == null)
+            {
+                Debug.LogWarning(
+                    "[GameLifetimeScope] Assign PhaseDialogueCatalog on GameLifetimeScope (Inspector). " +
+                    "Era start dialogues will be skipped.");
+                dialogues = ScriptableObject.CreateInstance<PhaseDialogueCatalog>();
+            }
+
+            builder.RegisterInstance(dialogues);
             builder.Register<PhaseLoadoutApplier>(Lifetime.Singleton).As<IPhaseLoadoutApplier>();
             builder.Register<PyramidTimerService>(Lifetime.Singleton).As<IPyramidTimerService>();
             builder.Register<TimelineService>(Lifetime.Singleton).As<ITimelineService>();
@@ -48,6 +60,7 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterEntryPoint<TimelineSessionDriver>();
             builder.RegisterEntryPoint<PyramidTimerMusicDriver>();
             builder.RegisterEntryPoint<PhaseCenturySfxDriver>();
+            builder.RegisterEntryPoint<PhaseDialogueDriver>();
 
             builder.Register<InventoryService>(Lifetime.Singleton).As<IInventory>();
             builder.Register<GameStartState>(Lifetime.Singleton);
