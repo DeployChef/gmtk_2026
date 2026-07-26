@@ -68,7 +68,7 @@ CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; дл
 - Phase 0: cards Water/Wood **+1**; offer-complete **+16**; duration **60с**. Total gain **22с**.
 - Phase 1: Corn **+11** / Water **+5**; complete **+18**; duration **100с**.
 - Phase 2: Corn **+7**; complete **+20**; duration **100с**.
-- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **6 Wood @ +12**; complete **+65**; duration **130с**. Cheat Jump P4: timer **75с**.
+- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **8 Wood @ +12**; complete **+65**; duration **150с**. Cheat Jump P4: timer **75с**.
 - Phase 4 **Breathing Room**: start **75с**, duration **170с**; offer **12 Water @ +7** + **8 Corn @ +7**; complete **+45** (= **185с** gain) → ideal end **90с** (`75 − 170 + 185`). **+10% Water / +10% Wood**. Gold build **8 Corn + 6 Stone**, craft **30с**. 6th hire = **3 Gold**.
 - Phase 5 **First Blood**: start **90с**, duration **100с**; …; complete **+30**; **−10% Wood**. Altar **3 Stone + 3 Wood + 3 Gold + 2 Obs**; Blood **7.333с**. 7th hire = **6 Gold**.
 - Phase 6 **Final**: start **70с**, duration **110с**; offer **5 Gold @ +2** + **3 Obs @ +4** + **6 Blood @ +2**; complete **+26** (= **60с** gain) → ideal end **20с** (`70 − 110 + 60`). **−15% All except Blood** + **−10% Gold**. Blood **7.333с**.
