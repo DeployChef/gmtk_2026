@@ -28,6 +28,7 @@ namespace TheyWillDescend.UI.Audio
         private string _musicSoundId;
         private string _ambientSoundId;
         private float _musicFadeDuration = 1f;
+        private float _musicFadeOutDuration = 1f;
         private float _ambientFadeDuration = 1f;
         private float _musicVolumeBeforePause = 1f;
         private bool _musicPaused;
@@ -141,7 +142,8 @@ namespace TheyWillDescend.UI.Audio
             if (_musicSource.isPlaying && enableFade)
             {
                 _musicFadeCts = new CancellationTokenSource();
-                FadeAndStopMusicAsync(_musicFadeDuration, _musicFadeCts.Token).Forget();
+                var outDur = _musicFadeOutDuration > 0f ? _musicFadeOutDuration : _musicFadeDuration;
+                FadeAndStopMusicAsync(outDur, _musicFadeCts.Token).Forget();
                 _musicSoundId = null;
                 return;
             }
@@ -350,6 +352,67 @@ namespace TheyWillDescend.UI.Audio
 
         private void PlayMusic(SoundDefinition sound, float? pitch, float? pitchRandomRange)
         {
+            if (sound.Clips == null || sound.Clips.Length == 0)
+                return;
+
+            // Already on this track — keep playing.
+            if (_musicSoundId == sound.Id && HasMusicClip && (_musicSource.isPlaying || _musicPaused))
+            {
+                if (_musicPaused)
+                    ResumeMusic();
+                return;
+            }
+
+            var crossfade = enableFade
+                            && sound.EnableFade
+                            && HasMusicClip
+                            && _musicSoundId != sound.Id
+                            && (_musicSource.isPlaying || _musicSource.volume > 0.01f);
+
+            if (crossfade)
+            {
+                CrossfadeToMusicAsync(sound, pitch, pitchRandomRange).Forget();
+                return;
+            }
+
+            StartMusicImmediate(sound, pitch, pitchRandomRange, fadeIn: enableFade && sound.EnableFade);
+        }
+
+        private async UniTaskVoid CrossfadeToMusicAsync(
+            SoundDefinition sound,
+            float? pitch,
+            float? pitchRandomRange)
+        {
+            CancelMusicFade();
+            _musicFadeCts = new CancellationTokenSource();
+            var ct = _musicFadeCts.Token;
+            _musicPaused = false;
+
+            try
+            {
+                var outDur = _musicFadeOutDuration > 0f
+                    ? _musicFadeOutDuration
+                    : (_musicFadeDuration > 0f ? _musicFadeDuration : sound.FadeDuration);
+
+                if (outDur > 0f && _musicSource != null && (_musicSource.isPlaying || _musicSource.volume > 0.01f))
+                    await FadeToAsync(_musicSource, 0f, outDur, ct);
+
+                if (_musicSource != null)
+                    _musicSource.Stop();
+
+                StartMusicImmediate(sound, pitch, pitchRandomRange, fadeIn: true);
+            }
+            catch (System.OperationCanceledException)
+            {
+            }
+        }
+
+        private void StartMusicImmediate(
+            SoundDefinition sound,
+            float? pitch,
+            float? pitchRandomRange,
+            bool fadeIn)
+        {
             CancelMusicFade();
 
             var clip = sound.Clips[Random.Range(0, sound.Clips.Length)];
@@ -362,9 +425,10 @@ namespace TheyWillDescend.UI.Audio
             _musicPitchVelocity = 0f;
             _musicSoundId = sound.Id;
             _musicFadeDuration = sound.EnableFade ? sound.FadeDuration : 0f;
+            _musicFadeOutDuration = sound.FadeOutDuration > 0f ? sound.FadeOutDuration : _musicFadeDuration;
             _musicFadeCts = new CancellationTokenSource();
 
-            if (enableFade && sound.EnableFade)
+            if (fadeIn && sound.EnableFade && sound.FadeDuration > 0f)
             {
                 _musicSource.volume = 0f;
                 _musicSource.Play();
@@ -377,9 +441,7 @@ namespace TheyWillDescend.UI.Audio
             }
 
             _musicPaused = false;
-            _musicVolumeBeforePause = _musicSource.volume;
-
-            // Pitch is driven by pyramid timer (PyramidTimerMusicDriver), not SoundDefinition BPM ramp.
+            _musicVolumeBeforePause = 1f;
         }
 
         private SfxVoice AcquireVoiceForSound(SoundDefinition sound)

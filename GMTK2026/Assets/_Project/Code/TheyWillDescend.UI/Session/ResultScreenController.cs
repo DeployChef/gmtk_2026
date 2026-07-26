@@ -4,15 +4,16 @@ using TheyWillDescend.Core;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
+using TheyWillDescend.Core.Dialogue;
 using TheyWillDescend.Core.Session;
+using TheyWillDescend.Core.Timeline;
 using UnityEngine;
 using VContainer;
 
 namespace TheyWillDescend.UI.Session
 {
     /// <summary>
-    /// Shows Win/Lose canvases when GameWonEvent / GameLostEvent are published.
-    /// Timer-expire lose plays <see cref="LoseSequenceDriver"/> before the lose canvas.
+    /// Shows Win/Lose canvases after optional win/lose cinematics.
     /// </summary>
     public sealed class ResultScreenController : MonoBehaviour
     {
@@ -21,6 +22,7 @@ namespace TheyWillDescend.UI.Session
         [SerializeField] private UnityEngine.UI.Button winRestartButton;
         [SerializeField] private UnityEngine.UI.Button loseRestartButton;
         [SerializeField] private LoseSequenceDriver loseSequence;
+        [SerializeField] private WinSequenceDriver winSequence;
 
         private IGameEventBus _bus;
         private IAudioManager _audio;
@@ -33,20 +35,25 @@ namespace TheyWillDescend.UI.Session
             IGameEventBus bus,
             IGameDirector director,
             IAudioManager audio,
-            IGameplayTimePause timePause)
+            IGameplayTimePause timePause,
+            IDialogueService dialogue,
+            ITimelineService timeline)
         {
             _bus = bus;
             _audio = audio;
 
             if (loseSequence == null)
                 loseSequence = GetComponent<LoseSequenceDriver>();
+            if (winSequence == null)
+                winSequence = GetComponent<WinSequenceDriver>();
 
             loseSequence?.BindPause(timePause);
+            winSequence?.Bind(timePause, dialogue, timeline, audio);
 
             if (winRestartButton != null)
                 winRestartButton.onClick.AddListener(() =>
                 {
-                    _audio?.Stop(AudioCatalog.Ids.Victory);
+                    _audio?.StopMusic();
                     director.RestartAsync();
                 });
 
@@ -57,7 +64,7 @@ namespace TheyWillDescend.UI.Session
                     director.RestartAsync();
                 });
 
-            _wonSub = _bus.Subscribe<GameWonEvent>(_ => Show(winCanvas));
+            _wonSub = _bus.Subscribe<GameWonEvent>(OnWon);
             _lostSub = _bus.Subscribe<GameLostEvent>(OnLost);
             _runStartedSub = _bus.Subscribe<RunStartedEvent>(_ =>
             {
@@ -79,9 +86,25 @@ namespace TheyWillDescend.UI.Session
             _runStartedSub?.Dispose();
         }
 
+        private void OnWon(GameWonEvent e)
+        {
+            if (winSequence != null &&
+                (e.Cause == GameResultCause.FinalOfferCompleted
+                 || e.Cause == GameResultCause.AllPhasesCompleted
+                 || e.Cause == GameResultCause.Cheat))
+            {
+                PlayWinSequenceThenShow().Forget();
+                return;
+            }
+
+            Show(winCanvas);
+            _audio?.StopAmbient();
+            _audio?.SetMusicPitch(1f);
+            _audio?.Play(AudioCatalog.Ids.MusicFinal);
+        }
+
         private void OnLost(GameLostEvent e)
         {
-            // Cheat + timer expire both play the meteor sequence when driver is present.
             if (loseSequence != null &&
                 (e.Cause == GameResultCause.PyramidTimerExpired || e.Cause == GameResultCause.Cheat))
             {
@@ -92,6 +115,20 @@ namespace TheyWillDescend.UI.Session
             Show(loseCanvas);
         }
 
+        private async UniTaskVoid PlayWinSequenceThenShow()
+        {
+            try
+            {
+                await winSequence.PlayAsync(destroyCancellationToken);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+
+            winSequence?.PlayVictorySting();
+            Show(winCanvas);
+        }
+
         private async UniTaskVoid PlayLoseSequenceThenShow()
         {
             try
@@ -100,7 +137,6 @@ namespace TheyWillDescend.UI.Session
             }
             catch (OperationCanceledException)
             {
-                // Scene unload / destroy.
             }
 
             Show(loseCanvas);

@@ -30,14 +30,21 @@ namespace TheyWillDescend.UI.Timeline
         [SerializeField] private float flashDuration = 0.22f;
         [SerializeField] private float urgentBelowSeconds = 30f;
 
+        [Header("Victory")]
+        [SerializeField] private float victoryScaleMul = 2f;
+        [SerializeField] private float victoryScaleDuration = 0.55f;
+
         private IDisposable _sub;
         private IDisposable _expiredSub;
         private int _displayed = -1;
         private Color _baseColor = Color.white;
         private Vector3 _baseScale = Vector3.one;
+        private Vector3 _victoryRestScale = Vector3.one;
         private Tween _punchTween;
         private Tween _colorTween;
+        private Tween _scaleTween;
         private bool _baseCaptured;
+        private bool _victoryOverride;
 
         [Inject]
         public void Construct(IGameEventBus bus)
@@ -45,7 +52,12 @@ namespace TheyWillDescend.UI.Timeline
             _sub?.Dispose();
             _expiredSub?.Dispose();
             _sub = bus.Subscribe<PyramidTimerChangedEvent>(OnTimerChanged);
-            _expiredSub = bus.Subscribe<PyramidTimerExpiredEvent>(_ => SetDisplay(0, forceAnim: true));
+            _expiredSub = bus.Subscribe<PyramidTimerExpiredEvent>(_ =>
+            {
+                if (_victoryOverride)
+                    return;
+                SetDisplay(0, forceAnim: true);
+            });
             CaptureBase();
         }
 
@@ -55,6 +67,7 @@ namespace TheyWillDescend.UI.Timeline
         {
             _punchTween?.Kill();
             _colorTween?.Kill();
+            _scaleTween?.Kill();
             _sub?.Dispose();
             _expiredSub?.Dispose();
         }
@@ -78,9 +91,55 @@ namespace TheyWillDescend.UI.Timeline
 
         private void OnTimerChanged(PyramidTimerChangedEvent evt)
         {
+            if (_victoryOverride)
+                return;
+
             var total = Mathf.Max(0f, evt.RemainingSeconds);
             var display = total <= 0f ? 0 : Mathf.CeilToInt(total);
             SetDisplay(display, forceAnim: false);
+        }
+
+        /// <summary>Win cinematic drives the label (e.g. date ramp to 21.12.2012).</summary>
+        public void SetVictoryText(string text, bool punch = false)
+        {
+            if (timerLabel == null)
+                return;
+
+            _victoryOverride = true;
+            CaptureBase();
+            timerLabel.text = text ?? string.Empty;
+            timerLabel.ForceMeshUpdate();
+
+            if (punch)
+                PlayTickFeedback(Mathf.Max(0, _displayed));
+        }
+
+        /// <summary>Grows the red timer to victory scale (default 2x).</summary>
+        public void BeginVictoryPresentation()
+        {
+            if (timerLabel == null)
+                return;
+
+            _victoryOverride = true;
+            CaptureBase();
+            _punchTween?.Kill();
+            _scaleTween?.Kill();
+            _victoryRestScale = _baseScale * Mathf.Max(1f, victoryScaleMul);
+            timerLabel.transform.localScale = _baseScale;
+            _scaleTween = timerLabel.transform
+                .DOScale(_victoryRestScale, Mathf.Max(0.05f, victoryScaleDuration))
+                .SetEase(Ease.OutBack)
+                .SetUpdate(true)
+                .SetTarget(timerLabel.transform);
+        }
+
+        public void ClearVictoryTextOverride()
+        {
+            _victoryOverride = false;
+            _punchTween?.Kill();
+            _scaleTween?.Kill();
+            if (timerLabel != null)
+                timerLabel.transform.localScale = _baseScale;
         }
 
         private void SetDisplay(int value, bool forceAnim)
@@ -104,9 +163,10 @@ namespace TheyWillDescend.UI.Timeline
             var urgent = value > 0 && value <= urgentBelowSeconds;
             var flash = urgent ? urgentFlashColor : tickFlashColor;
             var scaleMul = urgent ? punchScale * 1.35f : punchScale;
+            var restScale = _victoryOverride ? _victoryRestScale : _baseScale;
 
             _punchTween?.Kill();
-            timerLabel.transform.localScale = _baseScale;
+            timerLabel.transform.localScale = restScale;
             _punchTween = timerLabel.transform
                 .DOPunchScale(Vector3.one * scaleMul, punchDuration, punchVibrato, elasticity: 0.65f)
                 .SetUpdate(true)

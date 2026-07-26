@@ -30,13 +30,15 @@ namespace TheyWillDescend.UI.Timeline
         private IDisposable _phaseStartedSub;
         private Sequence _speedSequence;
         private float _angularSpeed;
+        private bool _victoryOverride;
 
         [Inject]
         public void Construct(IGameEventBus bus)
         {
             _phaseStartedSub?.Dispose();
             _phaseStartedSub = bus.Subscribe<PhaseStartedEvent>(_ => OnEraStarted());
-            OnEraStarted();
+            if (!_victoryOverride)
+                OnEraStarted();
         }
 
         private void Awake()
@@ -72,8 +74,27 @@ namespace TheyWillDescend.UI.Timeline
             _phaseStartedSub?.Dispose();
         }
 
+        /// <summary>Win sequence drives spin speed directly (deg/sec).</summary>
+        public void SetVictorySpinOverride(float degreesPerSecond)
+        {
+            _victoryOverride = true;
+            _speedSequence?.Kill();
+            if (target != null)
+                DOTween.Kill(target, complete: false);
+            _angularSpeed = Mathf.Max(0f, degreesPerSecond);
+        }
+
+        public void ClearVictorySpinOverride()
+        {
+            _victoryOverride = false;
+            _angularSpeed = Mathf.Max(0.01f, cruiseSpeed);
+        }
+
         private void OnEraStarted()
         {
+            if (_victoryOverride)
+                return;
+
             if (target != null)
                 DOTween.Kill(target, complete: false);
 

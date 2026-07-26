@@ -60,7 +60,7 @@ namespace TheyWillDescend.Gameplay.Session
             _hasResult = true;
             _isVictory = true;
             _timeline.StopRun();
-            PlayResultSting(AudioCatalog.Ids.Victory);
+            // Victory sting is played by WinSequence / ResultScreen after the cinematic.
             Debug.Log($"[GameResultService] WIN ({cause}).");
             _bus.Publish(new GameWonEvent(cause));
         }

@@ -10,6 +10,7 @@ namespace TheyWillDescend.Core.Audio
         {
             public const string MusicMain = "MusicMain";
             public const string MusicDark = "MusicDark";
+            public const string MusicFinal = "MusicFinal";
             public const string AmbientMain = "AmbientMain";
             public const string AmbientDark = "AmbientDark";
             public const string CardPickup = "CardPickup";

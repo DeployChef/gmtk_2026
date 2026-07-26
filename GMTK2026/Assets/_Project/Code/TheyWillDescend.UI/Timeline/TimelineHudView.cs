@@ -50,6 +50,12 @@ namespace TheyWillDescend.UI.Timeline
             _phaseStartedSub?.Dispose();
         }
 
+        public void SetYearsText(string text)
+        {
+            if (yearsLabel != null)
+                yearsLabel.text = text;
+        }
+
         private void OnYears(TimelineYearsChangedEvent evt)
         {
             if (yearsLabel == null)

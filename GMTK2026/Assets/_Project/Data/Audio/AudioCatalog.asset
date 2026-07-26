@@ -32,6 +32,25 @@ MonoBehaviour:
     bpmEnd: 140
     bpmDuration: 120
     maxVoices: 1
+  - id: MusicFinal
+    channel: 0
+    clips:
+    - {fileID: 8300000, guid: 209477f7732831a42962e899cb213e13, type: 3}
+    mixerGroup: {fileID: 3716038134399535835, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 0
+    allowOverlap: 0
+    cooldown: 0
+    loop: 1
+    enableFade: 1
+    fadeDuration: 2.5
+    fadeOutDuration: 2
+    stopOnPause: 1
+    basePitch: 1
+    pitchRandomRange: 0
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 1
   - id: MusicMain
     channel: 1
     clips:
