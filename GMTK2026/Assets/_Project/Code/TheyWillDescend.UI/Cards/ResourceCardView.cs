@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using TheyWillDescend.Core.Audio;
+using TheyWillDescend.Core.Bus;
+using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Economy;
 using TheyWillDescend.Gameplay.Buildings;
 using UnityEngine;
@@ -58,6 +60,7 @@ namespace TheyWillDescend.UI.Cards
         private ProductionBuilding _hoverBuilding;
         private ResourceKind _kind = ResourceKind.Resource;
         private IAudioManager _audio;
+        private IGameEventBus _bus;
         private readonly List<RaycastResult> _raycastHits = new();
         private readonly List<Material> _dissolveInstances = new();
         private Tween _outlineTween;
@@ -74,14 +77,20 @@ namespace TheyWillDescend.UI.Cards
             _kind == ResourceKind.Villager || resourceId == ResourceIds.Villager;
 
         [Inject]
-        public void Construct(IAudioManager audio)
+        public void Construct(IAudioManager audio, IGameEventBus bus)
         {
             _audio = audio;
+            _bus = bus;
         }
 
         public void BindAudio(IAudioManager audio)
         {
             _audio = audio;
+        }
+
+        public void BindBus(IGameEventBus bus)
+        {
+            _bus = bus;
         }
 
         private void Awake()
@@ -144,6 +153,7 @@ namespace TheyWillDescend.UI.Cards
             transform.SetAsLastSibling();
             _dragging = true;
             _audio?.Play(AudioCatalog.Ids.CardPickup);
+            _bus?.Publish(new CardDragStartedEvent(resourceId));
             ShowOutline(true, true);
         }
 
@@ -222,12 +232,15 @@ namespace TheyWillDescend.UI.Cards
                 }
             }
 
-if (accepted)
+            if (accepted)
             {
                 _consumed = true;
                 canvasGroup.blocksRaycasts = false;
                 ResetScale();
                 _audio?.Play(AudioCatalog.Ids.CardDropOk);
+
+                if (building != null)
+                    _bus?.Publish(new CardDroppedOnBuildingEvent(building.BuildingId, resourceId));
 
                 // Instantly hide outline before dissolve
                 _outlineTween?.Kill();
@@ -316,6 +329,8 @@ if (accepted)
         private void UpdateHoverVfx(PointerEventData eventData)
         {
             var building = ResolveBuildingUnderPointer(eventData);
+            if (building != null && !building.CanAcceptDrop(resourceId))
+                building = null;
 
             if (building == _hoverBuilding)
                 return;

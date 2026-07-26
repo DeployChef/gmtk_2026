@@ -56,7 +56,8 @@ namespace TheyWillDescend.UI.Cards
             int maxVisibleStack,
             float insertRisePixels,
             float insertDuration,
-            IAudioManager audio = null)
+            IAudioManager audio = null,
+            TheyWillDescend.Core.Bus.IGameEventBus bus = null)
         {
             if (stackRoot == null || cardPrefab == null || resource == null)
                 return 0;
@@ -86,6 +87,7 @@ namespace TheyWillDescend.UI.Cards
 
                 var view = instance.GetComponentInChildren<ResourceCardView>(true);
                 view?.BindAudio(audio);
+                view?.BindBus(bus);
 
                 instance.transform.SetAsFirstSibling();
                 cards.Insert(0, instance.transform);

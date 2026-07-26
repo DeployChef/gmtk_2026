@@ -126,6 +126,46 @@ namespace TheyWillDescend.Gameplay.Buildings
             && definition.WorkersRequired > 0
             && _workers < maxWorkers;
 
+        /// <summary>
+        /// Whether dropping this card now would be accepted (same rules as TryAccept* / EndDrag).
+        /// </summary>
+        public bool CanAcceptDrop(string resourceId)
+        {
+            if (string.IsNullOrEmpty(resourceId))
+                return false;
+
+            if (resourceId == ResourceIds.Villager)
+            {
+                if (!IsBuilt)
+                    return false;
+                if (CanAcceptWorkerCard)
+                    return true;
+                return CanAcceptResource(resourceId);
+            }
+
+            return CanAcceptResource(resourceId);
+        }
+
+        public bool CanAcceptResource(string resourceId)
+        {
+            if (string.IsNullOrEmpty(resourceId))
+                return false;
+
+            if (_slotState == BuildingSlotState.Buildable)
+                return CanAcceptBuildResource(resourceId);
+
+            if (_slotState != BuildingSlotState.Built || definition == null)
+                return false;
+
+            if (UsesHireOffers)
+                return CanAcceptHireResource(resourceId);
+
+            if (!definition.RequiresInput)
+                return false;
+
+            return TryFindProductionInput(resourceId, out var required) && required > 0;
+        }
+
         public event System.Action StateChanged;
 
         [Inject]
@@ -519,6 +559,48 @@ namespace TheyWillDescend.Gameplay.Buildings
 
                 required = amount;
                 return true;
+            }
+
+            return false;
+        }
+
+        private bool CanAcceptHireResource(string resourceId)
+        {
+            if (IsDisabled || _producing)
+                return false;
+
+            var costs = CurrentHireOfferCost;
+            for (var i = 0; i < costs.Length; i++)
+            {
+                var item = costs[i];
+                if (item?.Resource == null || item.Count <= 0)
+                    continue;
+                if (item.ResourceId != resourceId)
+                    continue;
+
+                _storedInputs.TryGetValue(resourceId, out var stored);
+                return stored < item.Count;
+            }
+
+            return false;
+        }
+
+        private bool CanAcceptBuildResource(string resourceId)
+        {
+            if (definition == null)
+                return false;
+
+            var costs = definition.BuildCost;
+            for (var i = 0; i < costs.Length; i++)
+            {
+                var item = costs[i];
+                if (item?.Resource == null || item.Count <= 0)
+                    continue;
+                if (item.ResourceId != resourceId)
+                    continue;
+
+                _storedBuildCosts.TryGetValue(resourceId, out var stored);
+                return stored < item.Count;
             }
 
             return false;

@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using TheyWillDescend.Core;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Timeline;
+using TheyWillDescend.UI.Tutorial;
 using UnityEngine;
 
 namespace TheyWillDescend.Main.GameAppStates
@@ -17,17 +18,20 @@ namespace TheyWillDescend.Main.GameAppStates
         private readonly ITimelineService _timeline;
         private readonly IOpeningSequence _opening;
         private readonly IGameplayTimePause _timePause;
+        private readonly TutorialHintController _tutorialHints;
 
         public GameStartState(
             IAudioManager audio,
             ITimelineService timeline,
             IOpeningSequence opening,
-            IGameplayTimePause timePause)
+            IGameplayTimePause timePause,
+            TutorialHintController tutorialHints)
         {
             _audio = audio;
             _timeline = timeline;
             _opening = opening;
             _timePause = timePause;
+            _tutorialHints = tutorialHints;
         }
 
         public void Enter()
@@ -56,6 +60,12 @@ namespace TheyWillDescend.Main.GameAppStates
             {
                 _timePause?.Release(PauseKey);
             }
+
+            // After pause released so hints aren't fighting the intro freeze.
+            if (_tutorialHints != null)
+                _tutorialHints.Begin();
+            else
+                Debug.LogWarning("[GameStartState] TutorialHintController was not injected.");
         }
     }
 }

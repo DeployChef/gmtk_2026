@@ -26,6 +26,7 @@ namespace TheyWillDescend.UI.Cards
 
         private IInventory _inventory;
         private IAudioManager _audio;
+        private IGameEventBus _bus;
         private IDisposable _changedSub;
         private IDisposable _clearedSub;
         private IDisposable _workersSub;
@@ -55,6 +56,7 @@ namespace TheyWillDescend.UI.Cards
         public void Construct(IGameEventBus bus, IInventory inventory, IAudioManager audio)
         {
             DisposeSubscriptions();
+            _bus = bus;
             _inventory = inventory;
             _audio = audio;
             RebuildLookup();
@@ -118,7 +120,8 @@ namespace TheyWillDescend.UI.Cards
                 maxVisibleStack,
                 insertRisePixels,
                 insertDuration,
-                _audio);
+                _audio,
+                _bus);
             RefreshCounter(tray, e.Count, e.Capacity);
 
             if (!_suppressGainSfx && spawned > 0)
@@ -146,7 +149,8 @@ namespace TheyWillDescend.UI.Cards
                     maxVisibleStack,
                     insertRisePixels,
                     insertDuration,
-                    _audio);
+                    _audio,
+                    _bus);
                 RefreshCounter(tray, count, capacity);
             }
         }

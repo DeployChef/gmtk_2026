@@ -15,6 +15,7 @@ using TheyWillDescend.UI.Cards;
 using TheyWillDescend.UI.Dialogue;
 using TheyWillDescend.UI.Session;
 using TheyWillDescend.UI.Timeline;
+using TheyWillDescend.UI.Tutorial;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -77,6 +78,15 @@ namespace TheyWillDescend.Main.DI
             builder.RegisterComponentInHierarchy<OpeningSequenceDriver>().As<IOpeningSequence>();
             builder.RegisterComponentInHierarchy<IntroCameraDirector>();
             builder.RegisterComponentInHierarchy<ResultScreenController>();
+
+            var tutorialHints = Object.FindFirstObjectByType<TutorialHintController>(FindObjectsInactive.Include);
+            if (tutorialHints == null)
+            {
+                Debug.LogWarning("[GameLifetimeScope] TutorialHintController missing — adding empty stub on GameScope.");
+                tutorialHints = gameObject.AddComponent<TutorialHintController>();
+            }
+
+            builder.RegisterComponent(tutorialHints);
 
             builder.RegisterBuildCallback(resolver =>
             {
