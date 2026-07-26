@@ -102,8 +102,14 @@ namespace TheyWillDescend.UI.Cards
 
             _baseScale = transform.localScale;
 
+            // Labels/icons must not steal raycasts from the card root Image.
+            if (titleLabel != null)
+                titleLabel.raycastTarget = false;
+            if (iconImage != null)
+                iconImage.raycastTarget = false;
             if (outlineImage != null)
             {
+                outlineImage.raycastTarget = false;
                 var c = outlineColor;
                 c.a = 0f;
                 outlineImage.color = c;

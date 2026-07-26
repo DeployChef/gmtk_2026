@@ -28,6 +28,10 @@ namespace TheyWillDescend.UI.Cards
         {
             if (stackRoot == null)
                 stackRoot = transform;
+
+            // Counter sits over the stack — must not steal pointer hits from cards.
+            if (counterLabel != null)
+                counterLabel.raycastTarget = false;
         }
 
         public void SetCounterText(string text)
