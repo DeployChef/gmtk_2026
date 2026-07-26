@@ -18,17 +18,17 @@ MonoBehaviour:
     count: 1
   - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
     count: 1
-  - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
-    count: 2
-  buildDurationSeconds: 15
+  - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
+    count: 1
+  buildDurationSeconds: 6
   hireOffers: []
   productionInputs:
-  - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
-    count: 2
-  - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
-    count: 2
   - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
+    count: 1
+  - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
+    count: 1
+  - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
     count: 1
   outputResource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
   productionDurationSeconds: 12
-  workersRequired: 1
+  workersRequired: 0
