@@ -248,13 +248,39 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (!wasProducing)
                 StateChanged?.Invoke();
 
-            _progress += Time.deltaTime * GetProductionSpeedMultiplier();
-            PublishProgress();
+            if (_progress >= definition.ProductionDurationSeconds)
+            {
+                // Hold at 100% until the output tray has space — do not burn the craft.
+                _progress = definition.ProductionDurationSeconds;
+                PublishProgress();
+                if (!CanDeliverOutput())
+                    return;
 
-            if (_progress < definition.ProductionDurationSeconds)
+                CompleteProduction();
                 return;
+            }
 
-            CompleteProduction();
+            _progress += Time.deltaTime * GetProductionSpeedMultiplier();
+            if (_progress >= definition.ProductionDurationSeconds)
+            {
+                _progress = definition.ProductionDurationSeconds;
+                PublishProgress();
+                if (!CanDeliverOutput())
+                    return;
+
+                CompleteProduction();
+                return;
+            }
+
+            PublishProgress();
+        }
+
+        private bool CanDeliverOutput()
+        {
+            if (definition?.OutputResource == null)
+                return false;
+
+            return _inventory == null || _inventory.CanAdd(definition.OutputResource);
         }
 
         private float GetProductionSpeedMultiplier()
@@ -669,6 +695,21 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private void CompleteProduction()
         {
+            if (definition.OutputResource == null)
+            {
+                Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
+                return;
+            }
+
+            // Deliver first — if the tray is full, keep craft at 100% and retry next frame.
+            if (_inventory == null || !_inventory.TryAdd(definition.OutputResource))
+            {
+                _progress = definition.ProductionDurationSeconds;
+                _producing = true;
+                PublishProgress();
+                return;
+            }
+
             if (UsesHireOffers)
             {
                 _storedInputs.Clear();
@@ -698,14 +739,7 @@ namespace TheyWillDescend.Gameplay.Buildings
             PublishInput();
             PublishProgress();
             _bus?.Publish(new ResourceProducedEvent(buildingId, definition.OutputResourceId));
-
-            if (definition.OutputResource != null)
-            {
-                _inventory?.TryAdd(definition.OutputResource);
-                PlayProduceSound();
-            }
-            else
-                Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
+            PlayProduceSound();
 
             // Re-evaluate after consume / hire step advance (StateChanged after so HUD sees new offer).
             _producing = CanProduce;

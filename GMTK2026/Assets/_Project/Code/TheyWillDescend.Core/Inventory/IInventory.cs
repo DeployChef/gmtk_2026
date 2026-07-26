@@ -7,6 +7,7 @@ namespace TheyWillDescend.Core.Inventory
         int GetCount(ResourceDefinition definition);
         int GetCount(string resourceId);
         ResourceDefinition GetDefinition(string resourceId);
+        bool CanAdd(ResourceDefinition definition, int amount = 1);
         bool TryAdd(ResourceDefinition definition, int amount = 1);
         bool TryRemove(ResourceDefinition definition, int amount = 1);
         bool TryRemove(string resourceId, int amount = 1);
