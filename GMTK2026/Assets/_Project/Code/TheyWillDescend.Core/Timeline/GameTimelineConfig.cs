@@ -50,6 +50,8 @@ namespace TheyWillDescend.Core.Timeline
         [SerializeField] private float durationSeconds = 90f;
         [SerializeField] private Color color = Color.gray;
         [SerializeField] private PhaseOfferItem[] requirements = Array.Empty<PhaseOfferItem>();
+        [Tooltip("Seconds added once when the full offer is completed (last required card).")]
+        [SerializeField] private float offerCompleteBonusSeconds;
 
         [Header("Construction unlock (every PhaseStarted, including normal advance)")]
         [Tooltip("BuildingIds that transition Locked → Buildable when this phase starts.")]
@@ -64,6 +66,7 @@ namespace TheyWillDescend.Core.Timeline
         public float DurationSeconds => Mathf.Max(0.1f, durationSeconds);
         public Color Color => color;
         public PhaseOfferItem[] Requirements => requirements ?? Array.Empty<PhaseOfferItem>();
+        public float OfferCompleteBonusSeconds => Mathf.Max(0f, offerCompleteBonusSeconds);
         public int[] UnlockBuildingIds => unlockBuildingIds ?? Array.Empty<int>();
         public PhaseProductionModifier[] ProductionModifiers =>
             productionModifiers ?? Array.Empty<PhaseProductionModifier>();
@@ -108,6 +111,10 @@ namespace TheyWillDescend.Core.Timeline
         [Tooltip("Applied to pyramid timer when a non-offer card is dropped on the pyramid (e.g. -1).")]
         [SerializeField] private float wrongOfferingTimerDelta = -1f;
         [SerializeField] private float yearsPerRealtimeSecond = 1f;
+        [Tooltip(
+            "On failed offer (or timer-expire absorbed as phase fail): if remaining < this, top up to this. " +
+            "0 = disabled. Keeps one miss from guaranteeing a loss.")]
+        [SerializeField] private float failMercyFloorSeconds = 60f;
 
         [Header("Run start (StartRun only — not Cheat Panel jump)")]
         [SerializeField] private PhaseStartingCard[] runStartCards = Array.Empty<PhaseStartingCard>();
@@ -119,6 +126,7 @@ namespace TheyWillDescend.Core.Timeline
         public float BaselineSeconds => Mathf.Max(0f, baselineSeconds);
         public float WrongOfferingTimerDelta => wrongOfferingTimerDelta;
         public float YearsPerRealtimeSecond => Mathf.Max(0f, yearsPerRealtimeSecond);
+        public float FailMercyFloorSeconds => Mathf.Max(0f, failMercyFloorSeconds);
         public PhaseStartingCard[] RunStartCards => runStartCards ?? Array.Empty<PhaseStartingCard>();
         public PhaseStartingBuilding[] RunStartBuildings => runStartBuildings ?? Array.Empty<PhaseStartingBuilding>();
         public PhaseDefinition[] Phases => phases ?? Array.Empty<PhaseDefinition>();

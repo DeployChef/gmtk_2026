@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TheyWillDescend.Gameplay.Hazards
 {
     /// <summary>
-    /// Plain DI: thunder SFX + temporary building disable + kill one assigned worker.
+    /// Plain DI: thunder SFX + temporary building disable (workers stay assigned, resume after fire).
     /// </summary>
     public sealed class ThunderService : IThunderService
     {
@@ -33,8 +33,8 @@ namespace TheyWillDescend.Gameplay.Hazards
             if (building == null)
                 return;
 
+            // Workers stay in the building; production resumes when disable ends.
             building.DisableTemporarily(disableDuration);
-            building.TryKillWorker();
         }
     }
 }

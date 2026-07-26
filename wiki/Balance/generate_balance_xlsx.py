@@ -22,67 +22,63 @@ BUILDINGS = [
     (1, "Well", True, 0, "3 Corn + 3 Wood", 3, "—", "Water", 3, 1, 3),
     (2, "Lumber", True, 0, "4 Corn + 2 Stone", 3, "—", "Wood", 3, 1, 3),
     (3, "Farm", False, 0, "3 Wood + 2 Water", 6, "1 Wood + 1 Water", "Corn", 3, 1, 3),
-    (4, "Altar", False, None, "5 Stone + 3 Wood + 2 Obsidian", 6, "1 Villager", "Blood", 3, 1, 1),
-    (5, "Obsidian", False, 1, "4 Wood + 4 Stone + 2 Corn", 5, "1 Corn + 1 Wood", "Obsidian", 3, 3, 3),
+    (4, "StoneCave", False, 1, "5 Wood + 4 Corn", 5, "2 Wood", "Stone", 4, 1, 3),
+    (5, "Obsidian", False, 3, "2 Stone + 4 Wood", 5, "1 Water + 2 Stone", "Obsidian", 7, 1, 3),
+    (6, "GoldMine", False, 4, "8 Corn + 6 Stone", 3, "—", "Gold", 30, 1, 3),
+    (7, "Altar", False, 5, "3 Stone + 3 Wood + 3 Gold + 2 Obs", 4, "1 Villager", "Blood", 6, 0, 0),
 ]
 
-# Target feel: 0 easy → 4 on the edge → 5 breather/dev → 6 hard → 7 very hard
-# difficulty 1..5; slack_target = ideal Duration−WallNeed; modifier drafts are NOT in code yet
+# Target feel: 0..2 ramp → 3 peak → 4 breather → 5 blood+food → 6 final
+# difficulty 1..5; slack_target = ideal Duration−WallNeed
 DIFFICULTY = {
     0: dict(label="легко", score=1, slack="15..25s", intent="обучить DnD/оффер, почти без наказаний"),
     1: dict(label="средне", score=2, slack="10..18s", intent="новый ресурс + лёгкий выбор работ"),
     2: dict(label="сложнее", score=3, slack="5..12s", intent="давление corn; можно −% Farm"),
-    3: dict(label="сложно", score=4, slack="3..8s", intent="Obsidian 3 workers — пик дефицита людей"),
-    4: dict(label="на пределе", score=5, slack="0..5s", intent="mixed parallel — всё не покрыть"),
-    5: dict(label="легко / развитие", score=2, slack="15..30s", intent="передышка: освоить Blood/Altar, накопить"),
-    6: dict(label="сложно", score=4, slack="3..8s", intent="twin demands; душить StartTimer для финала"),
-    7: dict(label="очень сложно", score=5, slack="0..5s", intent="финал; landing doomsday 5..15 после последнего дара"),
+    3: dict(label="на пределе", score=5, slack="0..5s", intent="Obsidian+Stone+Wood оффер; −15% Obsidian"),
+    4: dict(label="легко / передышка", score=2, slack="15..30s", intent="unlock Gold; +10% Water/Wood; 12Water+8Corn → land 90s"),
+    5: dict(label="средне / обучение", score=2, slack="10..20s", intent="unlock Altar; 1 Blood"),
+    6: dict(label="очень сложно", score=5, slack="0..5s", intent="Gold+Obsidian+Blood; людей в кровь; landing 5..15"),
 }
 
 # Draft phase production modifiers (% to production SPEED). Negative = slower = harder.
-# Scope: All | by Output resource | by Building name. Not implemented in game yet.
 MODIFIER_DRAFT = {
     0: [],
-    1: [("Stone", -10, "если появится quarry — чуть подрезать, чтобы не фармили вперёд")],
-    2: [("Corn", -20, "Harvest Pressure: −20% Farm — главный рычаг без резки оффера")],
-    3: [("Obsidian", -15, "дорого по времени + уже 3 workers")],
-    4: [("All", -10, "глобальный −10% на пределе; или точечно Wood/Stone/Corn −15")],
-    5: [("Blood", +10, "передышка: чуть быстрее Altar, дать освоить жертву"), ("All", +5, "лёгкий буст развития")],
-    6: [("Obsidian", -20, ""), ("Blood", -10, "twin — обе ветки медленнее")],
-    7: [("All", -15, "финальное сжатие; либо только Blood/Obsidian −25")],
+    1: [("Water", -25, "Drought")],
+    2: [("Corn", -20, "Harvest Pressure")],
+    3: [("Obsidian", -15, "пик фазы")],
+    4: [("Water", +10, "передышка"), ("Wood", +10, "передышка")],
+    5: [("Wood", -10, "First Blood")],
+    6: [("All", -15, "финал"), ("Gold", -10, "Scarce Veins")],
 }
 
 PHASES = [
-    (0, "Dawn Offering", 60, [("Corn", 6, 8)], [0, 1, 2, 3], "Tutorial pressure"),
-    (1, "Stone & Timber", 90, [("Stone", 10, 6), ("Wood", 3, 8)], [5], "NO stone producer yet"),
-    (2, "Harvest Pressure", 90, [("Corn", 12, 5)], [], "Farm should be online"),
-    (3, "Obsidian Idols", 100, [("Obsidian", 4, 18)], [], "Needs Obsidian building"),
-    (4, "Mixed Tribute", 100, [("Wood", 8, 5), ("Stone", 8, 5), ("Corn", 6, 4)], [], "Parallel demand"),
-    (5, "First Blood", 110, [("Blood", 3, 25)], [], "Altar must be unlocked"),
-    (6, "Twin Demands", 120, [("Obsidian", 3, 20), ("Blood", 2, 30)], [], "Split attention"),
-    (7, "Final Propitiation", 120, [("Blood", 5, 22), ("Obsidian", 4, 15), ("Corn", 10, 3)], [], "TARGET remaining 5-15s"),
+    (0, "Dawn Offering", 60, [("Water", 3, 1), ("Wood", 3, 1)], [0, 1, 2, 3], "Tutorial"),
+    (1, "Drought Harvest", 100, [("Corn", 5, 11), ("Water", 3, 5)], [4], "Stone unlock"),
+    (2, "Harvest Pressure", 100, [("Corn", 10, 7)], [], "Farm online"),
+    (3, "Obsidian Idols", 162, [("Obsidian", 3, 5), ("Stone", 4, 5), ("Wood", 7, 12)], [5], "Peak — Obsidian unlock"),
+    (4, "Breathing Room", 170, [("Water", 12, 7), ("Corn", 8, 7)], [6], "Gold unlock / soft → land ~90s"),
+    (5, "First Blood", 100, [("Blood", 1, 50)], [7], "Altar unlock; −10% Wood → land ~70s"),
+    (6, "Final Propitiation", 110, [("Gold", 5, 2), ("Obsidian", 3, 4), ("Blood", 6, 2)], [], "−15% All −10% Gold → land ~20s"),
 ]
 
 CHEAT_LOADOUTS = {
     0: {"Villager": 1, "built": "Home,Well,Lumber"},
-    1: {"Villager": 2, "Corn": 4, "Wood": 4, "built": "Home,Well,Lumber"},
-    2: {"Villager": 3, "built": "Home,Well,Lumber"},
-    3: {"Villager": 3, "Wood": 6, "Stone": 6, "built": "Home,Well,Lumber"},
-    4: {"Villager": 4, "built": "Home,Well,Lumber"},
-    5: {"Villager": 5, "built": "Home,Well,Lumber"},
-    6: {"Villager": 6, "built": "Home,Well,Lumber"},
-    7: {"Villager": 8, "built": "Home,Well,Lumber"},
+    1: {"Villager": 2, "Water": 3, "Wood": 4, "built": "Home,Well,Lumber", "timer": 61},
+    2: {"Villager": 2, "Water": 3, "Wood": 2, "built": "Home,Well,Lumber,Farm,Stone", "timer": 42},
+    3: {"Villager": 3, "built": "Home,Well,Lumber,Farm,Stone", "timer": 38},
+    4: {"Villager": 5, "Wood": 2, "Corn": 1, "Stone": 3, "built": "Home,Well,Lumber,Farm,Stone,Obsidian", "timer": 75},
+    5: {"Villager": 6, "Water": 6, "Wood": 2, "Corn": 2, "Obsidian": 2, "Stone": 2, "Gold": 2, "built": "Home,Well,Lumber,Farm,Stone,Obsidian,Gold", "timer": 90},
+    6: {"Villager": 6, "built": "Home,Well,Lumber,Farm,Stone,Obsidian,Gold,Altar", "timer": 70},
 }
 
 VILLAGER_OFFERS = [
     (1, "start free", "—", 0),
-    (2, "2 Water", "2×Well", 6),
-    (3, "3 Corn + 2 Water", "Farm+Well", 15),
-    (4, "4 Corn + 2 Wood", "Farm+Lumber", 18),
-    (5, "2 Stone + 3 Wood + 2 Corn", "??+Lumber+Farm", 24),
-    (6, "1 Obsidian + 4 Corn", "Obsidian+Farm", 21),
-    (7, "2 Obsidian + 2 Blood?", "late game", 30),
-    (8, "3 Blood", "Altar sacrifice tradeoff", 27),
+    (2, "3 Wood", "Lumber", 9),
+    (3, "4 Corn", "Farm", 12),
+    (4, "3 Stone", "Stone", 12),
+    (5, "2 Obsidian + 2 Corn", "Obsidian+Farm", 20),
+    (6, "3 Gold", "GoldMine", 90),
+    (7, "6 Gold", "GoldMine", 180),
 ]
 
 HEADER_FILL = PatternFill("solid", fgColor="1F4E79")
@@ -143,7 +139,7 @@ def sheet_readme(wb):
         ("They Will Descend — Balance Workbook", True),
         ("", False),
         ("Кривая сложности (целевой feel)", True),
-        ("0 легко → 1 средне → 2 сложнее → 3 сложно → 4 на пределе → 5 легко/развитие → 6 сложно → 7 очень сложно.", False),
+        ("0 легко → 1 средне → 2 сложнее → 3 на пределе → 4 передышка → 5 blood+corn → 6 финал.", False),
         ("Фаза 5 — ПЕРЕДЫШКА: дать освоить Blood/Altar и накопить перед финальной дугой.", False),
         ("", False),
         ("Рычаги сложности (в порядке «трогай сначала»)", True),
@@ -408,7 +404,7 @@ def sheet_phase_lab(wb):
     ws["A1"].font = Font(bold=True, size=14)
     ws.merge_cells("A1:F1")
 
-    ws["A3"] = "ActivePhase (0..7)"
+    ws["A3"] = "ActivePhase (0..6)"
     ws["B3"] = 0
     mark_input(ws["B3"])
     ws["C3"] = "← меняй; цифры из 02_Phases + modifiers из 03b"
@@ -770,7 +766,7 @@ def sheet_villagers(wb):
         (0, 1, 2, "tutorial — 1 человек, 2 джобы"),
         (1, 2, 3, "появляется давление"),
         (2, 2, 3, "выбор corn vs infra"),
-        (3, 3, 4, "Obsidian хочет 3 workers"),
+        (3, 3, 4, "Obsidian peak offer"),
         (4, 3, 5, "mixed — не покрыть всё"),
         (5, 4, 5, "blood = жертва жителя"),
         (6, 4, 5, "twin demands"),
@@ -857,7 +853,7 @@ def sheet_checklist(wb):
         "Фаза 0 ЛЕГКО: 1 villager, corn — slack ~15–25s",
         "Фаза 1 СРЕДНЕ: новый ресурс; End → Carryover",
         "Фаза 2 СЛОЖНЕЕ: corn pressure + draft −20% Corn modifier",
-        "Фаза 3 СЛОЖНО: Obsidian 3 workers — дефицит людей",
+        "Фаза 3 ПИК: Obsidian+Stone+Wood оффер",
         "Фаза 4 НА ПРЕДЕЛЕ: mixed; slack ~0–5; −10% All?",
         "Фаза 5 ПЕРЕДЫШКА/РАЗВИТИЕ: легче чем 4; +% Blood; освоить Altar",
         "Фаза 6 СЛОЖНО: twin; подготовить StartTimer фазы 7",

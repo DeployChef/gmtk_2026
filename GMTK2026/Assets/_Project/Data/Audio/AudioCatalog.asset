@@ -459,3 +459,22 @@ MonoBehaviour:
     bpmEnd: 0
     bpmDuration: 0
     maxVoices: 5
+  - id: DIALOG
+    channel: 2
+    clips:
+    - {fileID: 8300000, guid: 25aa8917f769baa46baf4cd3cf142caf, type: 3}
+    mixerGroup: {fileID: -8187816105846866535, guid: 17717c00a24bcdd45a6b974a26e8c3d2, type: 2}
+    priority: 20
+    allowOverlap: 1
+    cooldown: 0
+    loop: 0
+    enableFade: 0
+    fadeDuration: 1
+    fadeOutDuration: 1
+    stopOnPause: 0
+    basePitch: 1
+    pitchRandomRange: 0.2
+    bpmStart: 0
+    bpmEnd: 0
+    bpmDuration: 0
+    maxVoices: 8

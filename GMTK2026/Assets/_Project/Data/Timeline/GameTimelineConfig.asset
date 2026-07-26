@@ -15,6 +15,7 @@ MonoBehaviour:
   baselineSeconds: 99
   wrongOfferingTimerDelta: -1
   yearsPerRealtimeSecond: 1
+  failMercyFloorSeconds: 60
   runStartCards:
   - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
     count: 1
@@ -31,28 +32,30 @@ MonoBehaviour:
   phases:
   - title: Dawn Offering
     tooltip: "First demand \u2014 water and wood for the gods."
-    durationSeconds: 50
+    durationSeconds: 60
     color: {r: 0.85, g: 0.65, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 3
-      secondsReward: 2
+      secondsReward: 1
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       count: 3
-      secondsReward: 2
+      secondsReward: 1
+    offerCompleteBonusSeconds: 16
     unlockBuildingIds: 00000000010000000200000003000000
     productionModifiers: []
   - title: Drought Harvest
     tooltip: "Drought \u2014 corn and water. The well runs slow."
-    durationSeconds: 90
+    durationSeconds: 100
     color: {r: 0.55, g: 0.55, b: 0.6, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
       count: 5
-      secondsReward: 12
+      secondsReward: 11
     - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       count: 3
-      secondsReward: 6
+      secondsReward: 5
+    offerCompleteBonusSeconds: 18
     unlockBuildingIds: 04000000
     productionModifiers:
     - target: 1
@@ -64,12 +67,13 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Harvest Pressure
     tooltip: More corn. The calendar turns.
-    durationSeconds: 90
+    durationSeconds: 100
     color: {r: 0.7, g: 0.45, b: 0.15, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 12
-      secondsReward: 5
+      count: 10
+      secondsReward: 7
+    offerCompleteBonusSeconds: 20
     unlockBuildingIds: 
     productionModifiers:
     - target: 1
@@ -81,115 +85,104 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Obsidian Idols
     tooltip: Craft idols for the temple steps.
-    durationSeconds: 100
+    durationSeconds: 162
     color: {r: 0.35, g: 0.2, b: 0.55, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
+      count: 3
+      secondsReward: 5
+    - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
       count: 4
-      secondsReward: 18
-    unlockBuildingIds: 
+      secondsReward: 5
+    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      count: 7
+      secondsReward: 12
+    offerCompleteBonusSeconds: 65
+    unlockBuildingIds: 05000000
     productionModifiers:
     - target: 1
       resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
       buildingId: 0
       speedPercent: -15
       displayTitle: Stubborn Obsidian
-      description: Idol craft is 15% slower. You already need three workers \u2014 every second counts.
+      description: Idol craft is 15% slower. Stack workers for speed if you can spare them.
       icon: {fileID: 0}
-  - title: Mixed Tribute
-    tooltip: Wood, stone, and corn together.
-    durationSeconds: 100
-    color: {r: 0.25, g: 0.5, b: 0.45, a: 1}
+  - title: Breathing Room
+    tooltip: "Mercy after the idols \u2014 fill the granary. Water and corn for the gods."
+    durationSeconds: 170
+    color: {r: 0.45, g: 0.55, b: 0.4, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
-      count: 8
-      secondsReward: 5
-    - resource: {fileID: 11400000, guid: bdb08d228f699f041b89d15da78b83cd, type: 2}
-      count: 8
-      secondsReward: 5
+    - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+      count: 12
+      secondsReward: 7
     - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 6
-      secondsReward: 4
-    unlockBuildingIds: 
+      count: 8
+      secondsReward: 7
+    offerCompleteBonusSeconds: 45
+    unlockBuildingIds: 06000000
     productionModifiers:
-    - target: 0
-      resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      buildingId: 0
-      speedPercent: -10
-      displayTitle: Exhausted Land
-      description: All production is 10% slower. You cannot cover every demand \u2014 choose.
-      icon: {fileID: 0}
-  - title: First Blood
-    tooltip: "The altar answers \u2014 blood for the pyramid."
-    durationSeconds: 110
-    color: {r: 0.65, g: 0.1, b: 0.15, a: 1}
-    requirements:
-    - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
-      count: 3
-      secondsReward: 25
-    unlockBuildingIds: 
-    productionModifiers:
-    - target: 0
-      resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      buildingId: 0
-      speedPercent: 5
-      displayTitle: Breathing Room
-      description: A short mercy \u2014 all production +5%. Learn the Altar before the twin storm.
-      icon: {fileID: 0}
     - target: 1
-      resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
+      resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       buildingId: 0
       speedPercent: 10
-      displayTitle: Willing Sacrifice
-      description: Blood rites run 10% faster. Spend villagers wisely.
+      displayTitle: Full Wells
+      description: Water production is 10% faster this era.
       icon: {fileID: 0}
-  - title: Twin Demands
-    tooltip: Idols and blood in the same breath.
-    durationSeconds: 120
-    color: {r: 0.5, g: 0.05, b: 0.35, a: 1}
+    - target: 1
+      resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      buildingId: 0
+      speedPercent: 10
+      displayTitle: Lush Timber
+      description: Wood production is 10% faster this era.
+      icon: {fileID: 0}
+  - title: First Blood
+    tooltip: "Raise the Altar \u2014 one blood for the gods. Learn sacrifice."
+    durationSeconds: 100
+    color: {r: 0.65, g: 0.15, b: 0.2, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
-      count: 3
-      secondsReward: 20
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
-      count: 2
-      secondsReward: 30
-    unlockBuildingIds: 
+      count: 1
+      secondsReward: 50
+    offerCompleteBonusSeconds: 30
+    unlockBuildingIds: 07000000
     productionModifiers:
     - target: 1
-      resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
-      buildingId: 0
-      speedPercent: -20
-      displayTitle: Twin Curse \u2014 Idols
-      description: Obsidian craft 20% slower while blood is also demanded.
-      icon: {fileID: 0}
-    - target: 1
-      resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
+      resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
       buildingId: 0
       speedPercent: -10
-      displayTitle: Twin Curse \u2014 Blood
-      description: Blood rites 10% slower. Split workers or lose the race.
+      displayTitle: Thin Timber
+      description: Wood production is 10% slower this era.
       icon: {fileID: 0}
   - title: Final Propitiation
-    tooltip: "Last era \u2014 satisfy the gods or fall."
-    durationSeconds: 120
+    tooltip: "Last era \u2014 gold, idols, and blood. Sacrifice everyone if you must."
+    durationSeconds: 110
     color: {r: 0.15, g: 0.05, b: 0.2, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
+    - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
       count: 5
-      secondsReward: 22
+      secondsReward: 2
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
-      count: 4
-      secondsReward: 15
-    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 10
-      secondsReward: 3
+      count: 3
+      secondsReward: 4
+    - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
+      count: 6
+      secondsReward: 2
+    offerCompleteBonusSeconds: 26
     unlockBuildingIds: 
     productionModifiers:
     - target: 0
       resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+      excludeResource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       buildingId: 0
       speedPercent: -15
       displayTitle: End of Days
-      description: All production 15% slower. Close the last offer with 5\u201315 seconds left on the doomsday timer.
+      description: All production except Blood is 15% slower. Blood rites stay at full speed.
+      icon: {fileID: 0}
+    - target: 1
+      resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
+      excludeResource: {fileID: 0}
+      buildingId: 0
+      speedPercent: -10
+      displayTitle: Scarce Veins
+      description: Gold production is 10% slower this era (stacks with End of Days).
       icon: {fileID: 0}

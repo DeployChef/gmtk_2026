@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1b2c3d4e5f64789a0b1c2d3e4f50617, type: 3}
+  m_Name: PhaseDialogueCatalog
+  m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Dialogue.PhaseDialogueCatalog
+  byPhaseIndex:
+  - {fileID: 0}
+  - {fileID: 11400000, guid: e6d9f58ff523a3f4790f48d10af96e68, type: 2}
+  - {fileID: 11400000, guid: d4e5f60718293a4b5c6d7e8f901a2b3c, type: 2}
+  - {fileID: 11400000, guid: e5f60718293a4b5c6d7e8f901a2b3c4d, type: 2}
+  - {fileID: 11400000, guid: f60718293a4b5c6d7e8f901a2b3c4d5e, type: 2}
+  - {fileID: 11400000, guid: 0718293a4b5c6d7e8f901a2b3c4d5e6f, type: 2}
+  - {fileID: 11400000, guid: 18293a4b5c6d7e8f901a2b3c4d5e6f70, type: 2}

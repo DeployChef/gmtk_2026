@@ -12,6 +12,8 @@ namespace TheyWillDescend.UI.Timeline
     {
         [SerializeField] private Image icon;
         [SerializeField] private TMP_Text countLabel;
+        [SerializeField] private Color incompleteColor = Color.white;
+        [SerializeField] private Color completeColor = new Color(0.35f, 0.9f, 0.4f, 1f);
 
         public void Bind(Image iconImage, TMP_Text label)
         {
@@ -41,6 +43,9 @@ namespace TheyWillDescend.UI.Timeline
         {
             if (countLabel != null)
                 countLabel.text = $"{delivered}/{required}";
+
+            if (icon != null)
+                icon.color = required > 0 && delivered >= required ? completeColor : incompleteColor;
         }
     }
 }

@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d1a109ef1def001a2b3c4d5e6f708192, type: 3}
-  m_Name: Dialogue_Intro
+  m_Name: Dialogue_Phase5_Blood
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Dialogue.DialogueDefinition
-  id: intro
+  id: phase5_blood
   defaultPortrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   lines:
-  - text: The gods are angry with us!
+  - text: Raise the Altar. Wood is 10% slower this era.
     portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
-  - text: "They demand offerings \u2014 gifts for their altar."
-    portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
-  - text: Refuse them, and it is the end of the world!
+  - text: The Altar is ready to build. Drop a villager — it yields Blood.
     portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}

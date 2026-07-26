@@ -74,6 +74,10 @@ namespace TheyWillDescend.UI.Buildings
             if (canvasGroup == null)
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
 
+            EnsureWorkerButtons();
+            // Prefab leaves BtnRemove active under Canvas (outside this CanvasGroup).
+            SyncWorkerChromeVisibility();
+
             if (addWorkerButton != null)
                 addWorkerButton.onClick.AddListener(() =>
                 {
@@ -116,6 +120,9 @@ namespace TheyWillDescend.UI.Buildings
 
         private void LateUpdate()
         {
+            // BtnRemove is a Canvas sibling outside this HUD's CanvasGroup — keep in sync every frame.
+            SyncWorkerChromeVisibility();
+
             if (_suppressed || building == null || !building.IsBuilt)
                 return;
 
@@ -229,27 +236,16 @@ namespace TheyWillDescend.UI.Buildings
 
             var visible = !_suppressed && building.IsBuilt;
             SetHudVisible(visible);
+            SyncWorkerChromeVisibility();
+            SyncConstructionHudActive();
+
             if (!visible)
                 return;
 
             var definition = building.Definition;
-            var showWorkers = definition != null
-                              && !building.UsesHireOffers
-                              && definition.WorkersRequired > 0;
-
-            if (workersRoot != null)
-                workersRoot.SetActive(showWorkers);
-
-            if (workersLabel != null)
-            {
-                if (showWorkers)
-                    workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
-            }
-
-            if (addWorkerButton != null)
-                addWorkerButton.gameObject.SetActive(showWorkers);
-            if (removeWorkerButton != null)
-                removeWorkerButton.gameObject.SetActive(showWorkers);
+            var showWorkers = ShouldShowWorkerChrome();
+            if (workersLabel != null && showWorkers)
+                workersLabel.text = $"{building.Workers}/{building.MaxWorkers}";
 
             // Force layout rebuild so ContentSizeFitter shrinks when workers elements are hidden
             LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)transform);
@@ -289,6 +285,24 @@ namespace TheyWillDescend.UI.Buildings
 
             RefreshInputCounts();
             RefreshWorkerButtons();
+        }
+
+        /// <summary>
+        /// ConstructionHud starts inactive on the prefab; wake it for Buildable/Constructing.
+        /// </summary>
+        private void SyncConstructionHudActive()
+        {
+            if (building == null)
+                return;
+
+            var constructionHud = building.GetComponentInChildren<BuildingConstructionHud>(true);
+            if (constructionHud == null)
+                return;
+
+            var showConstruction = !_suppressed
+                                   && (building.IsBuildable || building.IsConstructing);
+            if (constructionHud.gameObject.activeSelf != showConstruction)
+                constructionHud.gameObject.SetActive(showConstruction);
         }
 
         private void EnsureInputIcons()
@@ -421,6 +435,56 @@ namespace TheyWillDescend.UI.Buildings
             if (removeWorkerButton != null)
                 removeWorkerButton.interactable =
                     building != null && building.Workers > building.MinWorkers;
+        }
+
+        private bool ShouldShowWorkerChrome()
+        {
+            if (_suppressed || building == null || !building.IsBuilt)
+                return false;
+
+            var definition = building.Definition;
+            return definition != null
+                   && !building.UsesHireOffers
+                   && definition.WorkersRequired > 0;
+        }
+
+        private void SyncWorkerChromeVisibility()
+        {
+            EnsureWorkerButtons();
+
+            var showWorkers = ShouldShowWorkerChrome();
+
+            if (workersRoot != null && workersRoot.activeSelf != showWorkers)
+                workersRoot.SetActive(showWorkers);
+            if (workersLabel != null && workersLabel.gameObject.activeSelf != showWorkers)
+                workersLabel.gameObject.SetActive(showWorkers);
+            if (addWorkerButton != null && addWorkerButton.gameObject.activeSelf != showWorkers)
+                addWorkerButton.gameObject.SetActive(showWorkers);
+            if (removeWorkerButton != null && removeWorkerButton.gameObject.activeSelf != showWorkers)
+                removeWorkerButton.gameObject.SetActive(showWorkers);
+        }
+
+        private void EnsureWorkerButtons()
+        {
+            if (building == null)
+                return;
+
+            if (removeWorkerButton != null && addWorkerButton != null)
+                return;
+
+            var buttons = building.GetComponentsInChildren<Button>(true);
+            for (var i = 0; i < buttons.Length; i++)
+            {
+                var button = buttons[i];
+                if (button == null)
+                    continue;
+
+                var name = button.gameObject.name;
+                if (removeWorkerButton == null && name == "BtnRemove")
+                    removeWorkerButton = button;
+                else if (addWorkerButton == null && name == "BtnAdd")
+                    addWorkerButton = button;
+            }
         }
 
         private static GameObject CreateDefaultIcon(Transform parent)

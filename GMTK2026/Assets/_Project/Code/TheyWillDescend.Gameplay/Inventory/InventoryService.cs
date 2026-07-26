@@ -41,9 +41,20 @@ namespace TheyWillDescend.Gameplay.Inventory
             return _definitions.TryGetValue(resourceId, out var def) ? def : null;
         }
 
-        public bool TryAdd(ResourceDefinition definition, int amount = 1)
+        public bool CanAdd(ResourceDefinition definition, int amount = 1)
         {
             if (definition == null || amount <= 0)
+                return false;
+
+            if (!definition.HasTrayCapacityLimit)
+                return true;
+
+            return GetCount(definition) + amount <= definition.TrayCapacity;
+        }
+
+        public bool TryAdd(ResourceDefinition definition, int amount = 1)
+        {
+            if (!CanAdd(definition, amount))
                 return false;
 
             _definitions[definition.Id] = definition;

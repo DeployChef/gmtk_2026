@@ -75,12 +75,21 @@ namespace TheyWillDescend.UI.Buildings
 
             var state = building.SlotState;
             var visible = !_suppressed && IsConstructionVisible(state);
+
+            // Prefab may leave this GO inactive; ensure we can show when Buildable.
+            if (visible && !gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+                return; // OnEnable → Refresh again
+            }
+
             SetHudVisible(visible);
 
             if (!visible)
                 return;
 
-            if (!_iconsBuilt)
+            // Rebuild when becoming buildable even if a prior empty pass marked icons built.
+            if (!_iconsBuilt || _slots.Count == 0)
                 RebuildCostIcons();
 
             if (costContainer != null)
@@ -102,7 +111,7 @@ namespace TheyWillDescend.UI.Buildings
             var definition = building.Definition;
             if (definition == null)
             {
-                _iconsBuilt = true;
+                _iconsBuilt = false;
                 return;
             }
 

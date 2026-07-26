@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Dialogue_ProduceOffer
   m_EditorClassIdentifier: TheyWillDescend.Core::TheyWillDescend.Core.Dialogue.DialogueDefinition
   id: produce_offer
+  defaultPortrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   lines:
   - text: "Produce resources \u2014 food, wood, stone, and more."
     portrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}

@@ -21,7 +21,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         [FormerlySerializedAs("recipe")]
         [SerializeField] private BuildingDefinition definition;
         [SerializeField] private BuildingSlotState initialState = BuildingSlotState.Built;
-        [SerializeField] private int minWorkers;
+        [SerializeField] private int minWorkers; // unused floor; kept for scene serialization
         [SerializeField] private int maxWorkers = 3;
         [SerializeField] private int startingWorkers;
         [Tooltip("AudioCatalog id played when craft completes. Empty = silent.")]
@@ -58,7 +58,8 @@ namespace TheyWillDescend.Gameplay.Buildings
         public bool IsBuildable => _slotState == BuildingSlotState.Buildable;
         public bool IsLocked => _slotState == BuildingSlotState.Locked;
         public int Workers => _workers;
-        public int MinWorkers => minWorkers;
+        /// <summary>Unassign floor. Always 0 — craft simply pauses below WorkersRequired.</summary>
+        public int MinWorkers => 0;
         public int MaxWorkers => maxWorkers;
         /// <summary>Villagers produced by this building this run (start inventory villager is not counted).</summary>
         public int VillagersProduced => _villagersProduced;
@@ -212,21 +213,21 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (IsDisabled)
             {
                 _disabledTimer -= Time.deltaTime;
-
-                if (_producing || _progress > 0f)
+                if (_disabledTimer > 0f)
                 {
-                    _producing = false;
-                    _progress = 0f;
-                    PublishProgress();
+                    // Pause only — keep buffered inputs and craft progress for resume.
+                    if (_producing)
+                    {
+                        _producing = false;
+                        StateChanged?.Invoke();
+                    }
+
+                    return;
                 }
 
-                if (_disabledTimer <= 0f)
-                {
-                    _disabledTimer = 0f;
-                    StateChanged?.Invoke();
-                }
-
-                return;
+                _disabledTimer = 0f;
+                StateChanged?.Invoke();
+                // Fall through to resume production this frame.
             }
 
             if (!CanProduce)
@@ -242,14 +243,44 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return;
             }
 
+            var wasProducing = _producing;
             _producing = true;
-            _progress += Time.deltaTime * GetProductionSpeedMultiplier();
-            PublishProgress();
+            if (!wasProducing)
+                StateChanged?.Invoke();
 
-            if (_progress < definition.ProductionDurationSeconds)
+            if (_progress >= definition.ProductionDurationSeconds)
+            {
+                // Hold at 100% until the output tray has space — do not burn the craft.
+                _progress = definition.ProductionDurationSeconds;
+                PublishProgress();
+                if (!CanDeliverOutput())
+                    return;
+
+                CompleteProduction();
                 return;
+            }
 
-            CompleteProduction();
+            _progress += Time.deltaTime * GetProductionSpeedMultiplier();
+            if (_progress >= definition.ProductionDurationSeconds)
+            {
+                _progress = definition.ProductionDurationSeconds;
+                PublishProgress();
+                if (!CanDeliverOutput())
+                    return;
+
+                CompleteProduction();
+                return;
+            }
+
+            PublishProgress();
+        }
+
+        private bool CanDeliverOutput()
+        {
+            if (definition?.OutputResource == null)
+                return false;
+
+            return _inventory == null || _inventory.CanAdd(definition.OutputResource);
         }
 
         private float GetProductionSpeedMultiplier()
@@ -267,7 +298,7 @@ namespace TheyWillDescend.Gameplay.Buildings
         }
 
         /// <summary>
-        /// Extra workers beyond required: +0.5× each (1 / 1.5 / 2 for 1→2→3 when req=1).
+        /// Extra workers beyond required: +0.75× each (1 / 1.75 / 2.5 for 1→2→3 when req=1).
         /// WorkersRequired 0 (Home) → 1×.
         /// </summary>
         private float GetWorkerSpeedMultiplier()
@@ -280,7 +311,7 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return 1f;
 
             var extra = Mathf.Max(0, _workers - required);
-            return 1f + 0.5f * extra;
+            return 1f + 0.75f * extra;
         }
 
         public void DisableTemporarily(float seconds)
@@ -289,10 +320,14 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return;
 
             _disabledTimer = Mathf.Max(0.01f, seconds);
-            _producing = false;
-            _progress = 0f;
+            // Pause craft; keep progress + stored inputs so production resumes after the fire.
+            if (_producing)
+            {
+                _producing = false;
+                StateChanged?.Invoke();
+            }
+
             PublishProgress();
-            StateChanged?.Invoke();
         }
 
         /// <summary>
@@ -319,7 +354,7 @@ namespace TheyWillDescend.Gameplay.Buildings
                 return;
             }
 
-            _workers = Mathf.Clamp(workers, minWorkers, maxWorkers);
+            _workers = Mathf.Clamp(workers, 0, maxWorkers);
             SetSlotState(BuildingSlotState.Built);
             PublishProgress();
             PublishWorkers();
@@ -415,7 +450,7 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         public bool TryRemoveWorker()
         {
-            if (_slotState != BuildingSlotState.Built || _workers <= minWorkers || _inventory == null)
+            if (_slotState != BuildingSlotState.Built || _workers <= 0 || _inventory == null)
                 return false;
 
             var villager = _inventory.GetDefinition(ResourceIds.Villager);
@@ -427,20 +462,6 @@ namespace TheyWillDescend.Gameplay.Buildings
             }
 
             if (!_inventory.TryAdd(villager))
-                return false;
-
-            _workers--;
-            PublishWorkers();
-            StateChanged?.Invoke();
-            return true;
-        }
-
-        /// <summary>
-        /// Removes one assigned worker permanently (no return to inventory). Used by lightning strikes.
-        /// </summary>
-        public bool TryKillWorker()
-        {
-            if (_slotState != BuildingSlotState.Built || _workers <= 0)
                 return false;
 
             _workers--;
@@ -674,6 +695,21 @@ namespace TheyWillDescend.Gameplay.Buildings
 
         private void CompleteProduction()
         {
+            if (definition.OutputResource == null)
+            {
+                Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
+                return;
+            }
+
+            // Deliver first — if the tray is full, keep craft at 100% and retry next frame.
+            if (_inventory == null || !_inventory.TryAdd(definition.OutputResource))
+            {
+                _progress = definition.ProductionDurationSeconds;
+                _producing = true;
+                PublishProgress();
+                return;
+            }
+
             if (UsesHireOffers)
             {
                 _storedInputs.Clear();
@@ -703,14 +739,7 @@ namespace TheyWillDescend.Gameplay.Buildings
             PublishInput();
             PublishProgress();
             _bus?.Publish(new ResourceProducedEvent(buildingId, definition.OutputResourceId));
-
-            if (definition.OutputResource != null)
-            {
-                _inventory?.TryAdd(definition.OutputResource);
-                PlayProduceSound();
-            }
-            else
-                Debug.LogWarning($"[ProductionBuilding:{buildingId}] Recipe output ResourceDefinition is missing.");
+            PlayProduceSound();
 
             // Re-evaluate after consume / hire step advance (StateChanged after so HUD sees new offer).
             _producing = CanProduce;
