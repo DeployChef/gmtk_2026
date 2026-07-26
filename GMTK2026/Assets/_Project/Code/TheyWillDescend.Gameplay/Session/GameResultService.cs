@@ -49,10 +49,6 @@ namespace TheyWillDescend.Gameplay.Session
             if (_hasResult)
                 return;
 
-            // Mid-run: expire → fail current era + mercy floor, keep playing.
-            if (_timeline.TryAbsorbTimerExpireAsPhaseFail())
-                return;
-
             DeclareLose(GameResultCause.PyramidTimerExpired);
         }
 
