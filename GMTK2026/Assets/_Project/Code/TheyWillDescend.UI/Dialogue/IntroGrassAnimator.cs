@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -10,6 +11,9 @@ namespace TheyWillDescend.UI.Dialogue
     /// </summary>
     public sealed class IntroGrassAnimator : MonoBehaviour
     {
+        /// <summary>Fired when the grass exit animation begins.</summary>
+        public event Action OnExitStarted;
+
         [SerializeField] private RectTransform left;
         [SerializeField] private RectTransform right;
 
@@ -33,7 +37,7 @@ namespace TheyWillDescend.UI.Dialogue
 
         private void Awake()
         {
-            _seed = Random.value * 100f;
+            _seed = UnityEngine.Random.value * 100f;
             RememberHome();
         }
 
@@ -67,6 +71,7 @@ namespace TheyWillDescend.UI.Dialogue
             _drifting = false;
             _exiting = true;
             Show(true);
+            OnExitStarted?.Invoke();
 
             var leftStartPos = left != null ? left.anchoredPosition : _leftHome;
             var rightStartPos = right != null ? right.anchoredPosition : _rightHome;

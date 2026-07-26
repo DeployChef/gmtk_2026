@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using TheyWillDescend.Core;
 using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Dialogue;
@@ -27,6 +28,8 @@ namespace TheyWillDescend.UI.Dialogue
         [SerializeField] private IntroCameraDirector cameraDirector;
         [Tooltip("CanvasGroup on the pyramid HUD canvas. Hidden until the storm beat.")]
         [SerializeField] private CanvasGroup pyramidHudGroup;
+        [Tooltip("CanvasGroup on the Game Title canvas. Faded out when grass starts parting.")]
+        [SerializeField] private CanvasGroup gameTitleGroup;
         [SerializeField] private BottomBarSlabReveal bottomBarReveal;
         [SerializeField] private IntroGrassAnimator introGrass;
         [SerializeField] private IntroPyramidStrikeVfx pyramidStrikeVfx;
@@ -84,6 +87,12 @@ namespace TheyWillDescend.UI.Dialogue
                 SetPyramidHudVisible(false);
                 introGrass?.StartDrift();
 
+                // Подписываемся на событие начала выхода травы, чтобы плавно скрыть GameTitleCanvas
+                if (introGrass != null)
+                {
+                    introGrass.OnExitStarted += FadeOutGameTitle;
+                }
+
                 if (cameraDirector != null)
                 {
                     cameraDirector.SnapToIntroStart();
@@ -134,6 +143,9 @@ namespace TheyWillDescend.UI.Dialogue
             }
             finally
             {
+                if (introGrass != null)
+                    introGrass.OnExitStarted -= FadeOutGameTitle;
+
                 introGrass?.SnapHidden();
                 pyramidStrikeVfx?.Hide();
                 SetBuildingHudsSuppressed(false);
@@ -151,6 +163,30 @@ namespace TheyWillDescend.UI.Dialogue
             bottomBarReveal?.SnapRevealed();
             SetBuildingHudsSuppressed(false);
             SetExtraObjectsVisible(true);
+        }
+
+        /// <summary>
+        /// Called when grass starts its exit animation. Fades out the GameTitle canvas smoothly.
+        /// </summary>
+        private void FadeOutGameTitle()
+        {
+            if (gameTitleGroup == null)
+                return;
+
+            // Отписываемся сразу, чтобы не вызвать повторно
+            if (introGrass != null)
+                introGrass.OnExitStarted -= FadeOutGameTitle;
+
+            DOTween.Kill(gameTitleGroup, false);
+            gameTitleGroup.alpha = 1f;
+            DOTween.To(() => gameTitleGroup.alpha, x => gameTitleGroup.alpha = x, 0f, approachWait)
+                .SetUpdate(true) // unscaled delta time
+                .SetTarget(gameTitleGroup)
+                .OnComplete(() =>
+                {
+                    if (gameTitleGroup != null)
+                        gameTitleGroup.gameObject.SetActive(false);
+                });
         }
 
         private void SetPyramidHudVisible(bool visible)
