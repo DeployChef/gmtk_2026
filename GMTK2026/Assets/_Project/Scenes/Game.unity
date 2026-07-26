@@ -3320,6 +3320,7 @@ MonoBehaviour:
   produceOfferDialogue: {fileID: 11400000, guid: d1a109ef1def003c4d5e6f708192a4b5, type: 2}
   cameraDirector: {fileID: 931857947}
   pyramidHudGroup: {fileID: 210776975}
+  gameTitleGroup: {fileID: 180144428}
   bottomBarReveal: {fileID: 272558962}
   introGrass: {fileID: 696080104}
   pyramidStrikeVfx: {fileID: 1148693986}
