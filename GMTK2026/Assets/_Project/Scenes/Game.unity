@@ -5015,7 +5015,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -584}
-  m_SizeDelta: {x: 838.53, y: 50}
+  m_SizeDelta: {x: 878.26, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &763831230
 MonoBehaviour:
@@ -5037,15 +5037,59 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "The End!\n\nThank you for playing our game!\nThis game was made for the
-    GMTK Game Jam 2026 by team Chef's Games.\n\nCEO / Tech Lead\nVladislav \"Chef\"
-    Titov\n\nFrontend Programmer\nIlia \"Shikaka\" Lepekhin\n\nSound Designer / Composer\nValentine
-    \"lvsth0pe\" Rodyk\n\nUI / UX\nIlya \"codewise\" Tahtay\n\nVisual Artist\nAnastasiya
-    \"nnawsti\" Fedorova\n\nEnvironment Artist\nYan \"Kapkan\" Borka\n\nMade with
-    love by Chef's Games \u2764\uFE0F"
+  m_text: 'The End!
+
+
+    Thank you for playing our game!
+
+    This game was made
+    for the GMTK Game Jam 2026 by team Chef''s Games.
+
+
+    CEO / Tech Lead
+
+    Vladislav
+    "Chef" Titov
+
+
+    Frontend Programmer
+
+    Ilia "Shikaka" Lepekhin
+
+
+    Sound
+    Designer / Composer
+
+    Valentine "lvsth0pe" Rodyk
+
+
+    UI / UX
+
+    Ilya "codewise"
+    Tahtay
+
+
+    Visual Artist
+
+    Anastasiya "nnawsti" Fedorova
+
+
+    Environment
+    Artist
+
+    Yan "Kapkan" Borka
+
+
+    Balance / Game Design
+
+    Timur ""
+
+
+    Made
+    with love by Chef''s Games '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 66955c3a6cdb40248a5e3a5093bb0035, type: 2}
+  m_sharedMaterial: {fileID: -3189764608729764528, guid: 66955c3a6cdb40248a5e3a5093bb0035, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5181,6 +5225,9 @@ MonoBehaviour:
   loseRestartButton: {fileID: 1323016051}
   loseSequence: {fileID: 781170482}
   winSequence: {fileID: 781170483}
+  winCreditsAnimator: {fileID: 763831232}
+  winEndButtons: {fileID: 1922263515}
+  endButtonsFadeDuration: 0.8
 --- !u!4 &781170481
 Transform:
   m_ObjectHideFlags: 0
@@ -6611,7 +6658,7 @@ GameObject:
   - component: {fileID: 1153356295}
   - component: {fileID: 1153356294}
   m_Layer: 5
-  m_Name: Button
+  m_Name: Buttons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12755,6 +12802,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1922263514}
+  - component: {fileID: 1922263515}
   m_Layer: 5
   m_Name: EndButtons
   m_TagString: Untagged
@@ -12783,6 +12831,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1922263515
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922263513}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1947814493
 GameObject:
   m_ObjectHideFlags: 0
