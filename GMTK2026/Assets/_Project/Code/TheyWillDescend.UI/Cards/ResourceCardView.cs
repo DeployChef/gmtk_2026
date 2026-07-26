@@ -20,6 +20,7 @@ namespace TheyWillDescend.UI.Cards
         IBeginDragHandler,
         IDragHandler,
         IEndDragHandler,
+        IPointerDownHandler,
         IPointerEnterHandler,
         IPointerExitHandler
     {
@@ -42,6 +43,11 @@ namespace TheyWillDescend.UI.Cards
         [SerializeField] private float returnHomeDuration = 0.25f;
         [Tooltip("Card transparency when hovering over a building during drag (0=invisible, 1=opaque).")]
         [SerializeField] private float hoverBuildingAlpha = 0.5f;
+        [Header("Click punch")]
+        [SerializeField] private Vector3 clickPunch = new Vector3(0.2f, 0.2f, 0f);
+        [SerializeField] private float clickPunchDuration = 0.28f;
+        [SerializeField] private int clickPunchVibrato = 8;
+        [SerializeField] [Range(0f, 1f)] private float clickPunchElasticity = 0.55f;
 
         private RectTransform _rect;
         private Transform _homeParent;
@@ -57,6 +63,8 @@ namespace TheyWillDescend.UI.Cards
         private Tween _outlineTween;
         private Tween _pulseTween;
         private Tween _colorTween;
+        private Tween _punchTween;
+        private Vector3 _baseScale = Vector3.one;
         private float _outlineAlpha;
 
         public string ResourceId => resourceId;
@@ -82,6 +90,8 @@ namespace TheyWillDescend.UI.Cards
             _canvas = GetComponentInParent<Canvas>();
             if (canvasGroup == null)
                 canvasGroup = GetComponent<CanvasGroup>();
+
+            _baseScale = transform.localScale;
 
             if (outlineImage != null)
             {
@@ -137,6 +147,14 @@ namespace TheyWillDescend.UI.Cards
             ShowOutline(true, true);
         }
 
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (_consumed)
+                return;
+
+            PlayClickPunch();
+        }
+
         public void OnDrag(PointerEventData eventData)
         {
             if (_consumed || _rect == null)
@@ -169,6 +187,7 @@ namespace TheyWillDescend.UI.Cards
 
             _dragging = false;
             ClearHoverVfx();
+            ResetScale();
             var pyramid = ResolvePyramidUnderPointer(eventData);
             var building = pyramid == null ? ResolveBuildingUnderPointer(eventData) : null;
             canvasGroup.blocksRaycasts = true;
@@ -207,6 +226,7 @@ if (accepted)
             {
                 _consumed = true;
                 canvasGroup.blocksRaycasts = false;
+                ResetScale();
                 _audio?.Play(AudioCatalog.Ids.CardDropOk);
 
                 // Instantly hide outline before dissolve
@@ -248,6 +268,7 @@ if (accepted)
         {
             ShowOutline(false);
             _dragging = false;
+            ResetScale();
             canvasGroup.blocksRaycasts = true;
 
             if (_homeTray != null)
@@ -258,6 +279,38 @@ if (accepted)
 
             if (_homeParent != null)
                 transform.SetParent(_homeParent, true);
+        }
+
+        private void PlayClickPunch()
+        {
+            _punchTween?.Kill();
+            transform.localScale = _baseScale;
+
+            if (clickPunch.sqrMagnitude <= 0.0001f || clickPunchDuration <= 0.01f)
+                return;
+
+            _punchTween = DOTween
+                .Punch(
+                    () => transform.localScale,
+                    v => transform.localScale = v,
+                    clickPunch,
+                    clickPunchDuration,
+                    Mathf.Max(1, clickPunchVibrato),
+                    clickPunchElasticity)
+                .SetUpdate(true)
+                .SetTarget(this)
+                .OnKill(() =>
+                {
+                    if (this != null)
+                        transform.localScale = _baseScale;
+                });
+        }
+
+        private void ResetScale()
+        {
+            _punchTween?.Kill();
+            _punchTween = null;
+            transform.localScale = _baseScale;
         }
 
         private void UpdateHoverVfx(PointerEventData eventData)
