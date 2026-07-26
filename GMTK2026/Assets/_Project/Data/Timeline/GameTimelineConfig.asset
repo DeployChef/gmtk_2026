@@ -107,62 +107,81 @@ MonoBehaviour:
       description: Idol craft is 15% slower. Stack workers for speed if you can spare them.
       icon: {fileID: 0}
   - title: Breathing Room
-    tooltip: "A short mercy \u2014 build the Altar, learn blood."
-    durationSeconds: 100
+    tooltip: "Mercy after the idols \u2014 fill the granary. Water and corn for the gods."
+    durationSeconds: 160
     color: {r: 0.45, g: 0.55, b: 0.4, a: 1}
     requirements:
-    - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
-      count: 2
-      secondsReward: 20
-    unlockBuildingIds: 0600000007000000
+    - resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
+      count: 12
+      secondsReward: 7
+    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+      count: 8
+      secondsReward: 7
+    offerCompleteBonusSeconds: 35
+    unlockBuildingIds: 06000000
     productionModifiers:
-    - target: 0
-      resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      buildingId: 0
-      speedPercent: 5
-      displayTitle: Breathing Room
-      description: A short mercy \u2014 all production +5%. Learn the Altar before the end.
-      icon: {fileID: 0}
     - target: 1
-      resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
+      resource: {fileID: 11400000, guid: fbedefdecc9150b4393a4b8019c03fb7, type: 2}
       buildingId: 0
       speedPercent: 10
-      displayTitle: Willing Sacrifice
-      description: Blood rites run 10% faster. Spend villagers wisely.
+      displayTitle: Full Wells
+      description: Water production is 10% faster this era.
       icon: {fileID: 0}
-  - title: Blood and Grain
-    tooltip: Blood and corn together \u2014 feed the gods and the people.
-    durationSeconds: 110
+    - target: 1
+      resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      buildingId: 0
+      speedPercent: 10
+      displayTitle: Lush Timber
+      description: Wood production is 10% faster this era.
+      icon: {fileID: 0}
+  - title: First Blood
+    tooltip: "Raise the Altar \u2014 one blood for the gods. Learn sacrifice."
+    durationSeconds: 90
     color: {r: 0.65, g: 0.15, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
-      count: 3
-      secondsReward: 22
-    - resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
-      count: 8
-      secondsReward: 6
-    unlockBuildingIds: 
-    productionModifiers: []
+      count: 1
+      secondsReward: 50
+    offerCompleteBonusSeconds: 20
+    unlockBuildingIds: 07000000
+    productionModifiers:
+    - target: 1
+      resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
+      buildingId: 0
+      speedPercent: -10
+      displayTitle: Thin Timber
+      description: Wood production is 10% slower this era.
+      icon: {fileID: 0}
   - title: Final Propitiation
     tooltip: "Last era \u2014 gold, idols, and blood. Sacrifice everyone if you must."
-    durationSeconds: 120
+    durationSeconds: 100
     color: {r: 0.15, g: 0.05, b: 0.2, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
-      count: 3
-      secondsReward: 18
+      count: 5
+      secondsReward: 2
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
       count: 3
-      secondsReward: 18
+      secondsReward: 4
     - resource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
-      count: 4
-      secondsReward: 20
+      count: 6
+      secondsReward: 2
+    offerCompleteBonusSeconds: 16
     unlockBuildingIds: 
     productionModifiers:
     - target: 0
       resource: {fileID: 11400000, guid: e986da85e4c8fcc49ab1978fd9190bf1, type: 2}
+      excludeResource: {fileID: 11400000, guid: 90d347826fc6d984fa9c0e1678ee65f9, type: 2}
       buildingId: 0
       speedPercent: -15
       displayTitle: End of Days
-      description: All production 15% slower. Close the last offer with 5\u201315 seconds left \u2014 turn workers into blood if needed.
+      description: All production except Blood is 15% slower. Blood rites stay at full speed.
+      icon: {fileID: 0}
+    - target: 1
+      resource: {fileID: 11400000, guid: 2fd033b8fd3d06e40a8fb824e34c607d, type: 2}
+      excludeResource: {fileID: 0}
+      buildingId: 0
+      speedPercent: -10
+      displayTitle: Scarce Veins
+      description: Gold production is 10% slower this era (stacks with End of Days).
       icon: {fileID: 0}

@@ -10,8 +10,7 @@ using VContainer.Unity;
 namespace TheyWillDescend.Gameplay.Session
 {
     /// <summary>
-    /// Win: last phase completed with offer done. Lose: pyramid timer expired.
-    /// Stub — events + logs only; UI later.
+    /// Win: final-phase offer completed (last required card). Lose: pyramid timer expired.
     /// </summary>
     public sealed class GameResultService : IGameResultService, IStartable, IDisposable
     {
@@ -20,6 +19,7 @@ namespace TheyWillDescend.Gameplay.Session
         private readonly IAudioManager _audio;
 
         private IDisposable _runStartedSub;
+        private IDisposable _offeringSub;
         private IDisposable _phaseCompletedSub;
         private IDisposable _timerExpiredSub;
 
@@ -39,6 +39,7 @@ namespace TheyWillDescend.Gameplay.Session
         public void Start()
         {
             _runStartedSub = _bus.Subscribe<RunStartedEvent>(_ => Clear());
+            _offeringSub = _bus.Subscribe<OfferingSubmittedEvent>(OnOfferingSubmitted);
             _phaseCompletedSub = _bus.Subscribe<PhaseCompletedEvent>(OnPhaseCompleted);
             _timerExpiredSub = _bus.Subscribe<PyramidTimerExpiredEvent>(_ =>
                 DeclareLose(GameResultCause.PyramidTimerExpired));
@@ -53,7 +54,7 @@ namespace TheyWillDescend.Gameplay.Session
             _isVictory = true;
             _timeline.StopRun();
             PlayResultSting(AudioCatalog.Ids.Victory);
-            Debug.Log($"[GameResultService] WIN ({cause}) — stub.");
+            Debug.Log($"[GameResultService] WIN ({cause}).");
             _bus.Publish(new GameWonEvent(cause));
         }
 
@@ -66,7 +67,7 @@ namespace TheyWillDescend.Gameplay.Session
             _isVictory = false;
             _timeline.StopRun();
             PlayResultSting(AudioCatalog.Ids.Defeat);
-            Debug.Log($"[GameResultService] LOSE ({cause}) — stub.");
+            Debug.Log($"[GameResultService] LOSE ({cause}).");
             _bus.Publish(new GameLostEvent(cause));
         }
 
@@ -89,15 +90,33 @@ namespace TheyWillDescend.Gameplay.Session
         public void Dispose()
         {
             _runStartedSub?.Dispose();
+            _offeringSub?.Dispose();
             _phaseCompletedSub?.Dispose();
             _timerExpiredSub?.Dispose();
             _runStartedSub = null;
+            _offeringSub = null;
             _phaseCompletedSub = null;
             _timerExpiredSub = null;
         }
 
+        private void OnOfferingSubmitted(OfferingSubmittedEvent e)
+        {
+            if (_hasResult)
+                return;
+
+            if (_timeline.PhaseCount <= 0 || e.PhaseIndex != _timeline.PhaseCount - 1)
+                return;
+
+            if (!_timeline.IsCurrentOfferComplete)
+                return;
+
+            DeclareWin(GameResultCause.FinalOfferCompleted);
+        }
+
         private void OnPhaseCompleted(PhaseCompletedEvent e)
         {
+            // Fallback if the final phase somehow ends with a complete offer
+            // without going through the last-card path (e.g. future cheats).
             if (_hasResult)
                 return;
 

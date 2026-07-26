@@ -23,9 +23,9 @@
 | 1 | Drought Harvest | средне | 2 | 10..18s | Farm build; corn+water; −25% Water |
 | 2 | Harvest Pressure | сложнее | 3 | 5..12s | Давление corn; рычаг −% Farm |
 | 3 | Obsidian Idols | **на пределе** | 5 | 0..5s | Obsidian+Stone+Wood оффер; −15% Obsidian |
-| 4 | Breathing Room | **легко / передышка** | 2 | 15..30s | Unlock Altar; освоить Blood |
-| 5 | Blood and Grain | средне | 3 | 8..15s | Blood + Corn |
-| 6 | Final Propitiation | **очень сложно** | 5 | 0..5s | Gold + Obsidian + Blood; людей в кровь; landing **5..15с** |
+| 4 | Breathing Room | **легко / передышка** | 2 | 15..30s | Unlock Gold; +10% Water/Wood; много Water+Corn |
+| 5 | First Blood | средне / обучение | 2 | 10..20s | Unlock Altar; 1 Blood |
+| 6 | Final Propitiation | **очень сложно** | 5 | 0..5s | 5 Gold + 3 Obs + 6 Blood; landing **~20с** |
 
 **7 фаз (0..6).** Пик середины = **3**. Передышка = **4**. Финал = **6** (золото + идолы + кровь; все рабочие → алтарь если надо).
 
@@ -56,9 +56,10 @@
 | Phase 0 `unlockBuildingIds` | 0, 1, 2, **3** | Home, Well, Lumber, **Farm** |
 | Phase 1 `unlockBuildingIds` | **4** (StoneCave) | камень |
 | Phase 3 `unlockBuildingIds` | **5** | Obsidian |
-| Phase 4 `unlockBuildingIds` | **6, 7** | Gold + Altar |
+| Phase 4 `unlockBuildingIds` | **6** | Gold only (Altar → P5) |
+| Phase 5 `unlockBuildingIds` | **7** | Altar |
 
-StoneCave = **4** на фазе 1. Obsidian = **5** на фазе 3. Gold + Altar = **6, 7** на фазе 4.
+StoneCave = **4** на фазе 1. Obsidian = **5** на фазе 3. Gold = **6** на фазе 4. Altar = **7** на фазе 5.
 
 CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; для Jump на mid-game нужно будет обновить.
 
@@ -67,10 +68,10 @@ CheatPanel loadouts всё ещё Built 0/1/2 — ок для старта; дл
 - Phase 0: cards Water/Wood **+1**; offer-complete **+6**. Total gain same **12с**.
 - Phase 1: Corn **+11** / Water **+5**; complete **+8**. Total same **78с**.
 - Phase 2: Corn **+7**; complete **+10**. Total same **80с**.
-- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **6 Wood @ +12** (= **107с**); complete **+55** → ideal end ~**80с** (`38 − 120 + 162`). Cheat Jump P4: timer **60с** (можно подтянуть после плейтеста).
-- Phase 4 **Breathing Room**: unlock **Gold (6) + Altar (7)**; **2 Blood** @ +20; +5% All / +10% Blood. Cheat Jump: timer **60с**.
-- Phase 5 **Blood and Grain**: **3 Blood** @ +22 + **8 Corn** @ +6. (loadout TBD)
-- Phase 6 **Final**: **3 Gold** @ +18 + **3 Obsidian** @ +18 + **4 Blood** @ +20; −15% All; landing **5..15с**; людей → алтарь.
+- Phase 3: cards **3 Obs @ +5** / **4 Stone @ +5** / **6 Wood @ +12** (= **107с**); complete **+55** → ideal end ~**80с** (`38 − 120 + 162`). Cheat Jump P4: timer **75с**.
+- Phase 4 **Breathing Room**: start **75с**, duration **160с**; offer **12 Water @ +7** + **8 Corn @ +7**; complete **+35** (= **175с** gain) → ideal end **90с** (`75 − 160 + 175`). **+10% Water / +10% Wood**. Gold build **8 Corn + 6 Stone**, craft **30с**. 6th hire = **3 Gold**.
+- Phase 5 **First Blood**: start **90с**, duration **90с**; …; **−10% Wood**. Altar **3 Stone + 3 Wood + 3 Gold + 2 Obs**; Blood **7.333с**. 7th hire = **6 Gold**.
+- Phase 6 **Final**: start **70с**, duration **100с**; offer **5 Gold @ +2** + **3 Obs @ +4** + **6 Blood @ +2**; complete **+16** (= **50с** gain) → ideal end **20с** (`70 − 100 + 50`). **−15% All except Blood** + **−10% Gold**. Blood **7.333с**.
 
 
 _(сюда твои мысли после прогона)_
@@ -101,9 +102,9 @@ _(сюда твои мысли после прогона)_
 | 1 | **−25% Water** |
 | 2 | **−20% Corn** |
 | 3 | **−15% Obsidian** (пик) |
-| 4 | **+5% All** + **+10% Blood** (передышка) |
-| 5 | нет |
-| 6 | **−15% All** (финал) |
+| 4 | **+10% Water** + **+10% Wood** (передышка) |
+| 5 | нет / **−10% Wood** |
+| 6 | **−15% All except Blood** + **−10% Gold** (финал) |
 
 Подробные title/description правятся в Inspector на каждом модификаторе.
 
@@ -190,7 +191,7 @@ Landing = StartTimer + OfferGain − ElapsedWhenLastCard
 1. ~~**unlock Stone / Obsidian / Gold / Altar**~~ — P1=4, P3=5, P4=6+7.
 2. Loadouts фаз **4–6** после плейтеста P3.
 3. ~~**Workers не ускоряют**~~ — сделано (**1 / 1.75 / 2.5**).
-4. Hire-офферы 6-го+ жителя (сейчас clamp на **2 Obsidian + 2 Corn**).
+4. Hire: 2nd 3 Wood → 3rd 4 Corn → 4th 3 Stone → 5th 2 Obs+2 Corn → 6th 3 Gold → **7th 6 Gold** (clamp).
 
 ---
 

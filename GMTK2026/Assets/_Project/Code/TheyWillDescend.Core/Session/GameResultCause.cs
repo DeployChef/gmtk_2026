@@ -4,6 +4,7 @@ namespace TheyWillDescend.Core.Session
     {
         PyramidTimerExpired,
         AllPhasesCompleted,
+        FinalOfferCompleted,
         Cheat
     }
 }

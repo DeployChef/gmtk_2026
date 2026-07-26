@@ -19,6 +19,8 @@ namespace TheyWillDescend.Core.Timeline
     {
         [SerializeField] private PhaseModifierTarget target = PhaseModifierTarget.AllOutputs;
         [SerializeField] private ResourceDefinition resource;
+        [Tooltip("For AllOutputs only: skip this output (e.g. Blood on the finale).")]
+        [SerializeField] private ResourceDefinition excludeResource;
         [SerializeField] private int buildingId;
         [Tooltip("Speed delta in percent. −20 = slower, +10 = faster.")]
         [SerializeField] private float speedPercent;
@@ -29,6 +31,7 @@ namespace TheyWillDescend.Core.Timeline
 
         public PhaseModifierTarget Target => target;
         public ResourceDefinition Resource => resource;
+        public ResourceDefinition ExcludeResource => excludeResource;
         public int BuildingId => buildingId;
         public float SpeedPercent => speedPercent;
         public Sprite IconOverride => icon;
@@ -59,6 +62,8 @@ namespace TheyWillDescend.Core.Timeline
                     $"{pct} {resource.DisplayName}",
                 PhaseModifierTarget.BuildingId =>
                     $"{pct} building #{buildingId}",
+                _ when excludeResource != null =>
+                    $"{pct} all except {excludeResource.DisplayName}",
                 _ => $"{pct} all production",
             };
         }
@@ -77,6 +82,8 @@ namespace TheyWillDescend.Core.Timeline
                     $"{resource.DisplayName} production is {abs:0.#}% {verb} this era.",
                 PhaseModifierTarget.BuildingId =>
                     $"Building #{buildingId} produces {abs:0.#}% {verb} this era.",
+                _ when excludeResource != null =>
+                    $"All production except {excludeResource.DisplayName} is {abs:0.#}% {verb} this era.",
                 _ =>
                     $"All production is {abs:0.#}% {verb} this era.",
             };
@@ -86,7 +93,10 @@ namespace TheyWillDescend.Core.Timeline
         {
             return target switch
             {
-                PhaseModifierTarget.AllOutputs => true,
+                PhaseModifierTarget.AllOutputs =>
+                    excludeResource == null
+                    || string.IsNullOrEmpty(outputResourceId)
+                    || !string.Equals(excludeResource.Id, outputResourceId, StringComparison.Ordinal),
                 PhaseModifierTarget.Resource =>
                     resource != null
                     && !string.IsNullOrEmpty(outputResourceId)

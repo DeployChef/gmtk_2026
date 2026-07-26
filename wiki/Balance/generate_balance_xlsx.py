@@ -22,8 +22,10 @@ BUILDINGS = [
     (1, "Well", True, 0, "3 Corn + 3 Wood", 3, "—", "Water", 3, 1, 3),
     (2, "Lumber", True, 0, "4 Corn + 2 Stone", 3, "—", "Wood", 3, 1, 3),
     (3, "Farm", False, 0, "3 Wood + 2 Water", 6, "1 Wood + 1 Water", "Corn", 3, 1, 3),
-    (4, "Altar", False, None, "5 Stone + 3 Wood + 2 Obsidian", 6, "1 Villager", "Blood", 3, 1, 1),
-    (5, "Obsidian", False, 1, "2 Stone + 4 Wood", 5, "1 Corn + 1 Wood", "Obsidian", 3, 1, 3),
+    (4, "StoneCave", False, 1, "5 Wood + 4 Corn", 5, "2 Wood", "Stone", 4, 1, 3),
+    (5, "Obsidian", False, 3, "2 Stone + 4 Wood", 5, "1 Water + 2 Stone", "Obsidian", 7, 1, 3),
+    (6, "GoldMine", False, 4, "8 Corn + 6 Stone", 3, "—", "Gold", 30, 1, 3),
+    (7, "Altar", False, 5, "3 Stone + 3 Wood + 3 Gold + 2 Obs", 4, "1 Villager", "Blood", 7.333, 0, 0),
 ]
 
 # Target feel: 0..2 ramp → 3 peak → 4 breather → 5 blood+food → 6 final
@@ -33,8 +35,8 @@ DIFFICULTY = {
     1: dict(label="средне", score=2, slack="10..18s", intent="новый ресурс + лёгкий выбор работ"),
     2: dict(label="сложнее", score=3, slack="5..12s", intent="давление corn; можно −% Farm"),
     3: dict(label="на пределе", score=5, slack="0..5s", intent="Obsidian+Stone+Wood оффер; −15% Obsidian"),
-    4: dict(label="легко / передышка", score=2, slack="15..30s", intent="unlock Altar; освоить Blood"),
-    5: dict(label="средне", score=3, slack="8..15s", intent="Blood + Corn"),
+    4: dict(label="легко / передышка", score=2, slack="15..30s", intent="unlock Gold; +10% Water/Wood; 12Water+8Corn → land 90s"),
+    5: dict(label="средне / обучение", score=2, slack="10..20s", intent="unlock Altar; 1 Blood"),
     6: dict(label="очень сложно", score=5, slack="0..5s", intent="Gold+Obsidian+Blood; людей в кровь; landing 5..15"),
 }
 
@@ -44,40 +46,39 @@ MODIFIER_DRAFT = {
     1: [("Water", -25, "Drought")],
     2: [("Corn", -20, "Harvest Pressure")],
     3: [("Obsidian", -15, "пик фазы")],
-    4: [("All", +5, "передышка"), ("Blood", +10, "Altar soft")],
-    5: [],
-    6: [("All", -15, "финал")],
+    4: [("Water", +10, "передышка"), ("Wood", +10, "передышка")],
+    5: [("Wood", -10, "First Blood")],
+    6: [("All", -15, "финал"), ("Gold", -10, "Scarce Veins")],
 }
 
 PHASES = [
-    (0, "Dawn Offering", 50, [("Water", 3, 2), ("Wood", 3, 2)], [0, 1, 2, 3], "Tutorial"),
-    (1, "Drought Harvest", 90, [("Corn", 5, 12), ("Water", 3, 6)], [4], "Stone unlock"),
-    (2, "Harvest Pressure", 90, [("Corn", 10, 8)], [], "Farm online"),
-    (3, "Obsidian Idols", 100, [("Obsidian", 4, 18)], [5], "Peak — Obsidian unlock"),
-    (4, "Breathing Room", 100, [("Blood", 2, 20)], [6, 7], "Gold + Altar unlock / soft"),
-    (5, "Blood and Grain", 110, [("Blood", 3, 22), ("Corn", 8, 6)], [], "Blood + food"),
-    (6, "Final Propitiation", 120, [("Gold", 3, 18), ("Obsidian", 3, 18), ("Blood", 4, 20)], [], "TARGET remaining 5-15s"),
+    (0, "Dawn Offering", 50, [("Water", 3, 1), ("Wood", 3, 1)], [0, 1, 2, 3], "Tutorial"),
+    (1, "Drought Harvest", 90, [("Corn", 5, 11), ("Water", 3, 5)], [4], "Stone unlock"),
+    (2, "Harvest Pressure", 90, [("Corn", 10, 7)], [], "Farm online"),
+    (3, "Obsidian Idols", 120, [("Obsidian", 3, 5), ("Stone", 4, 5), ("Wood", 6, 12)], [5], "Peak — Obsidian unlock"),
+    (4, "Breathing Room", 160, [("Water", 12, 7), ("Corn", 8, 7)], [6], "Gold unlock / soft → land ~90s"),
+    (5, "First Blood", 90, [("Blood", 1, 50)], [7], "Altar unlock; −10% Wood → land ~70s"),
+    (6, "Final Propitiation", 100, [("Gold", 5, 2), ("Obsidian", 3, 4), ("Blood", 6, 2)], [], "−15% All −10% Gold → land ~20s"),
 ]
 
 CHEAT_LOADOUTS = {
     0: {"Villager": 1, "built": "Home,Well,Lumber"},
-    1: {"Villager": 2, "Water": 3, "Wood": 4, "built": "Home,Well,Lumber"},
-    2: {"Villager": 2, "Water": 3, "Wood": 2, "built": "Home,Well,Lumber,Farm,Stone"},
-    3: {"Villager": 3, "Water": 1, "Wood": 2, "Corn": 1, "built": "Home,Well,Lumber,Farm,Stone"},
-    4: {"Villager": 3, "built": "Home,Well,Lumber,Farm,Stone"},
-    5: {"Villager": 4, "built": "Home,Well,Lumber,Farm,Stone"},
-    6: {"Villager": 5, "built": "Home,Well,Lumber,Farm,Stone"},
+    1: {"Villager": 2, "Water": 3, "Wood": 4, "built": "Home,Well,Lumber", "timer": 61},
+    2: {"Villager": 2, "Water": 3, "Wood": 2, "built": "Home,Well,Lumber,Farm,Stone", "timer": 42},
+    3: {"Villager": 3, "built": "Home,Well,Lumber,Farm,Stone", "timer": 38},
+    4: {"Villager": 5, "Wood": 2, "Corn": 1, "Stone": 3, "built": "Home,Well,Lumber,Farm,Stone,Obsidian", "timer": 75},
+    5: {"Villager": 6, "Water": 6, "Wood": 2, "Corn": 2, "Obsidian": 2, "Stone": 2, "Gold": 2, "built": "Home,Well,Lumber,Farm,Stone,Obsidian,Gold", "timer": 90},
+    6: {"Villager": 6, "built": "Home,Well,Lumber,Farm,Stone,Obsidian,Gold,Altar", "timer": 70},
 }
 
 VILLAGER_OFFERS = [
     (1, "start free", "—", 0),
-    (2, "2 Water", "2×Well", 6),
-    (3, "3 Corn + 2 Water", "Farm+Well", 15),
-    (4, "4 Corn + 2 Wood", "Farm+Lumber", 18),
-    (5, "2 Stone + 3 Wood + 2 Corn", "??+Lumber+Farm", 24),
-    (6, "1 Obsidian + 4 Corn", "Obsidian+Farm", 21),
-    (7, "2 Obsidian + 2 Blood?", "late game", 30),
-    (8, "3 Blood", "Altar sacrifice tradeoff", 27),
+    (2, "3 Wood", "Lumber", 9),
+    (3, "4 Corn", "Farm", 12),
+    (4, "3 Stone", "Stone", 12),
+    (5, "2 Obsidian + 2 Corn", "Obsidian+Farm", 20),
+    (6, "3 Gold", "GoldMine", 90),
+    (7, "6 Gold", "GoldMine", 180),
 ]
 
 HEADER_FILL = PatternFill("solid", fgColor="1F4E79")
