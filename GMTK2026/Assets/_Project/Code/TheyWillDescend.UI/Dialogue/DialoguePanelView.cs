@@ -14,13 +14,21 @@ namespace TheyWillDescend.UI.Dialogue
 {
     /// <summary>
     /// Classic dialogue box: portrait + typewriter text. Advance via click or Space.
-    /// While playing: gameplay time is paused; new Play calls are ignored.
+    /// Slides up from below on start, slides down on end (unscaled time — works while paused).
     /// </summary>
     public sealed class DialoguePanelView : MonoBehaviour, IDialogueService
     {
         private static readonly object PauseKey = new();
 
+        private enum SlideMode
+        {
+            None,
+            In,
+            Out
+        }
+
         [SerializeField] private CanvasGroup panelGroup;
+        [SerializeField] private RectTransform slideRoot;
         [SerializeField] private Image portraitImage;
         [Tooltip("Fallback when a dialogue line has no portrait (same as Intro: DialogMan).")]
         [SerializeField] private Sprite defaultPortrait;
@@ -30,6 +38,12 @@ namespace TheyWillDescend.UI.Dialogue
         [SerializeField] private float charsPerSecond = 40f;
         [SerializeField] private string typeSoundId = AudioCatalog.Ids.Dialog;
         [SerializeField] [Range(0f, 0.5f)] private float typePitchRandom = 0.2f;
+        [Header("Slide")]
+        [SerializeField] private float slideDuration = 0.35f;
+        [Tooltip("How far below the resting position the panel starts/ends (canvas units).")]
+        [SerializeField] private float slideDistance = 1200f;
+        [SerializeField] private AnimationCurve slideInCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
+        [SerializeField] private AnimationCurve slideOutCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
         private IGameEventBus _bus;
         private IGameplayTimePause _timePause;
@@ -41,6 +55,15 @@ namespace TheyWillDescend.UI.Dialogue
         private int _visibleChars;
         private float _charAccumulator;
         private bool _lineComplete;
+        private bool _contentActive;
+        private bool _closing;
+        private Vector2 _shownPos;
+        private SlideMode _slideMode;
+        private float _slideElapsed;
+        private Vector2 _slideFrom;
+        private Vector2 _slideTo;
+        private DialogueDefinition _pendingEndDialogue;
+        private Action _pendingEndCallback;
 
         public bool IsPlaying { get; private set; }
 
@@ -54,12 +77,26 @@ namespace TheyWillDescend.UI.Dialogue
 
         private void Awake()
         {
+            if (slideRoot == null)
+                slideRoot = transform as RectTransform;
+
+            if (slideRoot != null)
+                _shownPos = slideRoot.anchoredPosition;
+
             if (advanceButton != null)
                 advanceButton.onClick.AddListener(OnAdvancePressed);
 
+            SnapHidden();
             SetVisible(false);
             if (bodyText != null)
                 bodyText.text = string.Empty;
+        }
+
+        private void OnDisable()
+        {
+            // Avoid baking the off-screen pose into the scene when leaving Play Mode.
+            if (!Application.isPlaying && slideRoot != null)
+                slideRoot.anchoredPosition = _shownPos;
         }
 
         private void OnDestroy()
@@ -68,12 +105,14 @@ namespace TheyWillDescend.UI.Dialogue
                 advanceButton.onClick.RemoveListener(OnAdvancePressed);
 
             if (IsPlaying)
-                ForceStopInternal();
+                ForceStopInternal(invokeCallback: false, publishEnded: false);
         }
 
         private void Update()
         {
-            if (!IsPlaying)
+            TickSlide();
+
+            if (!IsPlaying || !_contentActive || _closing)
                 return;
 
             if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
@@ -96,17 +135,19 @@ namespace TheyWillDescend.UI.Dialogue
             _current = dialogue;
             _onComplete = onComplete;
             _lineIndex = 0;
+            _closing = false;
+            _contentActive = false;
             IsPlaying = true;
 
             _timePause?.Acquire(PauseKey);
-            SetVisible(true);
             ShowLine(0);
+            BeginSlideIn();
             return true;
         }
 
         private void OnAdvancePressed()
         {
-            if (!IsPlaying)
+            if (!IsPlaying || !_contentActive || _closing)
                 return;
 
             if (!_lineComplete)
@@ -118,7 +159,7 @@ namespace TheyWillDescend.UI.Dialogue
             var next = _lineIndex + 1;
             if (next >= _current.Lines.Length)
             {
-                CompleteDialogue();
+                BeginClose();
                 return;
             }
 
@@ -197,22 +238,104 @@ namespace TheyWillDescend.UI.Dialogue
                 bodyText.text = _lineText;
         }
 
-        private void CompleteDialogue()
+        private void BeginSlideIn()
         {
-            var dialogue = _current;
-            var callback = _onComplete;
-            ForceStopInternal();
+            if (slideRoot == null)
+            {
+                SetVisible(true);
+                _contentActive = true;
+                return;
+            }
 
+            CacheShownPos();
+            SnapHidden();
+            SetVisible(true);
+            StartSlide(GetHiddenPos(), _shownPos, SlideMode.In);
+        }
+
+        private void BeginClose()
+        {
+            if (_closing)
+                return;
+
+            _closing = true;
+            _contentActive = false;
+            _pendingEndDialogue = _current;
+            _pendingEndCallback = _onComplete;
+
+            if (slideRoot == null)
+            {
+                FinishClose(_pendingEndDialogue, _pendingEndCallback);
+                return;
+            }
+
+            CacheShownPos();
+            StartSlide(slideRoot.anchoredPosition, GetHiddenPos(), SlideMode.Out);
+        }
+
+        private void StartSlide(Vector2 from, Vector2 to, SlideMode mode)
+        {
+            _slideMode = mode;
+            _slideElapsed = 0f;
+            _slideFrom = from;
+            _slideTo = to;
+            if (slideRoot != null)
+                slideRoot.anchoredPosition = from;
+        }
+
+        private void TickSlide()
+        {
+            if (_slideMode == SlideMode.None || slideRoot == null)
+                return;
+
+            var duration = Mathf.Max(0.01f, slideDuration);
+            _slideElapsed += Time.unscaledDeltaTime;
+            var t = Mathf.Clamp01(_slideElapsed / duration);
+            var curve = _slideMode == SlideMode.In ? slideInCurve : slideOutCurve;
+            var eased = curve != null && curve.length > 0 ? Mathf.Clamp01(curve.Evaluate(t)) : t;
+            slideRoot.anchoredPosition = Vector2.LerpUnclamped(_slideFrom, _slideTo, eased);
+
+            if (t < 1f)
+                return;
+
+            slideRoot.anchoredPosition = _slideTo;
+            var finished = _slideMode;
+            _slideMode = SlideMode.None;
+
+            if (finished == SlideMode.In)
+            {
+                if (IsPlaying && !_closing)
+                    _contentActive = true;
+                return;
+            }
+
+            FinishClose(_pendingEndDialogue, _pendingEndCallback);
+        }
+
+        private void FinishClose(DialogueDefinition dialogue, Action callback)
+        {
+            _pendingEndDialogue = null;
+            _pendingEndCallback = null;
+            ForceStopInternal(invokeCallback: false, publishEnded: false);
             callback?.Invoke();
             if (dialogue != null)
                 _bus?.Publish(new DialogueEndedEvent(dialogue));
         }
 
-        private void ForceStopInternal()
+        private void ForceStopInternal(bool invokeCallback, bool publishEnded)
         {
+            _slideMode = SlideMode.None;
+
+            var dialogue = _current;
+            var callback = _onComplete;
+
             IsPlaying = false;
+            _closing = false;
+            _contentActive = false;
             _current = null;
             _onComplete = null;
+            _pendingEndDialogue = null;
+            _pendingEndCallback = null;
             _lineText = string.Empty;
             _lineIndex = 0;
             _visibleChars = 0;
@@ -222,8 +345,37 @@ namespace TheyWillDescend.UI.Dialogue
             if (bodyText != null)
                 bodyText.text = string.Empty;
 
+            SnapHidden();
             SetVisible(false);
             _timePause?.Release(PauseKey);
+
+            if (invokeCallback)
+                callback?.Invoke();
+            if (publishEnded && dialogue != null)
+                _bus?.Publish(new DialogueEndedEvent(dialogue));
+        }
+
+        private void CacheShownPos()
+        {
+            if (slideRoot == null)
+                return;
+
+            // Keep the designed resting Y; refresh X in case layout moved.
+            _shownPos = new Vector2(slideRoot.anchoredPosition.x, _shownPos.y);
+        }
+
+        private Vector2 GetHiddenPos()
+        {
+            var distance = Mathf.Max(200f, slideDistance);
+            return new Vector2(_shownPos.x, _shownPos.y - distance);
+        }
+
+        private void SnapHidden()
+        {
+            if (slideRoot == null)
+                return;
+
+            slideRoot.anchoredPosition = GetHiddenPos();
         }
 
         private void SetVisible(bool visible)

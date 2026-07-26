@@ -59,7 +59,7 @@ namespace TheyWillDescend.UI.Timeline
             if (speed <= 0.0001f)
                 return;
 
-            var delta = speed * Time.deltaTime;
+            var delta = speed * Time.unscaledDeltaTime;
             if (clockwise)
                 delta = -delta;
 

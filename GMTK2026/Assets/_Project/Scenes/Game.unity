@@ -7579,7 +7579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -1080}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1377513036
@@ -7595,7 +7595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.34901962}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -7689,6 +7689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Dialogue.DialoguePanelView
   panelGroup: {fileID: 1377513039}
+  slideRoot: {fileID: 0}
   portraitImage: {fileID: 1012037062}
   defaultPortrait: {fileID: -4451315519708527431, guid: 9ab23bf8659655745b73bdd7fd4dd389, type: 3}
   bodyText: {fileID: 1205780643}
@@ -7696,6 +7697,9 @@ MonoBehaviour:
   charsPerSecond: 40
   typeSoundId: DIALOG
   typePitchRandom: 0.2
+  slideDuration: 0.35
+  slideInEase: 9
+  slideOutEase: 8
 --- !u!1 &1393513868
 GameObject:
   m_ObjectHideFlags: 0
