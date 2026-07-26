@@ -85,7 +85,7 @@ MonoBehaviour:
       icon: {fileID: 0}
   - title: Obsidian Idols
     tooltip: Craft idols for the temple steps.
-    durationSeconds: 150
+    durationSeconds: 162
     color: {r: 0.35, g: 0.2, b: 0.55, a: 1}
     requirements:
     - resource: {fileID: 11400000, guid: 28e1e4bd31b108541afa5410f7d79a32, type: 2}
@@ -95,7 +95,7 @@ MonoBehaviour:
       count: 4
       secondsReward: 5
     - resource: {fileID: 11400000, guid: 7f5b79b4375b6c540a32d3fa27f8175e, type: 2}
-      count: 8
+      count: 7
       secondsReward: 12
     offerCompleteBonusSeconds: 65
     unlockBuildingIds: 05000000

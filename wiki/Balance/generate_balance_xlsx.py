@@ -25,7 +25,7 @@ BUILDINGS = [
     (4, "StoneCave", False, 1, "5 Wood + 4 Corn", 5, "2 Wood", "Stone", 4, 1, 3),
     (5, "Obsidian", False, 3, "2 Stone + 4 Wood", 5, "1 Water + 2 Stone", "Obsidian", 7, 1, 3),
     (6, "GoldMine", False, 4, "8 Corn + 6 Stone", 3, "—", "Gold", 30, 1, 3),
-    (7, "Altar", False, 5, "3 Stone + 3 Wood + 3 Gold + 2 Obs", 4, "1 Villager", "Blood", 7.333, 0, 0),
+    (7, "Altar", False, 5, "3 Stone + 3 Wood + 3 Gold + 2 Obs", 4, "1 Villager", "Blood", 6, 0, 0),
 ]
 
 # Target feel: 0..2 ramp → 3 peak → 4 breather → 5 blood+food → 6 final
@@ -55,7 +55,7 @@ PHASES = [
     (0, "Dawn Offering", 60, [("Water", 3, 1), ("Wood", 3, 1)], [0, 1, 2, 3], "Tutorial"),
     (1, "Drought Harvest", 100, [("Corn", 5, 11), ("Water", 3, 5)], [4], "Stone unlock"),
     (2, "Harvest Pressure", 100, [("Corn", 10, 7)], [], "Farm online"),
-    (3, "Obsidian Idols", 150, [("Obsidian", 3, 5), ("Stone", 4, 5), ("Wood", 8, 12)], [5], "Peak — Obsidian unlock"),
+    (3, "Obsidian Idols", 162, [("Obsidian", 3, 5), ("Stone", 4, 5), ("Wood", 7, 12)], [5], "Peak — Obsidian unlock"),
     (4, "Breathing Room", 170, [("Water", 12, 7), ("Corn", 8, 7)], [6], "Gold unlock / soft → land ~90s"),
     (5, "First Blood", 100, [("Blood", 1, 50)], [7], "Altar unlock; −10% Wood → land ~70s"),
     (6, "Final Propitiation", 110, [("Gold", 5, 2), ("Obsidian", 3, 4), ("Blood", 6, 2)], [], "−15% All −10% Gold → land ~20s"),
