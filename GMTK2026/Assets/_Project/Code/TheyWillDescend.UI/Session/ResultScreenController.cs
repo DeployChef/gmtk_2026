@@ -70,7 +70,7 @@ namespace TheyWillDescend.UI.Session
                 loseRestartButton.onClick.AddListener(() =>
                 {
                     _audio?.Stop(AudioCatalog.Ids.Defeat);
-                    director.RestartAsync();
+                    director.SoftRestartToFirstPhaseAsync().Forget();
                 });
 
             _wonSub = _bus.Subscribe<GameWonEvent>(OnWon);
@@ -160,6 +160,28 @@ namespace TheyWillDescend.UI.Session
             }
 
             Show(loseCanvas);
+        }
+
+        public void ResetPresentation()
+        {
+            Hide(winCanvas);
+            Hide(loseCanvas);
+            HideEndButtonsImmediate();
+            _endButtonsTween?.Kill();
+
+            if (winCreditsAnimator != null)
+            {
+                winCreditsAnimator.ResetTrigger(MoveTrigger);
+                winCreditsAnimator.Play("Text", 0, 0f);
+            }
+
+            // Runtime blackouts spawned by win/lose sequences.
+            for (var i = transform.childCount - 1; i >= 0; i--)
+            {
+                var child = transform.GetChild(i);
+                if (child.name is "WinBlackout" or "LoseBlackout")
+                    UnityEngine.Object.Destroy(child.gameObject);
+            }
         }
 
         private async UniTask ShowWinWithCredits()

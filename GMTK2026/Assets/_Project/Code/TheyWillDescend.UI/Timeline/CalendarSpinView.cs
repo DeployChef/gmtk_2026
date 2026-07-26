@@ -8,8 +8,8 @@ using VContainer;
 namespace TheyWillDescend.UI.Timeline
 {
     /// <summary>
-    /// Calendar disc: on each era start, bursts up then eases down to a steady cruise spin
-    /// in the same direction (never reverses).
+    /// TopBar calendar disc: on each era start, bursts up then eases down to a steady cruise spin
+    /// in the same direction (never reverses). Script-driven only — no Animator.
     /// </summary>
     public sealed class CalendarSpinView : MonoBehaviour
     {
@@ -49,6 +49,9 @@ namespace TheyWillDescend.UI.Timeline
             // Kill any leftover DORotate tweens fighting this spin.
             if (target != null)
                 DOTween.Kill(target, complete: false);
+
+            // Cruise until Construct / first PhaseStarted fires the era burst.
+            _angularSpeed = Mathf.Max(0.01f, cruiseSpeed);
         }
 
         private void Update()
@@ -88,6 +91,7 @@ namespace TheyWillDescend.UI.Timeline
         {
             _victoryOverride = false;
             _angularSpeed = Mathf.Max(0.01f, cruiseSpeed);
+            OnEraStarted();
         }
 
         private void OnEraStarted()

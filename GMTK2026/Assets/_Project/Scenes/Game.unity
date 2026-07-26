@@ -5274,7 +5274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Session.WinSequenceDriver
   pyramidTimerHud: {fileID: 943604594}
-  calendarSpin: {fileID: 1231949187}
+  calendarSpin: {fileID: 1448315529}
   lostStepDelay: 0.4
   lostHoldOn42: 0.3
   accelerateDuration: 1.6
@@ -7560,7 +7560,6 @@ GameObject:
   - component: {fileID: 1231949186}
   - component: {fileID: 1231949189}
   - component: {fileID: 1231949188}
-  - component: {fileID: 1231949187}
   - component: {fileID: 1231949190}
   m_Layer: 5
   m_Name: CalendarImage
@@ -7588,26 +7587,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1231949187
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1231949185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79ea5e57e8eb59d438edebeae8087d7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: TheyWillDescend.UI::TheyWillDescend.UI.Timeline.CalendarSpinView
-  target: {fileID: 1231949186}
-  cruiseSpeed: 10
-  burstSpeed: 320
-  spinUpDuration: 0.2
-  settleDuration: 2.5
-  spinUpEase: 6
-  settleEase: 9
-  clockwise: 1
 --- !u!114 &1231949188
 MonoBehaviour:
   m_ObjectHideFlags: 0

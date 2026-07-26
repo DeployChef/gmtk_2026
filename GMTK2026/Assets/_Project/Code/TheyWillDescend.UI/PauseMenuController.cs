@@ -128,11 +128,11 @@ namespace TheyWillDescend.UI
             try
             {
                 if (_director != null)
-                    await _director.RestartAsync();
+                    await _director.SoftRestartToFirstPhaseAsync();
             }
             catch (Exception e)
             {
-                Debug.LogError($"[PauseMenuController] Restart failed: {e}");
+                Debug.LogError($"[PauseMenuController] Soft restart failed: {e}");
             }
             finally
             {
