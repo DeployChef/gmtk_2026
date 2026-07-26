@@ -246,7 +246,10 @@ namespace TheyWillDescend.Gameplay.Session
             var complete = IsCurrentOfferComplete;
 
             if (!complete)
+            {
                 _bus.Publish(new PhaseFailedEvent(index));
+                ApplyFailMercy();
+            }
 
             _bus.Publish(new PhaseCompletedEvent(index, complete));
 
@@ -262,6 +265,40 @@ namespace TheyWillDescend.Gameplay.Session
             }
 
             EnterPhase(next, applyUnlocks: true);
+        }
+
+        /// <inheritdoc />
+        public bool TryAbsorbTimerExpireAsPhaseFail()
+        {
+            if (!_running || _runFinished)
+                return false;
+
+            if (PhaseCount <= 0 || CurrentPhaseIndex >= PhaseCount - 1)
+                return false;
+
+            Debug.Log(
+                $"[TimelineService] Timer expired on phase {CurrentPhaseIndex} — absorb as offer fail + mercy.");
+            EndCurrentPhaseAndAdvance();
+            return true;
+        }
+
+        private void ApplyFailMercy()
+        {
+            if (_config == null || _pyramidTimer == null)
+                return;
+
+            var floor = _config.FailMercyFloorSeconds;
+            if (floor <= 0f)
+                return;
+
+            var remaining = _pyramidTimer.RemainingSeconds;
+            if (remaining >= floor)
+                return;
+
+            var add = floor - remaining;
+            _pyramidTimer.AddSeconds(add);
+            Debug.Log(
+                $"[TimelineService] Fail mercy +{add:0.#}s → floor {floor:0.#}s (was {remaining:0.#}s).");
         }
 
         private void EnterPhase(int index, bool applyUnlocks)

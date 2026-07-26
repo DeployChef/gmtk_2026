@@ -41,8 +41,19 @@ namespace TheyWillDescend.Gameplay.Session
             _runStartedSub = _bus.Subscribe<RunStartedEvent>(_ => Clear());
             _offeringSub = _bus.Subscribe<OfferingSubmittedEvent>(OnOfferingSubmitted);
             _phaseCompletedSub = _bus.Subscribe<PhaseCompletedEvent>(OnPhaseCompleted);
-            _timerExpiredSub = _bus.Subscribe<PyramidTimerExpiredEvent>(_ =>
-                DeclareLose(GameResultCause.PyramidTimerExpired));
+            _timerExpiredSub = _bus.Subscribe<PyramidTimerExpiredEvent>(OnPyramidTimerExpired);
+        }
+
+        private void OnPyramidTimerExpired(PyramidTimerExpiredEvent _)
+        {
+            if (_hasResult)
+                return;
+
+            // Mid-run: expire → fail current era + mercy floor, keep playing.
+            if (_timeline.TryAbsorbTimerExpireAsPhaseFail())
+                return;
+
+            DeclareLose(GameResultCause.PyramidTimerExpired);
         }
 
         public void DeclareWin(GameResultCause cause)

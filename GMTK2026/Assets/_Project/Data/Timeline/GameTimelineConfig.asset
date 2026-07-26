@@ -15,6 +15,7 @@ MonoBehaviour:
   baselineSeconds: 99
   wrongOfferingTimerDelta: -1
   yearsPerRealtimeSecond: 1
+  failMercyFloorSeconds: 60
   runStartCards:
   - resource: {fileID: 11400000, guid: 5b9d2e3f4a5b6c7d8091a2b3c4d5e6f7, type: 2}
     count: 1
