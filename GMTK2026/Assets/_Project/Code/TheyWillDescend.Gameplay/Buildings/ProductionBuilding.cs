@@ -28,8 +28,10 @@ namespace TheyWillDescend.Gameplay.Buildings
         [SerializeField] private string produceSoundId = "";
         [Tooltip("VFX prefab spawned behind the building when a card hovers over it.")]
         [SerializeField] private GameObject dropVfxPrefab;
-        [Tooltip("Spawn point for the drop VFX. Defaults to building position if unset.")]
+        [Tooltip("Spawn point for the drop VFX. If unset, uses building center + offset.")]
         [SerializeField] private Transform vfxSpawnPoint;
+        [Tooltip("Offset from building center for the drop VFX (used when vfxSpawnPoint is unset).")]
+        [SerializeField] private Vector3 vfxOffset = Vector3.zero;
 
         private IGameEventBus _bus;
         private IInventory _inventory;
@@ -170,11 +172,11 @@ namespace TheyWillDescend.Gameplay.Buildings
             if (dropVfxPrefab == null || _activeDropVfx != null)
                 return;
 
-            var spawnPos = vfxSpawnPoint != null ? vfxSpawnPoint.position : GetBottomCenter();
+            var spawnPos = vfxSpawnPoint != null ? vfxSpawnPoint.position : GetBuildingCenter() + vfxOffset;
             _activeDropVfx = Instantiate(dropVfxPrefab, spawnPos, Quaternion.identity, transform);
         }
 
-        private Vector3 GetBottomCenter()
+        private Vector3 GetBuildingCenter()
         {
             var renderers = GetComponentsInChildren<Renderer>();
             if (renderers.Length > 0)
@@ -182,7 +184,7 @@ namespace TheyWillDescend.Gameplay.Buildings
                 var bounds = renderers[0].bounds;
                 for (var i = 1; i < renderers.Length; i++)
                     bounds.Encapsulate(renderers[i].bounds);
-                return new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+                return bounds.center;
             }
 
             var colliders = GetComponentsInChildren<Collider>();
@@ -191,7 +193,7 @@ namespace TheyWillDescend.Gameplay.Buildings
                 var bounds = colliders[0].bounds;
                 for (var i = 1; i < colliders.Length; i++)
                     bounds.Encapsulate(colliders[i].bounds);
-                return new Vector3(bounds.center.x, bounds.min.y, bounds.center.z);
+                return bounds.center;
             }
 
             return transform.position;

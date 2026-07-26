@@ -1,34 +1,25 @@
 fileFormatVersion: 2
-guid: f374c91587ad58c40900579f11a88f95
+guid: e7f1f523a2193cd44a820e0590ad92a0
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2056126039432432040
-    second: Group 18_0
+      213: 8661765971484771846
+    second: Dom 3 levo_0
   - first:
-      213: 3939024567600316905
-    second: Group 18_1
+      213: -3595437268112426894
+    second: Dom 3 levo_1
   - first:
-      213: 7766315694682136954
-    second: Group 18_2
+      213: -5288958211942782552
+    second: Dom 3 levo_2
   - first:
-      213: 3154926658090593411
-    second: Group 18_3
+      213: 7531898265036468926
+    second: Dom 3 levo_3
   - first:
-      213: 3803275129838173369
-    second: Group 18_4
+      213: -2347753985911112208
+    second: Dom 3 levo_4
   - first:
-      213: -5251853205622357874
-    second: Group 18_5
-  - first:
-      213: 567567356788652823
-    second: Group 18_6
-  - first:
-      213: -2944633954394630870
-    second: Group 18_7
-  - first:
-      213: 4514422770957449346
-    second: Group 18_8
+      213: -2876312686969013379
+    second: Dom 3 levo_5
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -70,7 +61,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -124,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Group 18_0
+      name: Dom 3 levo_0
       rect:
         serializedVersion: 2
-        x: 570
-        y: 269
-        width: 560
-        height: 1264
+        x: 0
+        y: 853
+        width: 4192
+        height: 2325
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,20 +130,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 856f23ec24c2773e0800000000000000
-      internalID: -2056126039432432040
+      spriteID: 6068ae15246c43870800000000000000
+      internalID: 8661765971484771846
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_1
+      name: Dom 3 levo_1
       rect:
         serializedVersion: 2
-        x: 1153
-        y: 843
-        width: 13
-        height: 13
+        x: 4191
+        y: 2168
+        width: 26
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,20 +152,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9e18a5179f93aa630800000000000000
-      internalID: 3939024567600316905
+      spriteID: 27835f5aad07a1ec0800000000000000
+      internalID: -3595437268112426894
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_2
+      name: Dom 3 levo_2
       rect:
         serializedVersion: 2
-        x: 2086
-        y: 324
-        width: 599
-        height: 1176
+        x: 4185
+        y: 1863
+        width: 32
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -183,20 +174,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: a71e1130afe77cb60800000000000000
-      internalID: 7766315694682136954
+      spriteID: 8a9e3414788d996b0800000000000000
+      internalID: -5288958211942782552
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_3
+      name: Dom 3 levo_3
       rect:
         serializedVersion: 2
-        x: 3848
-        y: 272
-        width: 521
-        height: 1215
+        x: 4214
+        y: 1770
+        width: 64
+        height: 36
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -205,20 +196,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 38c66eb741d88cb20800000000000000
-      internalID: 3154926658090593411
+      spriteID: eb231ebf09da68860800000000000000
+      internalID: 7531898265036468926
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_4
+      name: Dom 3 levo_4
       rect:
         serializedVersion: 2
-        x: 5509
-        y: 295
-        width: 596
-        height: 1189
+        x: 4307
+        y: 1772
+        width: 32
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,86 +218,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9bcf4197492f7c430800000000000000
-      internalID: 3803275129838173369
+      spriteID: 0fdb2c1503a1b6fd0800000000000000
+      internalID: -2347753985911112208
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Group 18_5
+      name: Dom 3 levo_5
       rect:
         serializedVersion: 2
-        x: 4369
-        y: 753
-        width: 12
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e800262c55bad17b0800000000000000
-      internalID: -5251853205622357874
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Group 18_6
-      rect:
-        serializedVersion: 2
-        x: 569
-        y: 699
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 71bbe7ff08760e700800000000000000
-      internalID: 567567356788652823
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Group 18_7
-      rect:
-        serializedVersion: 2
-        x: 2683
-        y: 426
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2511c2150f8227d0800000000000000
-      internalID: -2944633954394630870
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Group 18_8
-      rect:
-        serializedVersion: 2
-        x: 738
-        y: 207
-        width: 13
-        height: 13
+        x: 4215
+        y: 1374
+        width: 94
+        height: 35
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -315,8 +240,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2887adc779376ae30800000000000000
-      internalID: 4514422770957449346
+      spriteID: d7b334eb9d84518d0800000000000000
+      internalID: -2876312686969013379
       vertices: []
       indices: 
       edges: []
@@ -325,7 +250,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3b2c989e40dada246bc93f622518ec82
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -333,19 +258,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries:
-      - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":1,"spriteAlignment":0,"pivotUnitMode":1,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+      entries: []
     nameFileIdTable:
-      Group 18_0: -2056126039432432040
-      Group 18_1: 3939024567600316905
-      Group 18_2: 7766315694682136954
-      Group 18_3: 3154926658090593411
-      Group 18_4: 3803275129838173369
-      Group 18_5: -5251853205622357874
-      Group 18_6: 567567356788652823
-      Group 18_7: -2944633954394630870
-      Group 18_8: 4514422770957449346
+      Dom 3 levo_0: 8661765971484771846
+      Dom 3 levo_1: -3595437268112426894
+      Dom 3 levo_2: -5288958211942782552
+      Dom 3 levo_3: 7531898265036468926
+      Dom 3 levo_4: -2347753985911112208
+      Dom 3 levo_5: -2876312686969013379
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
