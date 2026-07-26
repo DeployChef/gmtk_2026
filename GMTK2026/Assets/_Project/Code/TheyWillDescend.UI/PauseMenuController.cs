@@ -85,7 +85,7 @@ namespace TheyWillDescend.UI
                 TogglePause();
         }
 
-        private void TogglePause()
+        public void TogglePause()
         {
             if (_paused)
                 Resume();
