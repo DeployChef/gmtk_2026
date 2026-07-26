@@ -160,9 +160,22 @@ namespace TheyWillDescend.UI.Dialogue
             introGrass?.SnapHidden();
             pyramidStrikeVfx?.Hide();
             SetPyramidHudVisible(true);
+            HideGameTitleImmediate();
             bottomBarReveal?.SnapRevealed();
             SetBuildingHudsSuppressed(false);
             SetExtraObjectsVisible(true);
+        }
+
+        private void HideGameTitleImmediate()
+        {
+            if (gameTitleGroup == null)
+                return;
+
+            DOTween.Kill(gameTitleGroup, false);
+            gameTitleGroup.alpha = 0f;
+            gameTitleGroup.interactable = false;
+            gameTitleGroup.blocksRaycasts = false;
+            gameTitleGroup.gameObject.SetActive(false);
         }
 
         /// <summary>
