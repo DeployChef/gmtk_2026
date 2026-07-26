@@ -32,6 +32,11 @@ namespace TheyWillDescend.Gameplay.Buildings
         [SerializeField] private Transform vfxSpawnPoint;
         [Tooltip("Offset from building center for the drop VFX (used when vfxSpawnPoint is unset).")]
         [SerializeField] private Vector3 vfxOffset = Vector3.zero;
+        [Header("Visual")]
+        [Tooltip("Shown when Built.")]
+        [SerializeField] private GameObject builtVisual;
+        [Tooltip("Shown while Locked / Buildable / Constructing.")]
+        [SerializeField] private GameObject notConstructedVisual;
 
         private IGameEventBus _bus;
         private IInventory _inventory;
@@ -188,11 +193,14 @@ namespace TheyWillDescend.Gameplay.Buildings
             _workers = _slotState == BuildingSlotState.Built
                 ? Mathf.Clamp(startingWorkers, 0, maxWorkers)
                 : 0;
+
+            RefreshBuildingVisual();
         }
 
         private void Start()
         {
             PublishWorkers();
+            RefreshBuildingVisual();
             StateChanged?.Invoke();
         }
 
@@ -772,7 +780,19 @@ namespace TheyWillDescend.Gameplay.Buildings
         private void SetSlotState(BuildingSlotState next)
         {
             _slotState = next;
+            RefreshBuildingVisual();
             StateChanged?.Invoke();
+        }
+
+        private void RefreshBuildingVisual()
+        {
+            var built = _slotState == BuildingSlotState.Built;
+
+            if (builtVisual != null)
+                builtVisual.SetActive(built);
+
+            if (notConstructedVisual != null)
+                notConstructedVisual.SetActive(!built);
         }
 
         private void CompleteProduction()
