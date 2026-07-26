@@ -31,12 +31,6 @@ namespace TheyWillDescend.Core.Timeline
         /// </summary>
         bool TryOffer(string resourceId);
 
-        /// <summary>
-        /// If the pyramid timer hits 0 before the final phase, end the current phase as a failed offer
-        /// (with fail-mercy top-up) instead of an immediate lose. Returns true when absorbed.
-        /// </summary>
-        bool TryAbsorbTimerExpireAsPhaseFail();
-
         /// <summary>Debug/GD only: jump to phase and restart its segment.</summary>
         void DebugJumpToPhase(int phaseIndex);
     }
