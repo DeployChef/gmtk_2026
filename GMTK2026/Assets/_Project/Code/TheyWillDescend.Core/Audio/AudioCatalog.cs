@@ -24,6 +24,7 @@ namespace TheyWillDescend.Core.Audio
             public const string Thunder = "Thunder";
             public const string Fire = "Fire";
             public const string Century = "Century";
+            public const string Dialog = "DIALOG";
             public const string Defeat = "Defeat";
             public const string Victory = "Victory";
         }

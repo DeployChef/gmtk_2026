@@ -1,5 +1,6 @@
 using System;
 using TheyWillDescend.Core;
+using TheyWillDescend.Core.Audio;
 using TheyWillDescend.Core.Bus;
 using TheyWillDescend.Core.Bus.Events;
 using TheyWillDescend.Core.Dialogue;
@@ -27,9 +28,12 @@ namespace TheyWillDescend.UI.Dialogue
         [Tooltip("Click target for skip / advance (usually the whole dialogue box).")]
         [SerializeField] private Button advanceButton;
         [SerializeField] private float charsPerSecond = 40f;
+        [SerializeField] private string typeSoundId = AudioCatalog.Ids.Dialog;
+        [SerializeField] [Range(0f, 0.5f)] private float typePitchRandom = 0.2f;
 
         private IGameEventBus _bus;
         private IGameplayTimePause _timePause;
+        private IAudioManager _audio;
         private DialogueDefinition _current;
         private Action _onComplete;
         private string _lineText = string.Empty;
@@ -41,10 +45,11 @@ namespace TheyWillDescend.UI.Dialogue
         public bool IsPlaying { get; private set; }
 
         [Inject]
-        public void Construct(IGameEventBus bus, IGameplayTimePause timePause)
+        public void Construct(IGameEventBus bus, IGameplayTimePause timePause, IAudioManager audio)
         {
             _bus = bus;
             _timePause = timePause;
+            _audio = audio;
         }
 
         private void Awake()
@@ -158,13 +163,29 @@ namespace TheyWillDescend.UI.Dialogue
                 return;
 
             _charAccumulator -= add;
+            var previous = _visibleChars;
             _visibleChars = Mathf.Min(_lineText.Length, _visibleChars + add);
+            PlayTypeSounds(previous, _visibleChars);
 
             if (bodyText != null)
                 bodyText.text = _lineText.Substring(0, _visibleChars);
 
             if (_visibleChars >= _lineText.Length)
                 _lineComplete = true;
+        }
+
+        private void PlayTypeSounds(int fromExclusive, int toInclusive)
+        {
+            if (_audio == null || string.IsNullOrEmpty(typeSoundId) || string.IsNullOrEmpty(_lineText))
+                return;
+
+            for (var i = fromExclusive; i < toInclusive; i++)
+            {
+                if (char.IsWhiteSpace(_lineText[i]))
+                    continue;
+
+                _audio.Play(typeSoundId, pitchRandomRange: typePitchRandom);
+            }
         }
 
         private void RevealFullLine()
