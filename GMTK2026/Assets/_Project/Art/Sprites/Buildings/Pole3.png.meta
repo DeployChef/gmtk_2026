@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 369a062e44553bd4a81e3db2d27948a2
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -1447859686861672355
+    second: Pole3_0
+  - first:
+      213: 5087393063558938899
+    second: Pole3_1
+  - first:
+      213: 6917223903979323312
+    second: Pole3_2
+  - first:
+      213: -8993249808966925452
+    second: Pole3_3
+  - first:
+      213: 9190963657171778530
+    second: Pole3_4
+  - first:
+      213: 3594122711336789286
+    second: Pole3_5
+  - first:
+      213: 2697514018343245457
+    second: Pole3_6
+  - first:
+      213: 2387324203333820628
+    second: Pole3_7
+  - first:
+      213: -8773244755787687285
+    second: Pole3_8
+  - first:
+      213: 4132300567434239034
+    second: Pole3_9
+  - first:
+      213: -5015709452442152490
+    second: Pole3_10
+  - first:
+      213: -1657898677249887946
+    second: Pole3_11
+  - first:
+      213: 7953347303514590683
+    second: Pole3_12
+  - first:
+      213: 2373599291299057576
+    second: Pole3_13
+  - first:
+      213: 5029215390722581872
+    second: Pole3_14
+  - first:
+      213: 4540736152549797013
+    second: Pole3_15
+  - first:
+      213: -4808992021435443685
+    second: Pole3_16
+  - first:
+      213: 6863946086189191051
+    second: Pole3_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 1
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Pole3_0
+      rect:
+        serializedVersion: 2
+        x: 577
+        y: 253
+        width: 3333
+        height: 1436
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d507000394b28ebe0800000000000000
+      internalID: -1447859686861672355
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_1
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 1688
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3118732890d0a9640800000000000000
+      internalID: 5087393063558938899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_2
+      rect:
+        serializedVersion: 2
+        x: 902
+        y: 1688
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0bf378cdd7aeeff50800000000000000
+      internalID: 6917223903979323312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_3
+      rect:
+        serializedVersion: 2
+        x: 953
+        y: 1688
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4734d2072fe813380800000000000000
+      internalID: -8993249808966925452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_4
+      rect:
+        serializedVersion: 2
+        x: 1087
+        y: 1688
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2ebbf3910ccdc8f70800000000000000
+      internalID: 9190963657171778530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_5
+      rect:
+        serializedVersion: 2
+        x: 1601
+        y: 1688
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 625a4604093e0e130800000000000000
+      internalID: 3594122711336789286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_6
+      rect:
+        serializedVersion: 2
+        x: 1734
+        y: 1688
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1965cf725be7f6520800000000000000
+      internalID: 2697514018343245457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_7
+      rect:
+        serializedVersion: 2
+        x: 1786
+        y: 1688
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d0a76fd6ba712120800000000000000
+      internalID: 2387324203333820628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_8
+      rect:
+        serializedVersion: 2
+        x: 1919
+        y: 1688
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8a57b3906c2f3680800000000000000
+      internalID: -8773244755787687285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_9
+      rect:
+        serializedVersion: 2
+        x: 2618
+        y: 1688
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3c1013e871e85930800000000000000
+      internalID: 4132300567434239034
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_10
+      rect:
+        serializedVersion: 2
+        x: 2752
+        y: 1688
+        width: 47
+        height: 43
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d1dd9ec3de946ab0800000000000000
+      internalID: -5015709452442152490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_11
+      rect:
+        serializedVersion: 2
+        x: 2891
+        y: 1688
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6313eecdfe5fdf8e0800000000000000
+      internalID: -1657898677249887946
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_12
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 1503
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdd4c41eb37ff5e60800000000000000
+      internalID: 7953347303514590683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_13
+      rect:
+        serializedVersion: 2
+        x: 537
+        y: 1277
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8afcff4caf7b0f020800000000000000
+      internalID: 2373599291299057576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_14
+      rect:
+        serializedVersion: 2
+        x: 3908
+        y: 532
+        width: 42
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07562fe70cc5bc540800000000000000
+      internalID: 5029215390722581872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_15
+      rect:
+        serializedVersion: 2
+        x: 3908
+        y: 306
+        width: 42
+        height: 41
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59c218f097fe30f30800000000000000
+      internalID: 4540736152549797013
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_16
+      rect:
+        serializedVersion: 2
+        x: 2110
+        y: 213
+        width: 41
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1617a25c37034db0800000000000000
+      internalID: -4808992021435443685
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pole3_17
+      rect:
+        serializedVersion: 2
+        x: 2613
+        y: 213
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b8f4db04992a14f50800000000000000
+      internalID: 6863946086189191051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Pole3_0: -1447859686861672355
+      Pole3_1: 5087393063558938899
+      Pole3_10: -5015709452442152490
+      Pole3_11: -1657898677249887946
+      Pole3_12: 7953347303514590683
+      Pole3_13: 2373599291299057576
+      Pole3_14: 5029215390722581872
+      Pole3_15: 4540736152549797013
+      Pole3_16: -4808992021435443685
+      Pole3_17: 6863946086189191051
+      Pole3_2: 6917223903979323312
+      Pole3_3: -8993249808966925452
+      Pole3_4: 9190963657171778530
+      Pole3_5: 3594122711336789286
+      Pole3_6: 2697514018343245457
+      Pole3_7: 2387324203333820628
+      Pole3_8: -8773244755787687285
+      Pole3_9: 4132300567434239034
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
